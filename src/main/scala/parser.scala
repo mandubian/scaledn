@@ -12,7 +12,7 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
     // as an optimization of the equivalent rule:
     // JsonString | JsonNumber | JsonObject | JsonArray | JsonTrue | JsonFalse | JsonNull
     // we make use of the fact that one-char lookahead is enough to discriminate the cases
-    run (
+    Discard ~ run (
       (cursorChar: @switch) match {
         case '"' => String
         case '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '-' | '+' => Double | Long
@@ -20,7 +20,7 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
         case '(' => List
         case '{' => Map
         case '[' => Vector
-        case '#' => Set | &(Discard) | Tagged
+        case '#' => Set | Tagged
         case 't' => True | Symbol
         case 'f' => False | Symbol
         case 'n' => Nil | Symbol
@@ -165,7 +165,7 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
     * DISCARD
     */
   def Discard = rule(
-    str("#_") ~ Elem ~> (_ => ())
+    str("#_") ~ WhiteSpace ~ Elem ~> (_ => ())
   )
 
   /**
@@ -209,7 +209,7 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
   def WhiteSpace = rule { zeroOrMore(WhiteSpaceChar) }
 
   def WSS = rule( oneOrMore(RealWhiteSpaceChar) )
-  def WS = rule( WSS | Comment | Newline)
+  def WS = rule( WSS | Discard | Comment | Newline)
   def WS2 = rule( WhiteSpace ~ zeroOrMore(Comment) )
 
   def ws(c: Char) = rule { c ~ WhiteSpace }

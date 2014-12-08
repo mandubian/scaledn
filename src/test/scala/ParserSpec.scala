@@ -133,9 +133,33 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
 
   }
 
+  it should "discard" in {
+    EDNParser("""#_foo/bar""").Discard.run() should be ('success)
+    EDNParser("""#_ :foo/bar""").Discard.run() should be ('success)
+  }
+
   it should "parse full" in {
     EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3] :bar/foo""").Root.run() should be ('failure)
     EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} :bar/foo""").Root.run().success.value should be (
+      Vector(
+        Map(
+          1L -> "foo", 
+          "bar" -> BigDecimal("1.234"),
+          EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
+        ),
+
+        EDNKeyword(EDNSymbol("bar/foo", Some("bar")))
+      )
+    )
+
+    // match {
+    //   case Success(t) => println("SUCCESS:"+t)
+    //   case Failure(f : org.parboiled2.ParseError) => println("PARSE:"+parser.formatError(f))
+    // }
+  }
+
+  it should "parse full with discard" in {
+    EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} #_foo/bar :bar/foo""").Root.run().success.value should be (
       Vector(
         Map(
           1L -> "foo", 
