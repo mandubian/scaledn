@@ -4,15 +4,15 @@ import scala.annotation.switch
 case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
   import CharPredicate.{Digit, Digit19, HexDigit, Alpha, AlphaNum}
 
-  implicit def wspStr(s: String): Rule0 = rule( str(s) ~ WhiteSpace )
+  implicit def wspStr(s: String): Rule0 = rule( str(s) ~ WS )
 
-  def Root = rule( zeroOrMore(WS) ~ oneOrMore(Elem) ~ EOI )
+  def Root = rule( oneOrMore(Elem) ~ EOI )
 
   def Elem: Rule1[Any] = rule (
     // as an optimization of the equivalent rule:
     // JsonString | JsonNumber | JsonObject | JsonArray | JsonTrue | JsonFalse | JsonNull
     // we make use of the fact that one-char lookahead is enough to discriminate the cases
-    Discard ~ run (
+    SkipWS ~ run (
       (cursorChar: @switch) match {
         case '"' => String
         case '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '-' | '+' => Double | Long
@@ -26,7 +26,7 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
         case 'n' => Nil | Symbol
         case _ => Symbol
       }
-    ) ~ WS2
+    ) ~ SkipWS
   )
   // rule (
   //     Set
@@ -88,10 +88,10 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
   /**
     * STRING
     */
-  def String = rule { '"' ~ clearSB() ~ Characters ~ ws('"') ~ push(sb.toString) }
+  def String = rule ( '"' ~ clearSB() ~ Characters ~ '"' ~ push(sb.toString) )
 
-  def Characters = rule { zeroOrMore(NormalChar | '\\' ~ EscapedChar) }
-  def NormalChar = rule { !QuoteBackSlash ~ ANY ~ appendSB() }
+  def Characters = rule ( zeroOrMore(NormalChar | '\\' ~ EscapedChar) )
+  def NormalChar = rule ( !QuoteBackSlash ~ ANY ~ appendSB() )
 
   def EscapedChar = rule (
       'n'     ~ appendSB('\n')
@@ -158,14 +158,14 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
     * TAGGED
     */
   def Tagged = rule(
-    ch('#') ~ Symbol ~ WhiteSpace ~ Elem ~> ( EDNTagged(_, _) )
+    ch('#') ~ Symbol ~ WS ~ Elem ~> ( EDNTagged(_, _) )
   )
 
   /**
     * DISCARD
     */
   def Discard = rule(
-    str("#_") ~ WhiteSpace ~ Elem ~> (_ => ())
+    str("#_") ~ WS ~ Elem ~> (_ => ())
   )
 
   /**
@@ -203,16 +203,17 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
     * COMMENT
     */
   def Comment = rule(
-    ch(';') ~ zeroOrMore(!Newline ~ ANY) ~ WhiteSpace
+    ch(';') ~ zeroOrMore(!Newline ~ ANY) ~ (Newline | EOI)
   )
+
+  def SkipWS = rule( zeroOrMore(WS_D_C_NL) )
+
+  def WS_D_C_NL = rule( WS_NL_CommaChar | Discard | Comment )
+
+  def WS = rule( zeroOrMore(WSChar) )
   def Newline = rule { optional('\r') ~ '\n' }
-  def WhiteSpace = rule { zeroOrMore(WhiteSpaceChar) }
 
-  def WSS = rule( oneOrMore(RealWhiteSpaceChar) )
-  def WS = rule( WSS | Discard | Comment | Newline)
-  def WS2 = rule( WhiteSpace ~ zeroOrMore(Comment) )
-
-  def ws(c: Char) = rule { c ~ WhiteSpace }
+  def ws(c: Char) = rule { c ~ WSChar }
 
   // "\
   val QuoteBackSlash = CharPredicate("\"\\")
@@ -220,8 +221,8 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
   // val QuoteSlashBackSlash = QuoteBackslash ++ "/"
 
   // TODO , is whitespace ?
-  val RealWhiteSpaceChar = CharPredicate(" \t")
+  val WSChar = CharPredicate(" \t")
 
-  val WhiteSpaceChar = CharPredicate(" \n\r\t,")
+  val WS_NL_CommaChar = CharPredicate(" \n\r\t,")
 
 }

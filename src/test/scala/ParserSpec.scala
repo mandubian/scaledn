@@ -116,11 +116,23 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     )
   }
 
+  it should "parse discard" in {
+    EDNParser("""#_foo/bar""").Discard.run() should be ('success)
+    EDNParser("""#_  :foo/bar""").Discard.run() should be ('success)
+  }
+
+  it should "parse comment" in {
+    EDNParser("""; _foo/bar""").Comment.run() should be ('success)
+    EDNParser(""";_sqdjlkj foo/bar""").Comment.run() should be ('success)
+    EDNParser(""";_sqdjlkj foo/bar  sdfsdfs
+      """).Comment.run() should be ('success)
+  }
+
   it should "skip comments" in {
     val parser = EDNParser("""
-      ; 1 balbal dsdkfjsdlfj sdfkjds lfdsjlkf 
+      ; 1 balbal dsdkfjsdlfj sdfkjds lfdsjlkf
       {1 "foo" "bar" 1.234M :foo/bar [1,2,3]} ; 2 lfkjlkfjdskfjd
-      ; 3 balbal dsdkfjsdlfj sdfkjds lfdsjlkf
+      ;3 SDFLKJ aejlkj-'"(-'
     """).Root.run().success.value should be (
       Vector(
         Map(
@@ -133,10 +145,6 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
 
   }
 
-  it should "discard" in {
-    EDNParser("""#_foo/bar""").Discard.run() should be ('success)
-    EDNParser("""#_ :foo/bar""").Discard.run() should be ('success)
-  }
 
   it should "parse full" in {
     EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3] :bar/foo""").Root.run() should be ('failure)
@@ -151,11 +159,6 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
         EDNKeyword(EDNSymbol("bar/foo", Some("bar")))
       )
     )
-
-    // match {
-    //   case Success(t) => println("SUCCESS:"+t)
-    //   case Failure(f : org.parboiled2.ParseError) => println("PARSE:"+parser.formatError(f))
-    // }
   }
 
   it should "parse full with discard" in {
@@ -257,10 +260,12 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
   :object/meanRadius 1163.0}]
     """
 
-    val parser = EDNParser(str)
-    parser.Root.run() match {
-      case Success(t) => println("SUCCESS:"+t)
-      case Failure(f : org.parboiled2.ParseError) => println("PARSE:"+parser.formatError(f))
-    }
+    EDNParser(str).Root.run() should be ('success)
+    // val parser = EDNParser(str)
+    // parser.Root.run() match {
+    //   case Success(t) => println("SUCCESS:"+t)
+    //   case Failure(f : org.parboiled2.ParseError) => println("PARSE:"+parser.formatError(f))
+    // }
   }
+
 }
