@@ -116,12 +116,26 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     )
   }
 
-  it should "parse discard" in {
+  it should "parse Tags" in {
+    EDNParser("#uuid \"f81d4fae-7dec-11d0-a765-00a0c91e6bf6\"").Tagged.run().success.value should be (
+      java.util.UUID.fromString("f81d4fae-7dec-11d0-a765-00a0c91e6bf6")
+    )
+
+    EDNParser("#inst \"1985-04-12T23:20:50.52Z\"").Tagged.run().success.value should be (
+      new org.joda.time.DateTime("1985-04-12T23:20:50.52Z", org.joda.time.DateTimeZone.UTC)
+    )
+
+    EDNParser("#custom :blabla/bar").Tagged.run().success.value should be (
+      EDNTagged(EDNSymbol("custom"), EDNKeyword(EDNSymbol("blabla/bar", Some("blabla"))))
+    )
+  }
+
+  it should "parse Discard" in {
     EDNParser("""#_foo/bar""").Discard.run() should be ('success)
     EDNParser("""#_  :foo/bar""").Discard.run() should be ('success)
   }
 
-  it should "parse comment" in {
+  it should "parse Comment" in {
     EDNParser("""; _foo/bar""").Comment.run() should be ('success)
     EDNParser(""";_sqdjlkj foo/bar""").Comment.run() should be ('success)
     EDNParser(""";_sqdjlkj foo/bar  sdfsdfs
@@ -144,7 +158,6 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     )
 
   }
-
 
   it should "parse full" in {
     EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3] :bar/foo""").Root.run() should be ('failure)

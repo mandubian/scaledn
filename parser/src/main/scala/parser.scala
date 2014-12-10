@@ -1,7 +1,12 @@
 import org.parboiled2._
 import scala.annotation.switch
+import org.joda.time.{DateTime, DateTimeZone}
 
-case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
+object EDNParser {
+  def apply(input: ParserInput) = new EDNParser(input)
+}
+
+class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   import CharPredicate.{Digit, Digit19, HexDigit, Alpha, AlphaNum}
 
   implicit def wspStr(s: String): Rule0 = rule( str(s) ~ WS )
@@ -9,9 +14,6 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
   def Root = rule( oneOrMore(Elem) ~ EOI )
 
   def Elem: Rule1[Any] = rule (
-    // as an optimization of the equivalent rule:
-    // JsonString | JsonNumber | JsonObject | JsonArray | JsonTrue | JsonFalse | JsonNull
-    // we make use of the fact that one-char lookahead is enough to discriminate the cases
     SkipWS ~ run (
       (cursorChar: @switch) match {
         case '"' => String
@@ -28,19 +30,6 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
       }
     ) ~ SkipWS
   )
-  // rule (
-  //     Set
-  //   | Map
-  //   | Vector
-  //   | List
-  //   | Tagged
-  //   | Keyword
-  //   | Double
-  //   | Long
-  //   | String
-  //   | Boolean
-  //   | Nil
-  // )
 
   def Nil = rule { "nil" ~ push(EDNNil)}
 
@@ -158,8 +147,20 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
     * TAGGED
     */
   def Tagged = rule(
-    ch('#') ~ Symbol ~ WS ~ Elem ~> ( EDNTagged(_, _) )
+    ch('#') ~ tags
   )
+
+  // the rule to override if you want more handlers
+  def tags = rule( defaultTags | unknownTags )
+
+  // default tag handlers
+  def defaultTags = rule(uuid | instant)
+
+  // This rule can consume any tag even if there is no handler for it
+  def unknownTags = rule(Symbol ~ WS ~ Elem ~> ( EDNTagged(_, _) ))
+
+  def uuid = rule("uuid" ~ WS ~ String ~> (java.util.UUID.fromString(_)))
+  def instant = rule("inst" ~ WS ~ String ~> (new DateTime(_, DateTimeZone.UTC)))
 
   /**
     * DISCARD
@@ -215,12 +216,8 @@ case class EDNParser(input: ParserInput) extends Parser with StringBuilding {
 
   def ws(c: Char) = rule { c ~ WSChar }
 
-  // "\
   val QuoteBackSlash = CharPredicate("\"\\")
-  // json escapes / but not specified in edn
-  // val QuoteSlashBackSlash = QuoteBackslash ++ "/"
 
-  // TODO , is whitespace ?
   val WSChar = CharPredicate(" \t")
 
   val WS_NL_CommaChar = CharPredicate(" \n\r\t,")
