@@ -8,6 +8,7 @@ object EDNParser {
 
 class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   import CharPredicate.{Digit, Digit19, HexDigit, Alpha, AlphaNum}
+  import EDN._
 
   implicit def wspStr(s: String): Rule0 = rule( str(s) ~ WS )
 

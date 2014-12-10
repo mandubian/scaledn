@@ -19,6 +19,7 @@ case class  EDNBigDec(value: BigDecimal) extends EDN
 
 
 object EDN {
+  class EDNAny(val underlying: Any) extends AnyVal
 
   def generic[A, B <: EDN](_to: A => B, _from: B => A): Generic.Aux[A, B] = new Generic[A] {
     type Repr = B

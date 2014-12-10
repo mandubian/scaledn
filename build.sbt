@@ -1,6 +1,6 @@
 name := "scaladn"
 
-scalaVersion := "2.11.2"
+scalaVersion in ThisBuild := "2.11.2"
 
 version := "1.0-SNAPSHOT"
 
@@ -30,11 +30,22 @@ lazy val parser = project
 
 lazy val validation = project
   .settings(
-    resolvers += "JTO snapshots" at "https://raw.github.com/jto/mvn-repo/master/snapshots"
+    resolvers ++= Seq(
+      "typesafe releases" at "https://repo.typesafe.com/typesafe/releases",
+      "typesafe snapshots" at "https://repo.typesafe.com/typesafe/snapshots",
+      "JTO snapshots" at "https://raw.github.com/jto/mvn-repo/master/snapshots"
+    )
   )
   .settings(
-    libraryDependencies += "io.github.jto" %% "validation-core" % "1.0-1c770f4"
+    libraryDependencies ++= Seq(
+      "io.github.jto" %% "validation-core" % "1.0-1c770f4" excludeAll (
+        ExclusionRule(organization = "com.typesafe.play")
+      ),
+      "com.typesafe.play" %% "play-functional" % "2.3.7",
+      "com.typesafe.play" %% "play-json" % "2.3.7"
+    )
   )
+  .dependsOn (parser)
 
 //resolvers ++= Seq(
 //  "Sonatype OSS Releases"  at "http://oss.sonatype.org/content/repositories/releases/",
@@ -42,7 +53,7 @@ lazy val validation = project
 //)
 
 
-//resolvers ++= Seq(
+//resolvers in ThisBuild ++= Seq(
 //  Resolver.sonatypeRepo("releases"),
 //  Resolver.sonatypeRepo("snapshots")
 //)
