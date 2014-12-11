@@ -5,10 +5,10 @@ import org.scalatest._
 import scala.util.{Try, Success, Failure}
 
 class ParserSpec extends FlatSpec with Matchers with TryValues {
-  
+
   "EDNParser" should "parse Nil" in {
     EDNParser("""nil""").Nil.run().success.value should be (EDNNil)
-    EDNParser("""nil    
+    EDNParser("""nil
       \n""").Nil.run().success.value should be (EDNNil)
     EDNParser("""Nil""").Nil.run() should be ('failure)
   }
@@ -103,7 +103,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
   it should "parse Map" in {
     EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]}""").Map.run().success.value should be (
       Map(
-        1L -> "foo", 
+        1L -> "foo",
         "bar" -> BigDecimal("1.234"),
         EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
       )
@@ -111,7 +111,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
 
     EDNParser("""{1 "foo" "bar" 1.234M :foo/bar [1,2,3]}""").Map.run().success.value should be (
       Map(
-        1L -> "foo", 
+        1L -> "foo",
         "bar" -> BigDecimal("1.234"),
         EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
       )
@@ -152,7 +152,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     """).Root.run().success.value should be (
       Vector(
         Map(
-          1L -> "foo", 
+          1L -> "foo",
           "bar" -> BigDecimal("1.234"),
           EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
         )
@@ -166,7 +166,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} :bar/foo""").Root.run().success.value should be (
       Vector(
         Map(
-          1L -> "foo", 
+          1L -> "foo",
           "bar" -> BigDecimal("1.234"),
           EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
         ),
@@ -180,7 +180,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} #_foo/bar :bar/foo""").Root.run().success.value should be (
       Vector(
         Map(
-          1L -> "foo", 
+          1L -> "foo",
           "bar" -> BigDecimal("1.234"),
           EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
         ),

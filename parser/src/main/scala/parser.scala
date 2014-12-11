@@ -13,7 +13,7 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
 
   implicit def wspStr(s: String): Rule0 = rule( str(s) ~ WS )
 
-  def Root = rule( oneOrMore(Elem) ~ EOI )
+  def Root: Rule1[Seq[Any]] = rule( oneOrMore(Elem) ~ EOI )
 
   def Elem: Rule1[Any] = rule (
     SkipWS ~ run (
