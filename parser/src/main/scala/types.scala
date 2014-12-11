@@ -1,27 +1,28 @@
+package scaledn
+
 import shapeless.Generic
 
-sealed trait EDN
+sealed trait EDNValue
 
-case class  EDNSymbol(value: String, namespace: Option[String] = None) extends EDN
-case class  EDNKeyword(value: EDNSymbol) extends EDN
-case class  EDNTagged[A](tag: EDNSymbol, value: A) extends EDN
+case class  EDNSymbol(value: String, namespace: Option[String] = None) extends EDNValue
+case class  EDNKeyword(value: EDNSymbol) extends EDNValue
+case class  EDNTagged[A](tag: EDNSymbol, value: A) extends EDNValue
 
-case object EDNNil extends EDN
-case class  EDNBoolean(value: Boolean) extends EDN
-case class  EDNString(value: String) extends EDN
-case class  EDNChar(value: Char) extends EDN
+case object EDNNil extends EDNValue
+case class  EDNBoolean(value: Boolean) extends EDNValue
+case class  EDNString(value: String) extends EDNValue
+case class  EDNChar(value: Char) extends EDNValue
 
-case class  EDNLong(value: Long) extends EDN
-case class  EDNBigInt(value: BigInt) extends EDN
+case class  EDNLong(value: Long) extends EDNValue
+case class  EDNBigInt(value: BigInt) extends EDNValue
 
-case class  EDNDouble(value: Double) extends EDN
-case class  EDNBigDec(value: BigDecimal) extends EDN
+case class  EDNDouble(value: Double) extends EDNValue
+case class  EDNBigDec(value: BigDecimal) extends EDNValue
 
+object EDNValue {
+  // class EDNAny(val underlying: Any) extends AnyVal
 
-object EDN {
-  class EDNAny(val underlying: Any) extends AnyVal
-
-  def generic[A, B <: EDN](_to: A => B, _from: B => A): Generic.Aux[A, B] = new Generic[A] {
+  def generic[A, B <: EDNValue](_to: A => B, _from: B => A): Generic.Aux[A, B] = new Generic[A] {
     type Repr = B
 
     def to(a: A) = _to(a)

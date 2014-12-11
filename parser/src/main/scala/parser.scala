@@ -1,3 +1,5 @@
+package scaledn
+
 import org.parboiled2._
 import scala.annotation.switch
 import org.joda.time.{DateTime, DateTimeZone}
@@ -8,7 +10,6 @@ object EDNParser {
 
 class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   import CharPredicate.{Digit, Digit19, HexDigit, Alpha, AlphaNum}
-  import EDN._
 
   implicit def wspStr(s: String): Rule0 = rule( str(s) ~ WS )
 

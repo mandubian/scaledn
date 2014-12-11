@@ -1,3 +1,5 @@
+package scaledn
+
 import org.scalatest._
 
 import scala.util.{Try, Success, Failure}
