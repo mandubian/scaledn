@@ -84,18 +84,19 @@ object Rules extends play.api.data.mapping.DefaultRules[EDN] {
     case m: Map[EDN @unchecked, EDN @unchecked] => Success(m)
   }("error.invalid", "Map")
 
-  implicit def mapKVR[K, V](rk: RuleLike[EDN, K], rv: RuleLike[EDN, V], p: RuleLike[EDN, Map[EDN, EDN]]): Rule[EDN, Map[K, V]] = {
-    Rule.toRule(p).compose(Path)(
+  implicit def mapKVR[K, V](implicit rk: RuleLike[EDN, K], rv: RuleLike[EDN, V]): Rule[EDN, Map[K, V]] = {
+    mapR.compose(Path)(
       Rule { kvs =>
         val rkr = Rule.toRule(rk)
         val rvr = Rule.toRule(rv)
         val validations = kvs.toSeq.map { case kv =>
-          ( rkr.repath((Path \ kv._1.toString) ++ _) ~
-            rvr.repath((Path \ kv._1.toString) ++ _)
-          ).tupled.validate(kv)
+          val vk = rkr.repath((Path \ (kv._1.toString + "-key")) ++ _).validate(kv._1)
+          val vv = rvr.repath((Path \ (kv._1.toString + "-value")) ++ _).validate(kv._2)
+          tupled2(vk, vv)
         }
         Validation.sequence(validations).map(_.toMap)
-      })
+      }
+    )
   }
 
   implicit def pickInEdn[II <: EDN, O](p: Path)(implicit r: RuleLike[EDN, O]): Rule[II, O] = {
@@ -125,31 +126,86 @@ object Rules extends play.api.data.mapping.DefaultRules[EDN] {
 
   import scala.collection.generic.CanBuildFrom
 
-  def traverse[E, A, B, M[X] <: TraversableOnce[X]](vs: M[Validation[E, A]])(
-    implicit cbf: CanBuildFrom[M[A], A, M[A]]
-  ): Validation[E, M[A]] = {
-    vs.foldLeft[Validation[E, M[A]]](Success(cbf().result)) {
-      case (Success(as),  Success(a))   => Success((cbf(as) += a).result)
+  def traverse[E, A, B, M[X] <: TraversableOnce[X], N[X] <: TraversableOnce[X]](vs: M[Validation[E, A]])(
+    implicit cbf: CanBuildFrom[M[A], A, N[A]]
+  ): Validation[E, N[A]] = {
+    vs.foldLeft[Validation[E, N[A]]](Success(cbf().result)) {
+      case (Success(as),  Success(a))   => Success((cbf() ++= as += a).result)
       case (Success(_),   Failure(e))   => Failure(e)
       case (Failure(e),   Success(_))   => Failure(e)
       case (Failure(e1),  Failure(e2))  => Failure(e1 ++ e2)
     }
   }
 
-  // def travR[M[_] <: Iterable[_], I, O](implicit r: RuleLike[I, O], cbf: CanBuildFrom[EDN, O]): Rule[M[I], M[O]] =
-  //   Rule { is: M[I] =>
-  //       val rr = Rule.toRule(r)
-  //       val withI = is.zipWithIndex.map {
-  //         case (v, i) =>
-  //           rr.repath((Path \ i) ++ _).validate(v)
-  //       }
-  //       Validation.sequence(withI)
-  //   }
+  def tupled2[E, A, B](vs: (Validation[E, A], Validation[E, B])): Validation[E, (A, B)] = {
+    vs match {
+      case (Success(a),  Success(b))   => Success((a, b))
+      case (Success(_),   Failure(e))   => Failure(e)
+      case (Failure(e),   Success(_))   => Failure(e)
+      case (Failure(e1),  Failure(e2))  => Failure(e1 ++ e2)
+    }
+  }
 
+  def seqR[I]: Rule[EDN, Seq[EDN]] = listR.fmap(_.toSeq) orElse vectorR.fmap(_.toSeq)
 
-  // private def pickInM[M[_], T](implicit r: RuleLike[M[EDN], M[T]): Rule[JsValue, T] =
-  //   jsArrayR.fmap { case JsArray(fs) => fs }.compose(r)
+  def _seqR[I, O](implicit r: RuleLike[I, O]): Rule[Seq[I], Seq[O]] =
+    Rule { is: Seq[I] =>
+        val rr = Rule.toRule(r)
+        val withI = is.zipWithIndex.map {
+          case (v, i) =>
+            rr.repath((Path \ i) ++ _).validate(v)
+        }
+        traverse(withI)
+    }
 
-  // implicit def pickList[O](implicit r: RuleLike[EDN, O]) = listR.compose(super.listR[EDN, O])
+  implicit def pickSeq[O](implicit r: RuleLike[EDN, O]): Rule[EDN, Seq[O]] = seqR compose _seqR[EDN, O]
+
+  def _listR[I, O](implicit r: RuleLike[I, O]): Rule[List[I], List[O]] =
+    Rule { is: List[I] =>
+        val rr = Rule.toRule(r)
+        val withI = is.zipWithIndex.map {
+          case (v, i) =>
+            rr.repath((Path \ i) ++ _).validate(v)
+        }
+        traverse(withI)
+    }
+
+  implicit def pickList[O](implicit r: RuleLike[EDN, O]): Rule[EDN, List[O]] = listR compose _listR[EDN, O]
+
+  def _setR[I, O](implicit r: RuleLike[I, O]): Rule[Set[I], Set[O]] =
+    Rule { is: Set[I] =>
+        val rr = Rule.toRule(r)
+        val withI = is.zipWithIndex.map {
+          case (v, i) =>
+            rr.repath((Path \ v.toString) ++ _).validate(v)
+        }
+        traverse(withI)
+    }
+
+  implicit def pickSet[O](implicit r: RuleLike[EDN, O]): Rule[EDN, Set[O]] = setR compose _setR[EDN, O]
+
+  def _vectorR[I, O](implicit r: RuleLike[I, O]): Rule[Vector[I], Vector[O]] =
+    Rule { is: Vector[I] =>
+        val rr = Rule.toRule(r)
+        val withI = is.zipWithIndex.map {
+          case (v, i) =>
+            rr.repath((Path \ i) ++ _).validate(v)
+        }
+        traverse(withI)
+    }
+
+  implicit def pickVector[O](implicit r: RuleLike[EDN, O]): Rule[EDN, Vector[O]] = vectorR compose _vectorR[EDN, O]
+
+  implicit val nilR = ednAs[EDNNil.type] {
+    case EDNNil => Success(EDNNil)
+  }("error.invalid", "nil")
+
+  implicit def ooo[O](p: Path)(implicit pick: Path => RuleLike[EDN, EDN], coerce: RuleLike[EDN, O]): Rule[EDN, Option[O]] =
+    optionR(Rule.zero[O])(pick, coerce)(p)
+
+  def optionR[J, O](r: => RuleLike[J, O], noneValues: RuleLike[EDN, EDN]*)(
+    implicit pick: Path => RuleLike[EDN, EDN], coerce: RuleLike[EDN, J]
+  ): Path => Rule[EDN, Option[O]] =
+    super.opt[J, O](r, (nilR.fmap(n => n: EDN) +: noneValues): _*)
 
 }
