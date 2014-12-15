@@ -16,8 +16,9 @@ fork in test := true
 
 //javaOptions in test += "-Xmx4G"
 
-lazy val root = (project in file("."))
-  .aggregate(parser, validation)
+lazy val root = (project in file(".")).aggregate (common, parser, validation)
+
+lazy val common = project
 
 lazy val parser = project
   .settings(
@@ -26,7 +27,7 @@ lazy val parser = project
       "joda-time"        % "joda-time"        % "2.6",
       "org.joda"         % "joda-convert"     % "1.2"
     )
-  )
+  ).dependsOn (common)
 
 lazy val validation = project
   .settings(
@@ -42,10 +43,11 @@ lazy val validation = project
         ExclusionRule(organization = "com.typesafe.play")
       ),
       "com.typesafe.play" %% "play-functional" % "2.3.7",
-      "com.typesafe.play" %% "play-json" % "2.3.7"
+      "com.typesafe.play" %% "play-json" % "2.3.7",
+      "com.chuusai"       %% "shapeless" % "2.1.0-SNAPSHOT" changing()
     )
   )
-  .dependsOn (parser)
+  .dependsOn (common, parser % "test->test")
 
 //resolvers ++= Seq(
 //  "Sonatype OSS Releases"  at "http://oss.sonatype.org/content/repositories/releases/",

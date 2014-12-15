@@ -1,4 +1,5 @@
 package scaledn
+package parser
 
 import org.parboiled2._
 import scala.annotation.switch
@@ -18,17 +19,18 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   def Elem: Rule1[Any] = rule (
     SkipWS ~ run (
       (cursorChar: @switch) match {
-        case '"' => String
+        case '"'  => String
         case '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '-' | '+' => Double | Long
-        case ':' => Keyword
-        case '(' => List
-        case '{' => Map
-        case '[' => Vector
-        case '#' => Set | Tagged
-        case 't' => True | Symbol
-        case 'f' => False | Symbol
-        case 'n' => Nil | Symbol
-        case _ => Symbol
+        case ':'  => Keyword
+        case '('  => List
+        case '{'  => Map
+        case '['  => Vector
+        case '#'  => Set | Tagged
+        case 't'  => True | Symbol
+        case 'f'  => False | Symbol
+        case 'n'  => Nil | Symbol
+        case '\\' => Char
+        case _    => Symbol
       }
     ) ~ SkipWS
   )
@@ -105,6 +107,7 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
     | "tab"     ~ push('\t')
     | "\\"      ~ push('\\')
     | Unicode   ~> { code => push(code.asInstanceOf[Char]) }
+    | AlphaNum  ~ push(lastChar)
   )
 
   /**

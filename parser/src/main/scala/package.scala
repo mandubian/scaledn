@@ -1,13 +1,10 @@
-package object scaledn {
+package scaledn
+
+package object parser {
   import org.parboiled2.ParserInput
   import scala.util.{Try, Success, Failure}
 
-  type EDN = Any
+  def parseEDN(in: ParserInput): Try[Seq[EDN]] = EDNParser(in).Root.run() //.map(_.map(EDN(_)))
+  def parseEDNFirst(in: ParserInput): Try[EDN] = EDNParser(in).Root.run().map(_.head) //.map(s => EDN(s.head))
 
-  // case class EDN(underlying: Any) extends AnyVal
-
-  object EDN {
-    def parse(in: ParserInput): Try[Seq[EDN]] = EDNParser(in).Root.run() //.map(_.map(EDN(_)))
-    def parseFirst(in: ParserInput): Try[EDN] = EDNParser(in).Root.run().map(_.head) //.map(s => EDN(s.head))
-  }
 }

@@ -1,5 +1,7 @@
 package scaledn
 
+package parser
+
 import org.scalatest._
 
 import scala.util.{Try, Success, Failure}
@@ -25,7 +27,9 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
   it should "parse String" in {
     EDNParser("\"coucou\"").String.run().success.value should be ("coucou")
     EDNParser("\"coucou\n\b\t\f\b\\\"foo\\\" 'bar' \"").String.run().success.value should be ("coucou\n\b\t\f\b\"foo\" 'bar' ")
+  }
 
+  it should "parse Character" in {
     EDNParser("\\newline").Char.run().success.value should be ('\n')
     EDNParser("\\return").Char.run().success.value should be ('\r')
     EDNParser("\\space").Char.run().success.value should be (' ')
@@ -33,6 +37,9 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     EDNParser("\\\\").Char.run().success.value should be ('\\')
     EDNParser("\\u00D5").Char.run().success.value should be ('\u00D5')
     EDNParser("\\u00D5 ").Char.run().success.value should be ('\u00D5')
+    EDNParser("\\t ").Char.run().success.value should be ('t')
+    EDNParser("\\r").Char.run().success.value should be ('r')
+    EDNParser("\\9 ").Char.run().success.value should be ('9')
   }
 
   it should "parse Symbol" in {
