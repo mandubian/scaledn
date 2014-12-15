@@ -126,7 +126,6 @@ class ValidateSpec extends FlatSpec with Matchers with TryValues {
     )
   }
 
-
   it should "validate hlist" in {
     import shapeless._
     import scaledn.EDNNil

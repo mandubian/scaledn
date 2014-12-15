@@ -49,6 +49,8 @@ lazy val validation = project
   )
   .dependsOn (common, parser % "test->test")
 
+lazy val macros = project
+
 //resolvers ++= Seq(
 //  "Sonatype OSS Releases"  at "http://oss.sonatype.org/content/repositories/releases/",
 //  "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"

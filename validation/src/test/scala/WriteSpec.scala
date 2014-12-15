@@ -38,7 +38,7 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
     toEDNString('\u0308') should equal ("\\u0308")
   }
 
-  "EDN Write" should "write collections" in {
+  it should "write collections" in {
     toEDNString(List(1, 2, 3)) should equal ("""(1 2 3)""")
     toEDNString(Vector(1, 2, 3)) should equal ("""[1 2 3]""")
     toEDNString(Set(1, 2, 3)) should equal ("""#{1 2 3}""")
@@ -46,7 +46,7 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
     toEDNString(Seq(1, 2, 3)) should equal ("""(1 2 3)""")
   }
 
-  "EDN Write" should "write to path" in {
+  it should "write to path" in {
     toEDNString((Path \ "foo" \ "bar").write[String, EDNMap].writes("toto")) should equal ("""{"foo" {"bar" "toto"}}""")
   }
 
