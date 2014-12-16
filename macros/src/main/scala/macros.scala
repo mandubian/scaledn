@@ -101,6 +101,18 @@ class Helper[C <: Context](val c: C) {
       case bd: BigDecimal => q"$bd"
       case s: EDNSymbol => q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
       case kw: EDNKeyword => q"_root_.scaledn.EDNKeyword(${literalEDN(kw.value)})"
+      case list: List[EDN] =>
+        val args = list.map(literalEDN(_))
+        q"_root_.scala.collection.immutable.List(..$args)"
+      case vector: Vector[EDN] =>
+        val args = vector.map(literalEDN(_))
+        q"_root_.scala.collection.immutable.Vector(..$args)"
+      case set: Set[EDN @unchecked] =>
+        val args = set.map(literalEDN(_))
+        q"_root_.scala.collection.immutable.Set(..$args)"
+      case map: Map[EDN @unchecked, EDN @unchecked] =>
+        val args = map.map{ case(k, v) => literalEDN(k) -> literalEDN(v) }
+        q"_root_.scala.collection.immutable.Map(..$args)"
 
       case x =>
         if (x == null)
