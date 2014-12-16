@@ -43,8 +43,8 @@ object MacroImpl {
         parser.Root.run().map(_.head) match {
           case Success(s) => c.Expr(helper.literalEDN(s))
           case Failure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case Failure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
         }
-        
     }
   //       val edn = readEDN(c, s)
   //       validateCljRules(c, edn)
@@ -75,6 +75,21 @@ class Helper[C <: Context](val c: C) {
   private def abortWithMessage(message: String) =
     c.abort(c.enclosingPosition, message)
 
+  implicit val bigDecimalLiftable = new Liftable[BigDecimal] {
+    def apply(n: BigDecimal) =
+      c.Expr[BigDecimal](
+        Apply(
+          q"scala.math.BigDecimal.apply",
+          List(Literal(Constant(n.toString))))).tree
+  }
+
+  implicit val bigIntLiftable = new Liftable[BigInt] {
+    def apply(n: BigInt) =
+      c.Expr[BigInt](
+        Apply(
+          q"scala.math.BigInt.apply",
+          List(Literal(Constant(n.toString))))).tree
+  }
 
   def literalEDN(edn: Any, stk: mutable.Stack[c.Tree] = mutable.Stack.empty[c.Tree]): c.Tree =
     edn match {
@@ -83,7 +98,9 @@ class Helper[C <: Context](val c: C) {
       case l: Long => q"$l"
       case d: Double => q"$d"
       case bi: BigInt => q"$bi"
-      case bd: BigDecimal => q"_root_.clojure.lang.BigInt.fromBigInteger(new _root_._root_.java.math.BigInteger(${k.toString}))"
+      case bd: BigDecimal => q"$bd"
+      case s: EDNSymbol => q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
+      case kw: EDNKeyword => q"_root_.scaledn.EDNKeyword(${literalEDN(kw.value)})"
 
       case x =>
         if (x == null)
@@ -91,4 +108,6 @@ class Helper[C <: Context](val c: C) {
         else
           abortWithMessage(s"unexpected value $x with ${x.getClass}")
     }
+
+
 }
