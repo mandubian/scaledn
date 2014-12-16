@@ -49,7 +49,9 @@ lazy val validation = project
   )
   .dependsOn (common, parser % "test->test")
 
-lazy val macros = project
+lazy val macros = project.settings(
+  libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
+) dependsOn (parser)
 
 //resolvers ++= Seq(
 //  "Sonatype OSS Releases"  at "http://oss.sonatype.org/content/repositories/releases/",
