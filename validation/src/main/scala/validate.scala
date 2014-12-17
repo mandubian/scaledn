@@ -224,6 +224,23 @@ trait ShapelessRules extends ValidationUtils {
     case a => 
       Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList (only supports List & Vector)"))))
   }
+
+  implicit val hnilRSeq = Rule.fromMapping[Seq[EDN], HNil] {
+    case l: Seq[EDN @unchecked] if l.isEmpty => Success(HNil)
+    case _ => Failure(Seq(ValidationError("error.invalid", "HNil")))
+  }
+
+  implicit def hlistRSeq[HH, HT <: HList](
+    implicit 
+      hr: RuleLike[EDN, HH],
+      ht: RuleLike[Seq[EDN], HT],
+      applicative: Applicative[VA]
+  ): Rule[Seq[EDN], HH :: HT] = Rule[Seq[EDN], HH :: HT]{
+    case l: Seq[EDN @unchecked] if (!l.isEmpty) =>
+      ap2(hr.validate(l.head), ht.validate(l.tail))
+    case a => 
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList (only supports List & Vector)"))))
+  }
 }
 
 

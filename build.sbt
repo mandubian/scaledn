@@ -10,6 +10,13 @@ libraryDependencies in ThisBuild ++= Seq(
   //"org.scalaz"    %% "scalaz-core"    % "7.1.0-M7",
 )
 
+resolvers in ThisBuild ++= Seq(
+  "typesafe releases" at "https://repo.typesafe.com/typesafe/releases",
+  "typesafe snapshots" at "https://repo.typesafe.com/typesafe/snapshots",
+  "JTO snapshots" at "https://raw.github.com/jto/mvn-repo/master/snapshots"
+)
+
+
 scalacOptions ++= Seq("-unchecked", "-deprecation" /*, "-Xlog-implicits"*/)
 
 fork in test := true
@@ -31,13 +38,6 @@ lazy val parser = project
 
 lazy val validation = project
   .settings(
-    resolvers ++= Seq(
-      "typesafe releases" at "https://repo.typesafe.com/typesafe/releases",
-      "typesafe snapshots" at "https://repo.typesafe.com/typesafe/snapshots",
-      "JTO snapshots" at "https://raw.github.com/jto/mvn-repo/master/snapshots"
-    )
-  )
-  .settings(
     libraryDependencies ++= Seq(
       "io.github.jto" %% "validation-core" % "1.0-1c770f4" excludeAll (
         ExclusionRule(organization = "com.typesafe.play")
@@ -51,7 +51,7 @@ lazy val validation = project
 
 lazy val macros = project.settings(
   libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
-) dependsOn (parser)
+) dependsOn (parser, validation)
 
 //resolvers ++= Seq(
 //  "Sonatype OSS Releases"  at "http://oss.sonatype.org/content/repositories/releases/",
