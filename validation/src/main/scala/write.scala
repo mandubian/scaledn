@@ -46,7 +46,7 @@ trait Writes extends play.api.data.mapping.DefaultWrites {
   implicit def vectorSW[A] = Write[Vector[A], String]( s => s.mkString("[", " ", "]") )
   implicit def setSW[A] = Write[Set[A], String]( s => s.mkString("#{", " ", "}") )
   implicit def mapSW[K, V](implicit wk: Write[K, String], wv: Write[V, String]) =
-    Write[Map[K, V], String]{ s => s.map{ case (k,v) => 
+    Write[Map[K, V], String]{ s => s.map{ case (k,v) =>
       s"${wk.writes(k)} ${wv.writes(v)}" }.mkString("{", ",", "}")
     }
 
@@ -74,18 +74,25 @@ trait Writes extends play.api.data.mapping.DefaultWrites {
     case _ => throw new RuntimeException("$_ unsupported EDN type")
   }
 
-  implicit def write2Path[I](path: Path): Write[I, Map[String, EDN]] =
+  implicit def write2Path[I](path: Path): Write[I, Map[String, Any]] =
     Write { i =>
       path match {
         case Path(KeyPathNode(x) :: _) \: _ =>
           val ps = path.path.reverse
           val KeyPathNode(k) = ps.head
           val o = Map[String, EDN](k -> i)
-          ps.tail.foldLeft(o){ 
-            case (os, KeyPathNode(k)) => Map[String, EDN](k -> os) 
+          ps.tail.foldLeft(o){
+            case (os, KeyPathNode(k)) => Map[String, EDN](k -> os)
             case _ => throw new RuntimeException(s"path $path is not a path to a Map")
           }
         case _ => throw new RuntimeException(s"path $path is not a path to a Map") // XXX: should be a compile time error
       }
     }
+
+  import shapeless.{HList, Poly1, ::}
+
+  // implicit def writeHList[H, HT <: HList](implicit wh: Write[H, String]): Write[H :: HT, String] =
+  //   Write { case hl@(h :: t) =>
+  //     hl.toList
+  //   }
 }
