@@ -194,14 +194,6 @@ object Rules extends play.api.data.mapping.DefaultRules[EDN] with ValidationUtil
 trait ShapelessRules extends ValidationUtils {
   import shapeless._
 
-  implicit def hnilR = Rule.fromMapping[EDN, HNil] {
-    case l: List[EDN] if l.isEmpty => Success(HNil)
-    case s: Set[EDN @ unchecked] if s.isEmpty => Success(HNil)
-    case v: Vector[EDN] if v.isEmpty => Success(HNil)
-    case m: Map[EDN @unchecked, EDN @unchecked] if m.isEmpty => Success(HNil)
-    case _ => Failure(Seq(ValidationError("error.invalid", "HNil")))
-  }
-
   def ap2[HH, HT <: HList](head: VA[HH], tail: VA[HT])(implicit applicative: Applicative[VA]) =
     applicative.apply(
       applicative.map(
@@ -211,8 +203,16 @@ trait ShapelessRules extends ValidationUtils {
       tail
     )
 
+  implicit def hnilR = Rule.fromMapping[EDN, HNil] {
+    case l: List[EDN] if l.isEmpty => Success(HNil)
+    case s: Set[EDN @ unchecked] if s.isEmpty => Success(HNil)
+    case v: Vector[EDN] if v.isEmpty => Success(HNil)
+    case m: Map[EDN @unchecked, EDN @unchecked] if m.isEmpty => Success(HNil)
+    case _ => Failure(Seq(ValidationError("error.invalid", "HNil")))
+  }
+
   implicit def hlistR[HH, HT <: HList](
-    implicit 
+    implicit
       hr: RuleLike[EDN, HH],
       ht: RuleLike[EDN, HT],
       applicative: Applicative[VA]
@@ -221,26 +221,26 @@ trait ShapelessRules extends ValidationUtils {
       ap2(hr.validate(head), ht.validate(tail))
     case v: Vector[EDN] if(!v.isEmpty) =>
       ap2(hr.validate(v.head), ht.validate(v.tail))
-    case a => 
+    case a =>
       Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList (only supports List & Vector)"))))
   }
 
-  implicit val hnilRSeq = Rule.fromMapping[Seq[EDN], HNil] {
-    case l: Seq[EDN @unchecked] if l.isEmpty => Success(HNil)
-    case _ => Failure(Seq(ValidationError("error.invalid", "HNil")))
-  }
+  // implicit val hnilRSeq = Rule.fromMapping[Seq[EDN], HNil] {
+  //   case l: Seq[EDN @unchecked] if l.isEmpty => Success(HNil)
+  //   case _ => Failure(Seq(ValidationError("error.invalid", "HNil")))
+  // }
 
-  implicit def hlistRSeq[HH, HT <: HList](
-    implicit 
-      hr: RuleLike[EDN, HH],
-      ht: RuleLike[Seq[EDN], HT],
-      applicative: Applicative[VA]
-  ): Rule[Seq[EDN], HH :: HT] = Rule[Seq[EDN], HH :: HT]{
-    case l: Seq[EDN @unchecked] if (!l.isEmpty) =>
-      ap2(hr.validate(l.head), ht.validate(l.tail))
-    case a => 
-      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList (only supports List & Vector)"))))
-  }
+  // implicit def hlistRSeq[HH, HT <: HList](
+  //   implicit
+  //     hr: RuleLike[EDN, HH],
+  //     ht: RuleLike[Seq[EDN], HT],
+  //     applicative: Applicative[VA]
+  // ): Rule[Seq[EDN], HH :: HT] = Rule[Seq[EDN], HH :: HT]{
+  //   case l: Seq[EDN @unchecked] if (!l.isEmpty) =>
+  //     ap2(hr.validate(l.head), ht.validate(l.tail))
+  //   case a =>
+  //     Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList (only supports List & Vector)"))))
+  // }
 }
 
 

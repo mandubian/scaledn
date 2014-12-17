@@ -5,16 +5,19 @@ import scala.language.experimental.macros
 import scala.reflect.macros.whitebox.Context
 
 import parser._
-import scala.util.{Try, Success, Failure}
+import scala.util.{Try, Success => TrySuccess, Failure => TryFailure}
 import shapeless.{HList, HNil}
 import play.api.data.mapping.{RuleLike, Validation, Success, Failure}
 
 
 trait EDNMacros {
 
-  def edn(edn: String) = macro MacroImpl.ednImpl
-  def edns(edn: String) = macro MacroImpl.ednsImpl
-  def ednh[HL <: HList](edn: String) = macro MacroImpl.ednhImpl[HL]
+  def EDN(edn: String) = macro MacroImpl.ednImpl
+  def EDNs(edn: String) = macro MacroImpl.ednsImpl
+  def EDNH(edn: String) = macro MacroImpl.ednhImpl
+  def EDNHs(edn: String) = macro MacroImpl.ednhsImpl
+  def EDNHR(edn: String) = macro MacroImpl.ednhrImpl
+  def EDNHRs(edn: String) = macro MacroImpl.ednhrsImpl
 }
 
 object MacroImpl extends validate.ShapelessRules {
@@ -31,12 +34,12 @@ object MacroImpl extends validate.ShapelessRules {
     val helper = new Helper[c.type](c)
 
     edn.tree match {
-      case Literal(Constant(s: String)) => 
+      case Literal(Constant(s: String)) =>
         val parser = EDNParser(s)
         parser.Root.run().map(_.head) match {
-          case Success(s) => c.Expr(helper.literalEDN(s))
-          case Failure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
-          case Failure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
+          case TrySuccess(s) => c.Expr(helper.literalEDN(s))
+          case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case TryFailure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
         }
     }
   }
@@ -47,34 +50,81 @@ object MacroImpl extends validate.ShapelessRules {
     val helper = new Helper[c.type](c)
 
     edn.tree match {
-      case Literal(Constant(s: String)) => 
+      case Literal(Constant(s: String)) =>
         val parser = EDNParser(s)
         parser.Root.run() match {
-          case Success(s) => c.Expr(helper.literalEDN(s))
-          case Failure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
-          case Failure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
+          case TrySuccess(s) => c.Expr(helper.literalEDN(s))
+          case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case TryFailure(e) => abortWithMessage(c, "Unexpected validation failure: " + e.getMessage)
         }
     }
   }
 
-  def ednhImpl[HL <: HList](c: Context)(edn: c.Expr[String])(implicit r: RuleLike[Seq[EDN], HL]): c.Expr[HL] = {
+  def ednhImpl(c: Context)(edn: c.Expr[String]): c.Expr[Any] = {
     import c.universe._
 
     val helper = new Helper[c.type](c)
 
     edn.tree match {
-      case Literal(Constant(s: String)) => 
+      case Literal(Constant(s: String)) =>
+        val parser = EDNParser(s)
+        parser.Root.run().map(_.head) match {
+          case TrySuccess(s) => c.Expr(helper.literalEDNH(s))
+          case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case TryFailure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
+        }
+    }
+  }
+
+  def ednhsImpl(c: Context)(edn: c.Expr[String]): c.Expr[Any] = {
+    import c.universe._
+
+    val helper = new Helper[c.type](c)
+
+    edn.tree match {
+      case Literal(Constant(s: String)) =>
         val parser = EDNParser(s)
         parser.Root.run() match {
-          case Success(s) => c.Expr(helper.literalEDNH[HL](s))
-          case Failure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
-          case Failure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
+          case TrySuccess(s) => c.Expr(helper.literalEDNHS(s))
+          case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case TryFailure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
+        }
+    }
+  }
+
+  def ednhrImpl(c: Context)(edn: c.Expr[String]): c.Expr[Any] = {
+    import c.universe._
+
+    val helper = new Helper[c.type](c)
+
+    edn.tree match {
+      case Literal(Constant(s: String)) =>
+        val parser = EDNParser(s)
+        parser.Root.run().map(_.head) match {
+          case TrySuccess(s) => c.Expr(helper.literalEDNHR(s))
+          case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case TryFailure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
+        }
+    }
+  }
+
+  def ednhrsImpl(c: Context)(edn: c.Expr[String]): c.Expr[Any] = {
+    import c.universe._
+
+    val helper = new Helper[c.type](c)
+
+    edn.tree match {
+      case Literal(Constant(s: String)) =>
+        val parser = EDNParser(s)
+        parser.Root.run() match {
+          case TrySuccess(s) => c.Expr(helper.literalEDNHRS(s))
+          case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case TryFailure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
         }
     }
   }
 }
 
- 
 class Helper[C <: Context](val c: C) {
   import c.universe._
   import scala.collection.mutable
@@ -132,29 +182,60 @@ class Helper[C <: Context](val c: C) {
     }
 
 
-  // implicit def hnilR: Seq[EDN] => HNil = {
-  //   case Seq() => HNil
-  //   case _ => abortWithMessage("non empty list can't be mapped to HNil")
-  // }
-
-  // implicit def hlistR[HH, HT <: HList](
-  //   implicit hr: Seq[EDN] => HT
-  // ): Seq[EDN] => HH :: HT = {
-  //   case head +: tail => literalEDN(head) :: hr(tail)
-  //   case _ => abortWithMessage("cannot map anything else")
-  // }
-
-  def literalEDNH[HL <: HList](edns: Seq[EDN])(implicit r: RuleLike[Seq[EDN], HL]): c.Tree = {
-    r.validate(edns) match {
-      case Success(s) => literalHL(s)
-      case Failure(f) => abortWithMessage(f.toString)
+  def literalEDNH(edn: EDN): c.Tree = {
+    edn match {
+      case list: List[EDN] => literalEDNHS(list)
+      case vector: Vector[EDN] => literalEDNHS(vector)
+      case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq)
+      case map: Map[EDN @unchecked, EDN @unchecked] => literalRecords(map.toSeq)
+      case x => literalEDN(x)
     }
   }
 
-  def literalHL[HL <: HList](hl: HL): c.Tree = hl match {
-    case h :: t => 
-      val htree = literalEDN(h)
-      val htail = literalHL(t)
-      q"_root_.shapeless.::($htree, $htail)"
+  def literalEDNHR(edn: EDN): c.Tree = {
+    edn match {
+      case list: List[EDN] => literalEDNHS(list)
+      case vector: Vector[EDN] => literalEDNHS(vector)
+      case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq)
+      case map: Map[EDN @unchecked, EDN @unchecked] => literalRecordsR(map.toSeq)
+      case x => literalEDNH(x)
+    }
   }
+
+  def literalEDNHS(edns: Seq[EDN]): c.Tree = {
+    edns match {
+      case Seq() => literalHNil
+      case head +: tail => literalHL(literalEDN(head), literalEDNHS(tail))
+    }
+  }
+
+  def literalEDNHRS(edns: Seq[EDN]): c.Tree = {
+    edns match {
+      case Seq() => literalHNil
+      case head +: tail => literalHL(literalEDNHR(head), literalEDNHRS(tail))
+    }
+  }
+
+  def literalRecords(edns: Seq[(EDN, EDN)]): c.Tree = {
+    edns match {
+      case Seq() => literalHNil
+      case (k, v) +: tail => literalHL(literalRecord(literalEDN(k), literalEDN(v)), literalRecords(tail))
+    }
+  }
+
+  def literalRecordsR(edns: Seq[(EDN, EDN)]): c.Tree = {
+    edns match {
+      case Seq() => literalHNil
+      case (k, v) +: tail => literalHL(literalRecord(literalEDNHR(k), literalEDNHR(v)), literalRecordsR(tail))
+    }
+  }
+
+  def literalHNil: c.Tree = q"_root_.shapeless.HNil"
+
+  def literalHL(head: c.Tree, tail: c.Tree): c.Tree = q"_root_.shapeless.::($head, $tail)"
+
+  def literalRecord(key: c.Tree, value: c.Tree): c.Tree =
+    q"_root_.shapeless.syntax.singleton.mkSingletonOps($key).->>($value)"
+
 }
+

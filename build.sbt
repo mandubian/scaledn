@@ -1,6 +1,6 @@
 name := "scaladn"
 
-scalaVersion in ThisBuild := "2.11.2"
+scalaVersion in ThisBuild := "2.11.4"
 
 version := "1.0-SNAPSHOT"
 
