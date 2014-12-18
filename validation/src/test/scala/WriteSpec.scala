@@ -60,14 +60,21 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
   }
 
   it should "write case class" in {
-    import shapeless._
-    implicitly[Generic.Aux[Person, String :: Int :: HNil]]
-
-    // fieldType['name.narrow, String]
-    // val p = LabelledGeneric[Person]
-
-    // val t: Int = p.to(Person("toto", 34))
-    // println(toEDNString(Person("toto", 34)))
-    //println(Person.personWrite.writes(Person("toto", 34)))
+    val p = Person("toto", 34)
+    toEDNString(p) should equal ("""{"name" "toto", "age" 34}""")
   }
 }
+
+    // val gen = LabelledGeneric[Person]
+    // val i: String :: Int :: HNil = gen.to(p)
+    // val w = Witness('name)
+    // fieldType[w.T, String]
+
+    // val t: Int = p.to(Person("toto", 34))
+    // println(toEDNString(p))
+    //println(Person.personWrite.writes(Person("toto", 34)))
+    // implicitly[LabelledGeneric.Aux[Person, FieldType[w.T, String] :: HNil]]
+    // implicitly[IsHCons.Aux[FieldType[w.T, String] :: HNil, FieldType[w.T, String], HNil]]
+    // implicitly[Write[FieldType[w.T, String] :: HNil, String]]
+    // val f = genWrite[Person, FieldType[w.T, String] :: HNil, w.T, String, HNil].writes(Person("tto"))
+    // implicitly[Write[Person, String]]

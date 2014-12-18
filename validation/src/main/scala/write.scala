@@ -89,7 +89,9 @@ trait Writes extends play.api.data.mapping.DefaultWrites with LowWrites {
       }
     }
 
-  import shapeless.{HList, Poly1, ::, HNil, Generic}
+  import shapeless._
+  import shapeless.labelled.FieldType
+  import syntax.singleton._
 
   implicit def writeHNil: Write[HNil, String] = Write { _ => "()" }
 
@@ -106,23 +108,56 @@ trait Writes extends play.api.data.mapping.DefaultWrites with LowWrites {
       hl.toList.map(ednW.writes(_)).mkString("(", " ", ")")
     }
 
-
 }
 
 
 trait LowWrites {
   import shapeless._
   import shapeless.labelled.FieldType
+  import shapeless.ops.hlist.IsHCons
   import syntax.singleton._
+  import shapeless.ops.record.Selector
+  import record._
 
-  implicit def genWrite[P <: Product, HL <: HList](
-    implicit gen: LabelledGeneric.Aux[P, HL], w: Write[HL, String]
-  ): Write[P, String] =
-    Write{ p =>
-      w.writes(gen.to(p))
+  trait SubWrite[I, O] {
+    def writes(i: I): Seq[O]
+  }
+  object SubWrite{
+    def apply[I, O](w: I => Seq[O]): SubWrite[I, O] = new SubWrite[I, O] {
+      def writes(i: I) = w(i)
+    }
+  }
+
+  implicit def scalaSymbolW[K <: Symbol](implicit witness: Witness.Aux[K]) = Write[K, String]{ s => "\"" + s.name + "\"" }
+
+  implicit def fieldType[K, V](implicit witness: Witness.Aux[K], wk: Write[K, String], wv: Write[V, String]) = SubWrite[FieldType[K, V], String] { f =>
+    Seq(wk.writes(witness.value) + " " + wv.writes(f))
+  }
+
+  implicit def subwriteHNil: SubWrite[HNil, String] = SubWrite { _ => Seq() }
+
+  implicit def subGenWrite[H, HT <: HList](
+    implicit
+      wh: SubWrite[H, String],
+      wt: SubWrite[HT, String]
+  ): SubWrite[H :: HT, String] =
+    SubWrite{ case h :: t =>
+      wh.writes(h) ++ wt.writes(t)
     }
 
-  implicit def fieldType[K, V](implicit witness: Witness.Aux[K]) = Write[FieldType[K, V], String] { f =>
-    witness.value.toString + " " + f.asInstanceOf[V].toString
-  }
+  implicit def genWrite[P, K, V, F, HL <: HList, HT <: HList](
+    implicit
+      gen: LabelledGeneric.Aux[P, HL],
+      c: IsHCons.Aux[HL, F, HT],
+      un: Unpack2[F, FieldType, K, V],
+      wh: SubWrite[FieldType[K, V], String],
+      wt: SubWrite[HT, String],
+      witness: Witness.Aux[K],
+      selector : Selector.Aux[HL, K, V]
+  ): Write[P, String] =
+    Write{ p =>
+      val t = gen.to(p)
+      (wh.writes(t.fieldAt(witness)(selector)) ++ wt.writes(t.tail)).mkString("{", ", ", "}")
+    }
+
 }
