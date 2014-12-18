@@ -53,15 +53,16 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
   it should "write hlist" in {
     import shapeless.{::, HNil}
     import Writes._
-    
+
     implicitly[Write[Long :: String :: HNil, String]]
 
     toEDNString(1 :: true :: List(1L, 2L, 3L) :: HNil) should equal ("""(1 true (1 2 3))""")
   }
 
   it should "write case class" in {
-    val p = Person("toto", 34)
-    toEDNString(p) should equal ("""{"name" "toto", "age" 34}""")
+    toEDNString(Person("toto", 34)) should equal ("""{"name" "toto", "age" 34}""")
+
+    toEDNString((23, true)) should equal ("""(23 true)""")
   }
 }
 
