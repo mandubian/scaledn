@@ -7,7 +7,7 @@ import scaledn._
 
 object Writes extends Writes
 
-trait Writes extends play.api.data.mapping.DefaultWrites {
+trait Writes extends play.api.data.mapping.DefaultWrites with LowWrites {
 
   import play.api.libs.functional.Monoid
 
@@ -89,10 +89,40 @@ trait Writes extends play.api.data.mapping.DefaultWrites {
       }
     }
 
-  import shapeless.{HList, Poly1, ::}
+  import shapeless.{HList, Poly1, ::, HNil, Generic}
 
-  // implicit def writeHList[H, HT <: HList](implicit wh: Write[H, String]): Write[H :: HT, String] =
-  //   Write { case hl@(h :: t) =>
-  //     hl.toList
-  //   }
+  implicit def writeHNil: Write[HNil, String] = Write { _ => "()" }
+
+  implicit def writeHList1[H](implicit wh: Write[H, String]): Write[H :: HNil, String] =
+    Write { hl => "(" + wh.writes(hl.head) + ")" }
+
+  implicit def writeHList[H, HT <: HList](
+    implicit
+      wh: Write[H, String],
+      wt: Write[HT, String],
+      toTraversable: shapeless.ops.hlist.ToTraversable.Aux[H :: HT, List, Any]
+    ): Write[H :: HT, String] =
+    Write { hl =>
+      hl.toList.map(ednW.writes(_)).mkString("(", " ", ")")
+    }
+
+
+}
+
+
+trait LowWrites {
+  import shapeless._
+  import shapeless.labelled.FieldType
+  import syntax.singleton._
+
+  implicit def genWrite[P <: Product, HL <: HList](
+    implicit gen: LabelledGeneric.Aux[P, HL], w: Write[HL, String]
+  ): Write[P, String] =
+    Write{ p =>
+      w.writes(gen.to(p))
+    }
+
+  implicit def fieldType[K, V](implicit witness: Witness.Aux[K]) = Write[FieldType[K, V], String] { f =>
+    witness.value.toString + " " + f.asInstanceOf[V].toString
+  }
 }

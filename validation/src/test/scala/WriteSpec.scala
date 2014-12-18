@@ -13,14 +13,14 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
 
   case class Person(name: String, age: Int)
   object Person {
-    implicit val personRule = {
-      import validate.Rules._
-      Rule.gen[EDNMap, Person]
-    }
-    implicit val personWrite = {
-      import write.Writes._
-      Write.gen[Person, EDNMap]
-    }
+    // implicit val personRule = {
+    //   import validate.Rules._
+    //   Rule.gen[EDNMap, Person]
+    // }
+    // implicit val personWrite = {
+    //   import write.Writes._
+    //   Write.gen[Person, EDNMap]
+    // }
   }
 
   "EDN Write" should "write basic types" in {
@@ -50,7 +50,24 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
     toEDNString((Path \ "foo" \ "bar").write[String, EDNMap].writes("toto")) should equal ("""{"foo" {"bar" "toto"}}""")
   }
 
+  it should "write hlist" in {
+    import shapeless.{::, HNil}
+    import Writes._
+    
+    implicitly[Write[Long :: String :: HNil, String]]
+
+    toEDNString(1 :: true :: List(1L, 2L, 3L) :: HNil) should equal ("""(1 true (1 2 3))""")
+  }
+
   it should "write case class" in {
-    println(Person.personWrite.writes(Person("toto", 34)))
+    import shapeless._
+    implicitly[Generic.Aux[Person, String :: Int :: HNil]]
+
+    // fieldType['name.narrow, String]
+    // val p = LabelledGeneric[Person]
+
+    // val t: Int = p.to(Person("toto", 34))
+    // println(toEDNString(Person("toto", 34)))
+    //println(Person.personWrite.writes(Person("toto", 34)))
   }
 }
