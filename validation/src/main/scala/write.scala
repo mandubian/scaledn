@@ -7,7 +7,7 @@ import scaledn._
 
 object Writes extends Writes
 
-trait Writes extends play.api.data.mapping.DefaultWrites with LowWrites {
+trait Writes extends LowWrites {
 
   import play.api.libs.functional.Monoid
 
@@ -71,7 +71,7 @@ trait Writes extends play.api.data.mapping.DefaultWrites with LowWrites {
     case s: Seq[_] => seqSW.writes(s)
     case s: Map[EDN @ unchecked, EDN @ unchecked] => mapSW[EDN, EDN](ednW, ednW).writes(s)
 
-    case _ => throw new RuntimeException("$_ unsupported EDN type")
+    case s => throw new RuntimeException(s"$s unsupported EDN type")
   }
 
   implicit def write2Path[I](path: Path): Write[I, Map[String, Any]] =
@@ -92,57 +92,29 @@ trait Writes extends play.api.data.mapping.DefaultWrites with LowWrites {
   import shapeless._
   import shapeless.labelled.FieldType
   import syntax.singleton._
-
-  implicit def writeHNil: Write[HNil, String] = Write { _ => "()" }
-
-  implicit def writeHList1[H](implicit wh: Write[H, String]): Write[H :: HNil, String] =
-    Write { hl => "(" + wh.writes(hl.head) + ")" }
-
-  implicit def writeHList[H, HT <: HList](
-    implicit
-      wh: Write[H, String],
-      wt: Write[HT, String],
-      toTraversable: shapeless.ops.hlist.ToTraversable.Aux[H :: HT, List, Any]
-    ): Write[H :: HT, String] =
-    Write { hl =>
-      hl.toList.map(ednW.writes(_)).mkString("(", " ", ")")
-    }
-
-}
-
-
-trait LowWrites extends ShapelessExtension {
-  import shapeless._
+  import tag.@@
   import shapeless.labelled.FieldType
   import shapeless.ops.hlist.IsHCons
   import syntax.singleton._
   import shapeless.ops.record.Selector
   import record._
 
-  trait SubWrite[I, O] {
-    def writes(i: I): Seq[O]
-  }
-  object SubWrite{
-    def apply[I, O](w: I => Seq[O]): SubWrite[I, O] = new SubWrite[I, O] {
-      def writes(i: I) = w(i)
-    }
-  }
+  import shapelessext._
 
-  implicit def scalaSymbolW[K <: Symbol](implicit witness: Witness.Aux[K]) = Write[K, String]{ s => "\"" + s.name + "\"" }
+  implicit def writeHNil: Write[HNil, String] = Write { _ => "()" }
 
-  implicit def fieldType[K, V](implicit witness: Witness.Aux[K], wk: Write[K, String], wv: Write[V, String]) = SubWrite[FieldType[K, V], String] { f =>
-    Seq(wk.writes(witness.value) + " " + wv.writes(f))
-  }
+  // implicit def writeHList1[H](implicit wh: SubWrite[H, String]): Write[H :: HNil, String] =
+  //   Write { hl => "(" + wh.writes(hl.head) + ")" }
 
-  implicit def subwriteHNil: SubWrite[HNil, String] = SubWrite { _ => Seq() }
-
-  implicit def subGenWrite[H, HT <: HList](
+  implicit def writeHList[H, HT <: HList](
     implicit
-      wh: SubWrite[H, String],
-      wt: SubWrite[HT, String]
-  ): SubWrite[H :: HT, String] =
-    SubWrite{ case h :: t =>
-      wh.writes(h) ++ wt.writes(t)
+      wh: Write[H, String],
+      wt: SubWrite[HT, String],
+      toTraversable: shapeless.ops.hlist.ToTraversable.Aux[H :: HT, List, Any]
+    ): Write[H :: HT, String] =
+    Write { case h :: t =>
+      (wh.writes(h) +: wt.writes(t)).mkString("(", " ", ")")
+      // hl.toList.map(ednW.writes(_)).mkString("(", " ", ")")
     }
 
   implicit def genWriteTuple[P, HL <: HList](
@@ -157,6 +129,7 @@ trait LowWrites extends ShapelessExtension {
 
   implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
     implicit
+      cc: IsCaseClass[P],
       gen: LabelledGeneric.Aux[P, HL],
       c: IsHCons.Aux[HL, F, HT],
       un: Unpack2[F, FieldType, K, V],
@@ -172,31 +145,46 @@ trait LowWrites extends ShapelessExtension {
 
 }
 
-trait ShapelessExtension {
+
+trait LowWrites extends play.api.data.mapping.DefaultWrites {
   import shapeless._
+  import shapeless.labelled.FieldType
+  import shapeless.ops.hlist.IsHCons
+  import syntax.singleton._
+  import shapeless.ops.record.Selector
+  import record._
+  import tag.@@
 
-  trait IsTuple[T] {
-    type Repr
+
+  trait SubWrite[I, O] {
+    def writes(i: I): Seq[O]
+  }
+  object SubWrite{
+    def apply[I, O](w: I => Seq[O]): SubWrite[I, O] = new SubWrite[I, O] {
+      def writes(i: I) = w(i)
+    }
   }
 
-  object IsTuple {
-    type Aux[T, Repr0] = IsTuple[T] { type Repr = Repr0 }
+  implicit def subwrite[T](implicit w: Write[T, String]): SubWrite[T, String] = SubWrite[T, String]{ s => Seq(w.writes(s)) }
+  // implicit def scalaSymbolW[K <: Symbol] = SubWrite[K, String]{ s => Seq("\"" + s.name + "\"") }
+  // implicit def scalaSymbolTaggedW[T] = SubWrite[Symbol @@ T, String]{ s => scalaSymbolW.writes(s) }
 
-    def apply[T](implicit gen: IsTuple[T]): Aux[T, gen.Repr] = gen
-
-    implicit def tuple2[A, B](implicit gen: Generic[Tuple2[A, B]]) = new IsTuple[Tuple2[A, B]] { type Repr = gen.Repr }
+  implicit def fieldType[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) = Write[FieldType[K, V], String] { f =>
+    "\"" + witness.value.name + "\"" + " " + wv.writes(f)
   }
 
-  // trait IsCaseClass[T] extends IsLabelledGeneric[T] { type Repr <: HList }
+  implicit def subwriteHNil: SubWrite[HNil, String] = SubWrite { _ => Seq() }
 
-  // object IsCaseClass {
-  //   type Aux[T, Repr0] = IsCaseClass[T] { type Repr = Repr0 }
-
-  //   def apply[T](implicit lgen: IsCaseClass[T]): Aux[T, lgen.Repr] = lgen
-
-  //   implicit def materialize[T, R]: Aux[T, R] = macro GenericMacros.materializeCaseClass[T, R]
-  // }
+  implicit def subGenWrite[H, HT <: HList](
+    implicit
+      wh: Write[H, String],
+      wt: SubWrite[HT, String]
+  ): SubWrite[H :: HT, String] =
+    SubWrite{ case h :: t =>
+      wh.writes(h) +: wt.writes(t)
+    }
 
 }
+
 
 

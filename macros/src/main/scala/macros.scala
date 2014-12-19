@@ -7,8 +7,6 @@ import scala.reflect.macros.whitebox.Context
 import parser._
 import scala.util.{Try, Success => TrySuccess, Failure => TryFailure}
 import shapeless.{HList, HNil}
-import play.api.data.mapping.{RuleLike, Validation, Success, Failure}
-
 
 trait EDNMacros {
 
@@ -20,7 +18,7 @@ trait EDNMacros {
   def EDNHRs(edn: String) = macro MacroImpl.ednhrsImpl
 }
 
-object MacroImpl extends validate.ShapelessRules {
+object MacroImpl {
 
   private def abortWithMessage(c: Context, message: String) =
     c.abort(c.enclosingPosition, message)

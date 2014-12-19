@@ -11,17 +11,8 @@ import play.api.libs.functional.syntax._
 
 class WriteSpec extends FlatSpec with Matchers with TryValues {
 
-  case class Person(name: String, age: Int)
-  object Person {
-    // implicit val personRule = {
-    //   import validate.Rules._
-    //   Rule.gen[EDNMap, Person]
-    // }
-    // implicit val personWrite = {
-    //   import write.Writes._
-    //   Write.gen[Person, EDNMap]
-    // }
-  }
+  case class Address(street: String, cp: Int)
+  case class Person(name: String, age: Int, addr: Address)
 
   "EDN Write" should "write basic types" in {
     toEDNString("toto") should equal ("\"toto\"")
@@ -59,23 +50,16 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
     toEDNString(1 :: true :: List(1L, 2L, 3L) :: HNil) should equal ("""(1 true (1 2 3))""")
   }
 
-  it should "write case class" in {
-    toEDNString(Person("toto", 34)) should equal ("""{"name" "toto", "age" 34}""")
+  it should "write case class & tuple" in {
+    import shapeless.{::, HNil}
+
+    toEDNString(Person("toto", 34, Address("chboing", 75009))) should equal (
+      """{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}}"""
+    )
 
     toEDNString((23, true)) should equal ("""(23 true)""")
+    toEDNString((23, Vector(1, 2, 3), "toto" :: 2 :: true :: HNil, Person("toto", 34, Address("chboing", 75009)))) should equal (
+      """(23 [1 2 3] ("toto" 2 true) {"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}})"""
+    )
   }
 }
-
-    // val gen = LabelledGeneric[Person]
-    // val i: String :: Int :: HNil = gen.to(p)
-    // val w = Witness('name)
-    // fieldType[w.T, String]
-
-    // val t: Int = p.to(Person("toto", 34))
-    // println(toEDNString(p))
-    //println(Person.personWrite.writes(Person("toto", 34)))
-    // implicitly[LabelledGeneric.Aux[Person, FieldType[w.T, String] :: HNil]]
-    // implicitly[IsHCons.Aux[FieldType[w.T, String] :: HNil, FieldType[w.T, String], HNil]]
-    // implicitly[Write[FieldType[w.T, String] :: HNil, String]]
-    // val f = genWrite[Person, FieldType[w.T, String] :: HNil, w.T, String, HNil].writes(Person("tto"))
-    // implicitly[Write[Person, String]]

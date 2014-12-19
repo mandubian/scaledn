@@ -38,6 +38,8 @@ lazy val parser = project
 
 lazy val validation = project
   .settings(
+    libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
+    libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-compiler" % _),
     libraryDependencies ++= Seq(
       "io.github.jto" %% "validation-core" % "1.0-1c770f4" excludeAll (
         ExclusionRule(organization = "com.typesafe.play")
@@ -49,9 +51,10 @@ lazy val validation = project
   )
   .dependsOn (common, parser % "test->test")
 
-lazy val macros = project.settings(
-  libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
-) dependsOn (parser, validation)
+lazy val macros = project
+  .settings(
+    libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
+  ) dependsOn (parser)
 
 //resolvers ++= Seq(
 //  "Sonatype OSS Releases"  at "http://oss.sonatype.org/content/repositories/releases/",
