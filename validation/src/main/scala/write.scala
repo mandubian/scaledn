@@ -111,7 +111,7 @@ trait Writes extends play.api.data.mapping.DefaultWrites with LowWrites {
 }
 
 
-trait LowWrites {
+trait LowWrites extends ShapelessExtension {
   import shapeless._
   import shapeless.labelled.FieldType
   import shapeless.ops.hlist.IsHCons
@@ -145,7 +145,17 @@ trait LowWrites {
       wh.writes(h) ++ wt.writes(t)
     }
 
-  implicit def genWrite[P, K, V, F, HL <: HList, HT <: HList](
+  implicit def genWriteTuple[P, HL <: HList](
+    implicit
+      tuple: IsTuple[P],
+      gen: Generic.Aux[P, HL],
+      w: Write[HL, String]
+  ): Write[P, String] =
+    Write{ p =>
+      w.writes(gen.to(p))
+    }
+
+  implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
     implicit
       gen: LabelledGeneric.Aux[P, HL],
       c: IsHCons.Aux[HL, F, HT],
@@ -161,3 +171,32 @@ trait LowWrites {
     }
 
 }
+
+trait ShapelessExtension {
+  import shapeless._
+
+  trait IsTuple[T] {
+    type Repr
+  }
+
+  object IsTuple {
+    type Aux[T, Repr0] = IsTuple[T] { type Repr = Repr0 }
+
+    def apply[T](implicit gen: IsTuple[T]): Aux[T, gen.Repr] = gen
+
+    implicit def tuple2[A, B](implicit gen: Generic[Tuple2[A, B]]) = new IsTuple[Tuple2[A, B]] { type Repr = gen.Repr }
+  }
+
+  // trait IsCaseClass[T] extends IsLabelledGeneric[T] { type Repr <: HList }
+
+  // object IsCaseClass {
+  //   type Aux[T, Repr0] = IsCaseClass[T] { type Repr = Repr0 }
+
+  //   def apply[T](implicit lgen: IsCaseClass[T]): Aux[T, lgen.Repr] = lgen
+
+  //   implicit def materialize[T, R]: Aux[T, R] = macro GenericMacros.materializeCaseClass[T, R]
+  // }
+
+}
+
+
