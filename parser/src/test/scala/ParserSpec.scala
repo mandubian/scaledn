@@ -120,6 +120,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
   it should "parse Set" in {
     EDNParser("""#{1, "foo", :foo/bar}""").Set.run().success.value should be (Set(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
     EDNParser("""#{1 "foo" :foo/bar}""").Set.run().success.value should be (Set(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
+    EDNParser("""#{1 1 "foo" :foo/bar}""").Set.run() should be ('failure)
   }
 
   it should "parse Map" in {
@@ -219,7 +220,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
 
   it should "be extendable" in {
     val parser = new EDNParser("""#foo bar""") {
-      val fooTag = rule("foo" ~ WS ~ "bar" ~ push("toto"))
+      def fooTag = rule("foo" ~ WS ~ "bar" ~ push("toto"))
 
       override def tags = rule(fooTag | super.tags) 
     }

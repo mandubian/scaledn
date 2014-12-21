@@ -22,7 +22,7 @@
   * - EDN Symbol          foo/bar
   * - EDN Keyword         :foo/bar
   * - EDN Nil             nil
-  * - EDN Tagged vaues    #foo/bar value
+  * - EDN Tagged values    #foo/bar value
   *
   *
   * The following types aren't represented in the AST because the types 
@@ -33,11 +33,13 @@
   * - BigInt              12345M
   * - BigDecimal          123.45N
   * - String              "foobar"
+  * - Characters          \c \newline \return \space \tab \\ \u0308 etc...
   * - heterogenous list   (1 true "toto")
   * - heterogenous vector [1 true "toto"]
   * - heterogenous set    #{1 true "toto"}
   * - heterogenous map    {1 "toto", 1.234 "toto"}
   *
+  * For more info, go to the [EDN format site](https://github.com/edn-format/edn)
   */
 sealed trait EDNValue
 

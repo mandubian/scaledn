@@ -39,8 +39,8 @@ trait Writes extends LowWrites {
   implicit val intW = Write[Int, String]( l => l.toString )
   implicit val floatW = Write[Float, String]( l => l.toString )
   implicit val doubleW = Write[Double, String]( l => l.toString )
-  implicit val bigIntW = Write[BigInt, String]( l => l.toString + "M" )
-  implicit val bigDecimalW = Write[BigDecimal, String]( l => l.toString + "N" )
+  implicit val bigIntW = Write[BigInt, String]( l => l.toString + "N" )
+  implicit val bigDecimalW = Write[BigDecimal, String]( l => l.toString + "M" )
 
   implicit val charW = Write[Char, String]{
     case '\n' => """\newline"""

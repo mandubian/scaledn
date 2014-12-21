@@ -27,7 +27,7 @@ import scaledn.macros._
 class MacrosSpec extends FlatSpec with Matchers with TryValues {
 
   "EDN Macros" should "parse basic types" in {
-    val e: String = EDN("\"toto\"")
+    val e: Long = EDN("\"toto\"")
     e should equal ("toto")
 
     val bt: Boolean = EDN("true")

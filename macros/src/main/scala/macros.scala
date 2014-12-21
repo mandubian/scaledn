@@ -106,9 +106,6 @@ trait EDNMacros {
     * Macro parsing **Single** EDN Value mapping **recursively** collections
     * to heterogenous shapeless HList
     *
-    * The conversion of collections to HList is applied at first level only
-    * To recursively convert to HList, use recursive macros
-    *
     * ```scala
     * // the type is just for info as it is inferred by scalac macro
     * val s: List[Long] :: String :: Vector[Boolean] :: EDNKeyword :: HNil = EDNHs("""(1 2 3) "toto" [true false] :foo/bar""")
@@ -126,9 +123,6 @@ trait EDNMacros {
   /**
     * Macro parsing **Multiple** EDN Value mapping **recursively** collections
     * to heterogenous shapeless HList
-    *
-    * The conversion of collections to HList is applied at first level only
-    * To recursively convert to HList, use recursive macros
     *
     * ```scala
     * // the type is just for info as it is inferred by scalac macro

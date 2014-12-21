@@ -35,8 +35,8 @@ import org.joda.time.{DateTime, DateTimeZone}
   *
   * - Long (64bits)       12345
   * - Double (64 bits)    123.45
-  * - BigInt              12345M
-  * - BigDecimal          123.45N
+  * - BigInt              12345N
+  * - BigDecimal          123.45M
   * - String              "foobar"
   * - EDN Symbol          foo/bar
   * - EDN Keyword         :foo/bar
@@ -47,6 +47,7 @@ import org.joda.time.{DateTime, DateTimeZone}
   * - heterogenous map    {1 "toto", 1.234 "toto"}
   *
   * There are special syntaxes:
+  *
   * - comments are lines starting with `;`
   * - values starting with `#_` are parsed but discarded
   * 
@@ -282,8 +283,11 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
     * SET
     */
   def Set = rule(
-    str("#{") ~ zeroOrMore(Elem) ~ ch('}') ~> ( scala.collection.immutable.Set(_:_*) )
+    str("#{") ~ zeroOrMore(Elem) ~ ch('}') ~ run { 
+      elements: Seq[Any] => test(elements.distinct.size == elements.size) ~ push(scala.collection.immutable.Set(elements:_*))
+    }
   )
+
 
   /**
     * MAP
