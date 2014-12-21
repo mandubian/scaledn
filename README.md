@@ -1,7 +1,7 @@
-SCALEDN, EDN Scala API
+SCALEDN, [EDN](https://github.com/edn-format/edn) Scala API
 ===============
 
-A Scala EDN parser/serializer/validator based on :
+A Scala [EDN](https://github.com/edn-format/edn) parser/serializer/validator based on :
 
 - [Parboiled2](https://github.com/sirthias/parboiled2),
 - [Shapeless](https://github.com/milessabin/shapeless),
