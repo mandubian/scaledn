@@ -24,14 +24,31 @@ Here are the main points making EDN great to represent & exchange Data
 <br/>
 ### EDN manages number types far better than Json
 
-For Json, all numbers are considered in the same way so one can only map them to `BigDecimal` which is really bad in terms of semantics and performance.
+For Json, all numbers (floating or integer, exponential or not) are all considered in the same way so numbers can only be mapped to the biggest number format: `BigDecimal`. It is really bad in terms of semantics and performance.
 
 In EDN, numbers can be :
 
-- 64bits integer aka `Long` in Scala `12345`
-- 64bits floating point numbers & exponentials aka `Double in Scala `123.45e-9`
-- BigInt `1234567891234N`
-- BigDecimal `123.4578972345M`
+- 64bits integer aka `Long` in Scala:
+
+```
+12345
+```
+- 64bits floating point numbers & exponentials aka `Double` in Scala:
+
+```
+123.45e-9
+```
+- Natural Integers aka `BigInt` in Scala:
+
+```
+1234567891234N
+```
+- Exact Floating Number aka `BigDecimal` in Scala:
+
+```
+123.4578972345M
+```
+
 
 <br/>
 ### EDN knows much more about collections
@@ -39,28 +56,49 @@ In EDN, numbers can be :
 Collections in Json are just:
 
 - lists of heterogenous json values
-- maps of key strings to json values.
+- maps of key strings and json values.
 
 In EDN, you can have:
 
-- heterogenous lists `(1 true "toto)`
-- heterogenous vectors/arrays `[1 true "toto]`
-- heterogenous sets `#{1 true "toto}`
-- heterogenous maps with heterogenous keys & values `{1 "toto", "foo" 2}`
+- heterogenous lists
+
+```
+(1 true "toto)
+```
+- heterogenous vectors/arrays
+```
+[1 true "toto]
+```
+- heterogenous sets
+```
+#{1 true "toto}
+```
+- heterogenous maps with heterogenous keys & values
+```
+{1 "toto", "foo" 2}
+```
 
 <br/>
 ### EDN accepts characters & unicode
 
 Json doesn't know about characters outside strings.
 
-EDN can manage them `\c` and all special chars :
+EDN can manage chars:
 
-- `\newline`
-- `\return`
-- `\space`
-- `\tag`
-- `\\`
-- `\u0308`
+```
+// simple char
+\c
+
+// special chars
+\newline
+\return
+\space
+\tag
+\\
+
+// unicode
+\u0308
+```
 
 <br/>
 ### EDN accepts comments & discarded values
@@ -75,10 +113,9 @@ There are special syntaxes:
 
 These are notions that don't exist in Json.
 
-Symbols can reference anything external or internal that you want to identify. A `Symbol` can have a namespace such as `foo/bar`
+Symbols can reference anything external or internal that you want to identify. A `Symbol` can have a namespace such as `foo/bar`.
 
-Keywords are unique identifiers that can be reused in your data structure. A `Keyword` is just a symbol preceded by a `:` such as :foo/bar
-
+Keywords are unique identifiers or enumerated values that can be reused in your data structure. A `Keyword` is just a symbol preceded by a `:` such as :foo/bar.
 
 <br/>
 ### EDN is extensible using tags
@@ -112,8 +149,12 @@ As a consequence, EDN can be used to stream your data structures.
 <br/>
 ### Conclusion: EDN should be preferred to Json
 
-All of these points make EDN a far better & stricter & more evolutive notation to represent data structures than Json. I still wonder why Json has become the de-facto standard except for the reason that the not so serious Javascript language parses it natively.
+All of these points make EDN a far better & stricter & more evolutive notation to represent data structures than Json. It can be used in the same way as Json but could make a far better RPC string format than Json.
+
+I still wonder why Json has become the de-facto standard except for the reason that the _not so serious_ Javascript language parses it natively and because people were so sick about XML that they would have accepted anything changing their daily life.
+
 But JS could also parse EDN without any problem and all more robust & typed backend languages would earn a lot from using EDN instead of JSON for their interfaces.
+
 EDN could be used in REST API & also for streaming API.
 That's exactly why, I wanted to provide a complete Scala API for EDN to test this idea a bit further.
 
@@ -121,6 +162,7 @@ That's exactly why, I wanted to provide a complete Scala API for EDN to test thi
 <br/>
 ## Scaledn insight
 
+<br/>
 ### Runtime Parsing 
 
 Scaledn can be used to parse the EDN string or arrays of chars received by your API.
@@ -138,7 +180,6 @@ All types described in EDN format are isomorphic to Scala types so I've decided 
 
 The parser (based on [Parboiled2](https://github.com/sirthias/parboiled2)) provides 2 main functions:
 
-### Single EDN value
 ```scala
 import scaledn._
 import parser._
@@ -152,19 +193,33 @@ def parseEDNs(in: ParserInput): Try[Seq[EDN]] = ...
 
 If you look in common package, you'll see that `EDN` is just an alias for `Any` ;)
 
+
 Here is how you can use it:
 
 ```scala
 import scaledn._
 import parser._
 
+// Single Value
 parseEDN("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} #_foo/bar :bar/foo""") match {
   case Success(t) => \/-(t)
   case Failure(f : org.parboiled2.ParseError) => -\/(parser.formatError(f))
 }
+
+// Multiple Value
+parseEDNs("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} :bar/foo""").success.value should be (
+  Vector(
+    Map(
+      1L -> "foo",
+      "bar" -> BigDecimal("1.234"),
+      EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
+    ),
+    EDNKeyword(EDNSymbol("bar/foo", Some("bar")))
+  )
+))
 ```
 
-> Some people will think `Any` is a bit too large and I agree but it's quite practical to use. Moreover, using validation explained a bit later, you can parse your EDN and then map it to a stronger typed scala structure and then `Any disappears`
+> Some people will think `Any` is a bit too large and I agree but it's quite practical to use. Moreover, using validation explained a bit later, you can parse your EDN and then map it to a stronger typed scala structure and then `Any` disappears.
 
 <br/>
 ## Compile-time parsing with Macros
@@ -195,7 +250,7 @@ import scaledn._
 import macros._
 
 // All types are just for info and can be omitted below, the macro infers them quite well
-val e: Long = EDN("\"toto\"")
+val e: String = EDN("\"toto\"")
 
 val bt: Boolean = EDN("true")
 
@@ -249,14 +304,16 @@ s3 should equal (
 )
 ```
 
-> please note the `H` for heterogenous
+> please note the `H` in `EDNH` for heterogenous
+
+> I must say using these macros, it might be even simpler to write Shapeless hlists or records than using scala API ;)
 
 <br/>
 ### Macro API
 
 Scaledn provides different macros depending on the depth of introspection you require in your collection with respect to heterogeneity.
 
-Have a look directly at [Macro API](macros/src/main/scala/macros.scala)
+Have a look directly at [Macro API](https://github.com/mandubian/scaledn/blob/master/macros/src/main/scala/macros.scala)
 
 <br/>
 ### Mixing macro with Scala string interpolation
@@ -284,7 +341,7 @@ Nothing to add, macros are cool sometimes :)
 <br/>
 ## Runtime validation of EDN to Scala
 
-When writing REST or external API, the data received can never be trusted before being validated. So, you generally try to validate what is received and map it to a strong-typed structures. For example:
+When writing REST or external API, the received data can never be trusted before being validated. So, you generally try to validate what is received and map it to a strong-typed structures. For example:
 
 ```scala
 // parse the received string input
@@ -313,7 +370,7 @@ Scaledn validation is based on [Generic Validation API](https://github.com/jto/v
 
 As explained before, Scaledn parser parses EDN values directly to Scala types as they are bijective so validation is often just a runtime cast and not very interesting in general.
 
-What's much more interesting is to validate to Shapeless HList, Records and even more interesting to CaseClasses & Tuples based on Shapeles fantastic auto-generated Generic macros.
+What's much more interesting is to validate to Shapeless HList, Records and even more interesting to CaseClasses & Tuples based on Shapeless fantastic auto-generated Generic macros.
 
 Let's take a few examples to show the power of this feature:
 
@@ -411,7 +468,11 @@ toEDNString(Person("toto", 34, Address("chboing", 75009))) should equal (
 
 ## TODO
 
-- patch a few glitches
+This project is a first draft so it requires a bit more work.
+
+Here are a few points to work on:
+
+- patch remaining glitches/bugs
 - write more tests for all cases
 - study streamed parser asap
 - write sample apps
