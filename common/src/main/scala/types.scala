@@ -1,23 +1,76 @@
-package scaledn
+/*
+ * Copyright (c) 2014 Pascal Voitot
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ package scaledn
 
-// import shapeless.Generic
 
+/** AST root type
+  * The types represented by the AST are:
+  *
+  * - EDN Symbol          foo/bar
+  * - EDN Keyword         :foo/bar
+  * - EDN Nil             nil
+  * - EDN Tagged vaues    #foo/bar value
+  *
+  *
+  * The following types aren't represented in the AST because the types 
+  * described in EDN specs are isomorphic/bijective with Scala types :
+  *
+  * - Long (64bits)       12345
+  * - Double (64 bits)    123.45
+  * - BigInt              12345M
+  * - BigDecimal          123.45N
+  * - String              "foobar"
+  * - heterogenous list   (1 true "toto")
+  * - heterogenous vector [1 true "toto"]
+  * - heterogenous set    #{1 true "toto"}
+  * - heterogenous map    {1 "toto", 1.234 "toto"}
+  *
+  */
 sealed trait EDNValue
 
+/** EDN Symbol representing an generic identifier with a name and potentially a namespace
+  * like: `foo.bar/toto`
+  */
 case class  EDNSymbol(value: String, namespace: Option[String] = None) extends EDNValue {
   override def toString = value
 }
+
+/** EDN keyword representing a unique identifier with a name and potentially a namespace
+  * like: `:foo.bar/toto`
+  */
 case class  EDNKeyword(value: EDNSymbol) extends EDNValue {
   override def toString = s":$value"
 }
 
+/** EDN tagged values look like `#foo.bar/toto 123L` and correspond to the extension
+  * mechanism provided by EDN. The tag implies a semantic that should be managed by
+  * a handler. By default, EDN provides 2 default handlers:
+  * - `#inst "1985-04-12T23:20:50.52Z"` for RFC-3339 instants
+  * -  `#uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"` for UUID
+  */
 case class  EDNTagged[A](tag: EDNSymbol, value: A) extends EDNValue {
   override def toString = s"#$tag ${value.toString}"
 }
 
+/** The EDN Nil value that can represent anything null/nil/nothing you need */
 case object EDNNil extends EDNValue {
   override def toString = "nil"
 }
+
+/** Unneeded types
 
 case class  EDNBoolean(value: Boolean) extends EDNValue
 case class  EDNString(value: String) extends EDNValue
@@ -28,22 +81,4 @@ case class  EDNBigInt(value: BigInt) extends EDNValue
 
 case class  EDNDouble(value: Double) extends EDNValue
 case class  EDNBigDec(value: BigDecimal) extends EDNValue
-
-// object EDNValue {
-//   // class EDNAny(val underlying: Any) extends AnyVal
-
-//   def generic[A, B <: EDNValue](_to: A => B, _from: B => A): Generic.Aux[A, B] = new Generic[A] {
-//     type Repr = B
-
-//     def to(a: A) = _to(a)
-//     def from(b: B) = _from(b)
-//   }
-
-//   implicit val genBoolean = generic(EDNBoolean.apply _, Function.unlift(EDNBoolean.unapply))
-//   implicit val genLong    = generic(EDNLong.apply _,    Function.unlift(EDNLong.unapply))
-//   implicit val genString  = generic(EDNString.apply _,  Function.unlift(EDNString.unapply))
-//   implicit val genChar    = generic(EDNChar.apply _,    Function.unlift(EDNChar.unapply))
-//   implicit val genBigInt  = generic(EDNBigInt.apply _,  Function.unlift(EDNBigInt.unapply))
-//   implicit val genDouble  = generic(EDNDouble.apply _,  Function.unlift(EDNDouble.unapply))
-//   implicit val genBigDec  = generic(EDNBigDec.apply _,  Function.unlift(EDNBigDec.unapply))
-// }
+*/

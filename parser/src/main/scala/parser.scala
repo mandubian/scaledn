@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2014 Pascal Voitot
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package scaledn
 package parser
 
@@ -5,6 +20,67 @@ import org.parboiled2._
 import scala.annotation.switch
 import org.joda.time.{DateTime, DateTimeZone}
 
+
+/** The parboiled2 EDN Parser
+  * 
+  * ```scala
+  * val parser = EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} #_foo/bar :bar/foo""")
+  * parser.Root.run() match {
+  *   case Success(t) => \/-(t)
+  *   case Failure(f : org.parboiled2.ParseError) => -\/(parser.formatError(f))
+  * }
+  * ```
+  * 
+  * The parsed types are the following:
+  *
+  * - Long (64bits)       12345
+  * - Double (64 bits)    123.45
+  * - BigInt              12345M
+  * - BigDecimal          123.45N
+  * - String              "foobar"
+  * - EDN Symbol          foo/bar
+  * - EDN Keyword         :foo/bar
+  * - EDN Nil             nil
+  * - heterogenous list   (1 true "toto")
+  * - heterogenous vector [1 true "toto"]
+  * - heterogenous set    #{1 true "toto"}
+  * - heterogenous map    {1 "toto", 1.234 "toto"}
+  *
+  * There are special syntaxes:
+  * - comments are lines starting with `;`
+  * - values starting with `#_` are parsed but discarded
+  * 
+  * EDN is an extensible format using tags starting with `#` such as:
+  *
+  * ```
+  * #foo/bar value
+  * ```
+  * 
+  * The parser can provide tag handlers that can be applied when a tag is parsed.
+  * EDN specifies 2 tag handlers:
+  * 
+  * - `#inst "1985-04-12T23:20:50.52Z"` for RFC-3339 instants
+  * -  `#uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"` for UUID
+  *
+  *
+  * The parser can also be extended with your own specific handlers:
+  * 
+  *
+  * ```scala
+  * val parser = new EDNParser("""#foo bar""") {
+  *   // defines your own handler as a parboiled2 rule
+  *   val fooTag = rule("foo" ~ WS ~ "bar" ~ push("toto"))
+  *
+  *   // override tags keeping default tags if you need them
+  *   override def tags = rule(fooTag | super.tags) 
+  * }
+  *
+  * parser.Root.run().success.value should be (
+  *   Vector("toto")
+  * )
+  * ```
+  *
+  */
 object EDNParser {
   def apply(input: ParserInput) = new EDNParser(input)
 }
@@ -12,10 +88,15 @@ object EDNParser {
 class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   import CharPredicate.{Digit, Digit19, HexDigit, Alpha, AlphaNum}
 
+  /** automatically consumes whitespaces */
   implicit def wspStr(s: String): Rule0 = rule( str(s) ~ WS )
 
+  /** the main rule to be called when parsing all EDN */
   def Root: Rule1[Seq[Any]] = rule( oneOrMore(Elem) ~ EOI )
 
+  /** as shown in parboiled2 samples, here is a (premature) optimization
+    * that checks first character before dispatching to the right rule
+    */
   def Elem: Rule1[Any] = rule (
     SkipWS ~ run (
       (cursorChar: @switch) match {
@@ -35,15 +116,21 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
     ) ~ SkipWS
   )
 
+  /**
+    * NIL
+    */
   def Nil = rule { "nil" ~ push(EDNNil)}
 
+  /**
+    * BOOLEAN
+    */
   def True = rule { "true" ~ push(true) }
   def False = rule { "false" ~ push(false) }
 
   def Boolean = rule { True | False }
 
   /**
-    * INTEGER
+    * LONG 12345 / 12345M
     */
   def Long = rule(
     capture(SignedNumber) ~ LongExact
@@ -60,7 +147,7 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   def Digits = rule( oneOrMore(Digit) )
 
   /**
-    * DOUBLE
+    * DOUBLE 123.45e+9 / 1.23456789N
     */
   def Double = rule(
     capture(SignedNumber ~ FracExp) ~ DoubleExact
@@ -79,7 +166,7 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   def Ex = rule( ignoreCase('e') ~ optional(anyOf("+-")) )
 
   /**
-    * STRING
+    * STRING "foobar"
     */
   def String = rule ( '"' ~ clearSB() ~ Characters ~ '"' ~ push(sb.toString) )
 
@@ -98,6 +185,9 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
     | Unicode ~> { code => sb.append(code.asInstanceOf[Char]); () }
   )
 
+  /**
+    * CHARACTER \c \newline ...
+    */
   def Char = rule { '\\' ~ Chars }
 
   def Chars = rule (
@@ -212,6 +302,10 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
     ch(';') ~ zeroOrMore(!Newline ~ ANY) ~ (Newline | EOI)
   )
 
+
+  /**
+    * All Whitespaces
+    */
   def SkipWS = rule( zeroOrMore(WS_D_C_NL) )
 
   def WS_D_C_NL = rule( WS_NL_CommaChar | Discard | Comment )

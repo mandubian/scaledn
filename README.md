@@ -1,7 +1,13 @@
-Injective
+SCALEDN
 ===============
 
-A portage to scalaz 7.1.x API of @runorama code sample presented @scaladays 2014:
+A Scala EDN parser/serializer/validator based on :
 
-- Slides : https://dl.dropboxusercontent.com/u/4588997/ReasonablyPriced.pdf
-- Code Sample : https://gist.github.com/runarorama/a8fab38e473fafa0921d
+- [Parboiled2](https://github.com/sirthias/parboiled2),
+- [Shapeless](https://github.com/milessabin/shapeless),
+- [Generic Validation](https://github.com/jto/validation)
+- Scala Macros
+
+> It works only in Scala 2.11.x
+
+

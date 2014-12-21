@@ -1,9 +1,25 @@
+/*
+ * Copyright (c) 2014 Pascal Voitot
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package scaledn
 package write
 
 import  play.api.data.mapping._
 
 import scaledn._
+
 
 object Writes extends Writes
 
@@ -103,18 +119,16 @@ trait Writes extends LowWrites {
 
   implicit def writeHNil: Write[HNil, String] = Write { _ => "()" }
 
-  // implicit def writeHList1[H](implicit wh: SubWrite[H, String]): Write[H :: HNil, String] =
+  // implicit def writeHList1[H](implicit wh: SeqWrite[H, String]): Write[H :: HNil, String] =
   //   Write { hl => "(" + wh.writes(hl.head) + ")" }
 
   implicit def writeHList[H, HT <: HList](
     implicit
       wh: Write[H, String],
-      wt: SubWrite[HT, String],
-      toTraversable: shapeless.ops.hlist.ToTraversable.Aux[H :: HT, List, Any]
+      wt: SeqWrite[HT, String]
     ): Write[H :: HT, String] =
     Write { case h :: t =>
       (wh.writes(h) +: wt.writes(t)).mkString("(", " ", ")")
-      // hl.toList.map(ednW.writes(_)).mkString("(", " ", ")")
     }
 
   implicit def genWriteTuple[P, HL <: HList](
@@ -133,14 +147,24 @@ trait Writes extends LowWrites {
       gen: LabelledGeneric.Aux[P, HL],
       c: IsHCons.Aux[HL, F, HT],
       un: Unpack2[F, FieldType, K, V],
-      wh: SubWrite[FieldType[K, V], String],
-      wt: SubWrite[HT, String],
+      wh: Write[FieldType[K, V], String],
+      wt: SeqWrite[HT, String],
       witness: Witness.Aux[K],
       selector : Selector.Aux[HL, K, V]
   ): Write[P, String] =
     Write{ p =>
       val t = gen.to(p)
-      (wh.writes(t.fieldAt(witness)(selector)) ++ wt.writes(t.tail)).mkString("{", ", ", "}")
+      (wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).mkString("{", ", ", "}")
+    }
+
+  implicit def subGenWrite[H, HT <: HList, K, V](
+    implicit
+      un: Unpack2[H, FieldType, K, V],
+      wh: Write[FieldType[K, V], String],
+      wt: SeqWrite[HT, String]
+  ): SeqWrite[H :: HT, String] =
+    SeqWrite{ case h :: t =>
+      wh.writes(h.asInstanceOf[FieldType[K, V]]) +: wt.writes(t)
     }
 
 }
@@ -153,34 +177,34 @@ trait LowWrites extends play.api.data.mapping.DefaultWrites {
   import syntax.singleton._
   import shapeless.ops.record.Selector
   import record._
-  import tag.@@
 
 
-  trait SubWrite[I, O] {
+  implicit def fieldTypeW[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) =
+    Write[FieldType[K, V], String] { f =>
+      "\"" + witness.value.name + "\"" + " " + wv.writes(f)
+    }
+
+  trait SeqWrite[I, O] {
     def writes(i: I): Seq[O]
   }
-  object SubWrite{
-    def apply[I, O](w: I => Seq[O]): SubWrite[I, O] = new SubWrite[I, O] {
+  object SeqWrite{
+    def apply[I, O](w: I => Seq[O]): SeqWrite[I, O] = new SeqWrite[I, O] {
       def writes(i: I) = w(i)
     }
   }
 
-  implicit def subwrite[T](implicit w: Write[T, String]): SubWrite[T, String] = SubWrite[T, String]{ s => Seq(w.writes(s)) }
-  // implicit def scalaSymbolW[K <: Symbol] = SubWrite[K, String]{ s => Seq("\"" + s.name + "\"") }
-  // implicit def scalaSymbolTaggedW[T] = SubWrite[Symbol @@ T, String]{ s => scalaSymbolW.writes(s) }
+  // implicit def seqWrite[Tmplicit w: Write[T, String]): SeqWrite[T, String] = SeqWrite[T, String]{ s => Seq(w.writes(s)) }
+  // implicit def scalaSymbolW[K <: Symbol] = SeqWrite[K, String]{ s => Seq("\"" + s.name + "\"") }
+  // implicit def scalaSymbolTaggedW[T] = SeqWrite[Symbol @@ T, String]{ s => scalaSymbolW.writes(s) }
 
-  implicit def fieldType[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) = Write[FieldType[K, V], String] { f =>
-    "\"" + witness.value.name + "\"" + " " + wv.writes(f)
-  }
+  implicit def subHNilW: SeqWrite[HNil, String] = SeqWrite { _ => Seq() }
 
-  implicit def subwriteHNil: SubWrite[HNil, String] = SubWrite { _ => Seq() }
-
-  implicit def subGenWrite[H, HT <: HList](
+  implicit def subHListW[H, HT <: HList](
     implicit
       wh: Write[H, String],
-      wt: SubWrite[HT, String]
-  ): SubWrite[H :: HT, String] =
-    SubWrite{ case h :: t =>
+      wt: SeqWrite[HT, String]
+  ): SeqWrite[H :: HT, String] =
+    SeqWrite{ case h :: t =>
       wh.writes(h) +: wt.writes(t)
     }
 

@@ -1,10 +1,25 @@
+/*
+ * Copyright (c) 2014 Pascal Voitot
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package scaledn
 
 package parser
 
 import org.scalatest._
-
 import scala.util.{Try, Success, Failure}
+
 
 class ParserSpec extends FlatSpec with Matchers with TryValues {
 
@@ -200,6 +215,18 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     //   case Success(t) => println("SUCCESS:"+t)
     //   case Failure(f : org.parboiled2.ParseError) => println("PARSE:"+parser.formatError(f))
     // }
+  }
+
+  it should "be extendable" in {
+    val parser = new EDNParser("""#foo bar""") {
+      val fooTag = rule("foo" ~ WS ~ "bar" ~ push("toto"))
+
+      override def tags = rule(fooTag | super.tags) 
+    }
+
+    parser.Root.run().success.value should be (
+      Vector("toto")
+    )
   }
 
   it should "parse bigger" in {

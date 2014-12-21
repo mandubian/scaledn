@@ -17,7 +17,7 @@ resolvers in ThisBuild ++= Seq(
 )
 
 
-scalacOptions ++= Seq("-unchecked", "-deprecation" /*, "-Xlog-implicits"*/)
+scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation" /*, "-Xlog-implicits"*/)
 
 fork in test := true
 

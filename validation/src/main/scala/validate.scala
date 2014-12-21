@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2014 Pascal Voitot
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package scaledn
 package validate
 
@@ -7,7 +22,46 @@ import play.api.data.mapping._
 
 import scaledn._
 
-object Rules extends play.api.data.mapping.DefaultRules[EDN] with ValidationUtils with ShapelessRules {
+
+object Rules extends Rules
+
+
+/** TRICKKKKKKK
+  * scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+  */
+trait SubRule[I, O] {
+  def validate(data: I): VA[O]
+}
+
+object SubRule {
+  def apply[I, O](f: I => VA[O]) = new SubRule[I, O]{
+    def validate(data: I): VA[O] = f(data)
+  }
+
+  def fromMapping[I, O](f: Mapping[ValidationError, I, O]) =
+    SubRule[I, O](f(_: I).fail.map(errs => Seq(play.api.data.mapping.Path -> errs)))
+
+  def fromRule[I, O](rule: Rule[I, O]) = SubRule[I, O] { i => rule.validate(i) }
+
+}
+
+trait SubRule2[I, O] {
+  def validate(data: I): VA[O]
+}
+
+object SubRule2 {
+  def apply[I, O](f: I => VA[O]) = new SubRule2[I, O]{
+    def validate(data: I): VA[O] = f(data)
+  }
+
+  def fromMapping[I, O](f: Mapping[ValidationError, I, O]) =
+    SubRule2[I, O](f(_: I).fail.map(errs => Seq(play.api.data.mapping.Path -> errs)))
+
+  def fromRule[I, O](rule: Rule[I, O]) = SubRule2[I, O] { i => rule.validate(i) }
+
+}
+
+trait Rules extends ValidationUtils with ShapelessRules {
 
   private def ednAs[T](f: PartialFunction[EDN, Validation[ValidationError, T]])(msg: String, args: Any*) =
     Rule.fromMapping[EDN, T](
@@ -191,10 +245,15 @@ object Rules extends play.api.data.mapping.DefaultRules[EDN] with ValidationUtil
 }
 
 
-trait ShapelessRules extends ValidationUtils {
-  import shapeless._
+trait ShapelessRules extends ValidationUtils with LowerRules {
+  import shapeless.{HList, ::, HNil, Unpack2, Witness, LabelledGeneric, Generic}
+  import shapeless.labelled.FieldType
+  import shapeless.ops.hlist.IsHCons
 
-  def ap2[HH, HT <: HList](head: VA[HH], tail: VA[HT])(implicit applicative: Applicative[VA]) =
+  import shapelessext._
+
+
+  def ap2[HH, HT <: HList](head: VA[HH], tail: VA[HT])(implicit applicative: Applicative[VA]): VA[HH::HT] =
     applicative.apply(
       applicative.map(
         head,
@@ -203,46 +262,181 @@ trait ShapelessRules extends ValidationUtils {
       tail
     )
 
-  implicit def hnilR = Rule.fromMapping[EDN, HNil] {
+
+  implicit val hnilR: Rule[EDN, HNil] = Rule.fromMapping[EDN, HNil] {
     case l: List[EDN] if l.isEmpty => Success(HNil)
     case s: Set[EDN @ unchecked] if s.isEmpty => Success(HNil)
     case v: Vector[EDN] if v.isEmpty => Success(HNil)
-    case m: Map[EDN @unchecked, EDN @unchecked] if m.isEmpty => Success(HNil)
-    case _ => Failure(Seq(ValidationError("error.invalid", "HNil")))
+    case m: Map[EDN @unchecked, EDN @unchecked] /* map doesn't use head/tail if m.isEmpty*/ => Success(HNil)
+    case a => Failure(Seq(ValidationError("error.invalid", "HNil")))
   }
 
-  implicit def hlistR[HH, HT <: HList](
+
+  /** TRICKKKKKKK
+    * scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+    */
+  implicit def hlistR[HH, HT <: HList, K, V](
     implicit
-      hr: RuleLike[EDN, HH],
-      ht: RuleLike[EDN, HT],
+      hr: Rule[EDN, HH],
+      ht: SubRule[EDN, HT],
       applicative: Applicative[VA]
   ): Rule[EDN, HH :: HT] = Rule[EDN, HH :: HT]{
-    case scala.::(head, tail) =>
+    case head :: tail =>
       ap2(hr.validate(head), ht.validate(tail))
-    case v: Vector[EDN] if(!v.isEmpty) =>
+    case l: List[EDN] if !l.isEmpty =>
+      ap2(hr.validate(l.head), ht.validate(l.tail))
+    case v: Vector[EDN] if !v.isEmpty =>
       ap2(hr.validate(v.head), ht.validate(v.tail))
+    case m: Map[EDN @unchecked, EDN @unchecked] if !m.isEmpty =>
+      ap2(hr.validate(m), ht.validate(m))
     case a =>
-      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList (only supports List & Vector)"))))
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList Rule (only supports non empty HList, List & Vector and any Map)"))))
   }
 
-  // implicit val hnilRSeq = Rule.fromMapping[Seq[EDN], HNil] {
-  //   case l: Seq[EDN @unchecked] if l.isEmpty => Success(HNil)
-  //   case _ => Failure(Seq(ValidationError("error.invalid", "HNil")))
-  // }
+  /** TRICKKKKKKK
+    * scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+    */
+  implicit def tupleR[P, VS <: HList, VH, VT <: HList](
+    implicit 
+      cc: IsTuple[P],
+      genValues: Generic.Aux[P, VS],
+      c2: IsHCons.Aux[VS, VH, VT],      
+      vhr: Rule[EDN, VH],
+      vtr: SubRule[EDN, VT]
+  ): Rule[EDN, P] = Rule[EDN, P]{ edn => edn match {
+    case head :: tail =>
+      ap2(vhr.validate(head), vtr.validate(tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case l: List[EDN] if !l.isEmpty =>
+      ap2(vhr.validate(l.head), vtr.validate(l.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case v: Vector[EDN] if !v.isEmpty =>
+      ap2(vhr.validate(v.head), vtr.validate(v.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case a =>
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "Tuple Rule (only supports non empty HList, List, Vector)"))))
+  }}
+  
 
-  // implicit def hlistRSeq[HH, HT <: HList](
-  //   implicit
-  //     hr: RuleLike[EDN, HH],
-  //     ht: RuleLike[Seq[EDN], HT],
-  //     applicative: Applicative[VA]
-  // ): Rule[Seq[EDN], HH :: HT] = Rule[Seq[EDN], HH :: HT]{
-  //   case l: Seq[EDN @unchecked] if (!l.isEmpty) =>
-  //     ap2(hr.validate(l.head), ht.validate(l.tail))
-  //   case a =>
-  //     Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList (only supports List & Vector)"))))
-  // }
+  /** TRICKKKKKKK
+    * scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+    */
+  implicit def caseClassR[P, HL <: HList, HH, HT <: HList, K, V, VS <: HList, VH, VT <: HList](
+    implicit 
+      cc: IsCaseClass[P],
+      genFields: LabelledGeneric.Aux[P, HL],
+      c1: IsHCons.Aux[HL, HH, HT],      
+      un1: Unpack2[HH, FieldType, K, V],
+      hhr: Rule[EDN, FieldType[K, V]],
+      htr: SubRule[EDN, HT],
+      genValues: Generic.Aux[P, VS],
+      c2: IsHCons.Aux[VS, VH, VT],      
+      vhr: Rule[EDN, VH],
+      vtr: SubRule2[EDN, VT]
+  ): Rule[EDN, P] = Rule[EDN, P]{ edn => edn match {
+    case head :: tail =>
+      ap2(vhr.validate(head), vtr.validate(tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case l: List[EDN] if !l.isEmpty =>
+      ap2(vhr.validate(l.head), vtr.validate(l.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case v: Vector[EDN] if !v.isEmpty =>
+      ap2(vhr.validate(v.head), vtr.validate(v.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case m: Map[EDN @unchecked, EDN @unchecked] if !m.isEmpty =>
+      ap2(hhr.validate(m), htr.validate(m)).map{ l => genFields.from(l.asInstanceOf[HL]) }
+    case a =>
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "CaseClass Rule (only supports non empty HList, List, Vector & Map)"))))
+  }}
+  
+
+  implicit def fieldTypeR[K <: Symbol, V](
+    implicit witness: Witness.Aux[K], wv: RuleLike[EDN, V]
+  ): Rule[EDN, FieldType[K, V]] = {
+    import shapeless.labelled._
+    import play.api.data.mapping.Path
+    (play.api.data.mapping.Path \ witness.value.name).read[EDN, V].fmap { v => field[K](v) }
+  }
+
+
+  implicit val hnilSR: SubRule[EDN, HNil] = SubRule.fromMapping[EDN, HNil] {
+    case l: List[EDN] if l.isEmpty => Success(HNil)
+    case s: Set[EDN @ unchecked] if s.isEmpty => Success(HNil)
+    case v: Vector[EDN] if v.isEmpty => Success(HNil)
+    case m: Map[EDN @unchecked, EDN @unchecked] /* map doesn't use head/tail if m.isEmpty*/ => Success(HNil)
+    case a => Failure(Seq(ValidationError("error.invalid", "HNil")))
+  }
+
+  // SubRule higher level for Hlist of FieldTypes
+  implicit def hlistSRF[HH, HT <: HList, K, V](
+    implicit
+      un: Unpack2[HH, FieldType, K, V],
+      hr: Rule[EDN, FieldType[K, V]],
+      ht: SubRule[EDN, HT],
+      applicative: Applicative[VA]
+  ): SubRule[EDN, HH :: HT] = SubRule[EDN, HH :: HT]{
+    case scala.::(head, tail) =>
+      ap2(hr.validate(head).map(l => l.asInstanceOf[HH]), ht.validate(tail))
+    case l: List[EDN] if !l.isEmpty =>
+      ap2(hr.validate(l.head).map(l => l.asInstanceOf[HH]), ht.validate(l.tail))
+    case v: Vector[EDN] if !v.isEmpty =>
+      ap2(hr.validate(v.head).map(l => l.asInstanceOf[HH]), ht.validate(v.tail))
+    case m: Map[EDN @unchecked, EDN @unchecked] if !m.isEmpty =>
+      ap2(hr.validate(m).map(l => l.asInstanceOf[HH]), ht.validate(m))
+    case a =>
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList Rule (only supports non empty HList, List & Vector and any Map)"))))
+  }
+
 }
 
+
+
+trait LowerRules extends play.api.data.mapping.DefaultRules[EDN] {
+  import shapeless.{HList, ::, HNil, Unpack2, Witness, LabelledGeneric, Generic}
+  import shapeless.labelled.FieldType
+  import shapeless.ops.hlist.IsHCons
+
+
+  implicit val hnilSR2: SubRule2[EDN, HNil] = SubRule2.fromMapping[EDN, HNil] {
+    case l: List[EDN] if l.isEmpty => Success(HNil)
+    case s: Set[EDN @ unchecked] if s.isEmpty => Success(HNil)
+    case v: Vector[EDN] if v.isEmpty => Success(HNil)
+    case m: Map[EDN @unchecked, EDN @unchecked] /* map doesn't use head/tail if m.isEmpty*/ => Success(HNil)
+    case a => Failure(Seq(ValidationError("error.invalid", "HNil")))
+  }
+
+  implicit def hlistSR2[HH, HT <: HList, K, V](
+    implicit
+      hr: Rule[EDN, HH],
+      ht: SubRule2[EDN, HT],
+      applicative: Applicative[VA]
+  ): SubRule2[EDN, HH :: HT] = SubRule2[EDN, HH :: HT]{
+    case head :: tail =>
+      ap2(hr.validate(head), ht.validate(tail))
+    case l: List[EDN] if !l.isEmpty =>
+      ap2(hr.validate(l.head), ht.validate(l.tail))
+    case v: Vector[EDN] if !v.isEmpty =>
+      ap2(hr.validate(v.head), ht.validate(v.tail))
+    case m: Map[EDN @unchecked, EDN @unchecked] if !m.isEmpty =>
+      ap2(hr.validate(m), ht.validate(m))
+    case a =>
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList Rule (only supports non empty HList, List & Vector and any Map)"))))
+  }
+
+  // SubRule lower level for Hlist
+  implicit def hlistSR[HH, HT <: HList, K, V](
+    implicit
+      hr: Rule[EDN, HH],
+      ht: SubRule2[EDN, HT],
+      applicative: Applicative[VA]
+  ): SubRule[EDN, HH :: HT] = SubRule[EDN, HH :: HT]{
+    case head :: tail =>
+      ap2(hr.validate(head), ht.validate(tail))
+    case l: List[EDN] if !l.isEmpty =>
+      ap2(hr.validate(l.head), ht.validate(l.tail))
+    case v: Vector[EDN] if !v.isEmpty =>
+      ap2(hr.validate(v.head), ht.validate(v.tail))
+    case m: Map[EDN @unchecked, EDN @unchecked] if !m.isEmpty =>
+      ap2(hr.validate(m), ht.validate(m))
+    case a =>
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "HList Rule (only supports non empty HList, List & Vector and any Map)"))))
+  }
+
+}
 
 trait ValidationUtils {
   import scala.collection.generic.CanBuildFrom

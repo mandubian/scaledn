@@ -19,11 +19,11 @@ package scaledn
 package shapelessext
 
 import scala.language.experimental.macros
-
 import scala.annotation.StaticAnnotation
 import scala.reflect.macros.whitebox
 
 import shapeless._
+
 
 trait IsGeneric[T] {
   type Repr
