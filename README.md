@@ -15,7 +15,9 @@ A Scala EDN parser/serializer/validator based on :
 
 > Because Json is not enough & quite limitating
 
-EDN is described as an _extensible data notation_ specified (not really standardized) [there]https://github.com/edn-format/edn). Clojure & Datalog used in Datomic are supersets of EDN. EDN allows much more things than Json while keeping the same simplicity.
+EDN is described as an _extensible data notation_ specified (not really standardized) [there](https://github.com/edn-format/edn). Clojure & Datalog used in Datomic are supersets of EDN.
+
+EDN allows much more things than Json while keeping the same simplicity.
 
 Here are the main points making EDN great to represent & exchange Data
 
@@ -97,9 +99,9 @@ EDN specifies 2 tag handlers by default:
 <br/>
 ### EDN has no root node & can be streamed
 
-Json is defined to have a root `map` node: `{ key : value }`.
+Json is defined to have a root `map` node: `{ key : value }` or `[ ... ]`.
 
-Json can't accept single values outside of this. So Json isn't really meant to be streamed.
+Json can't accept single values outside of this. So Json isn't really meant to be streamed as you need to find closing tags to finish parsing a value.
 
 EDN doesn't require this and can consist in multiple heterogenous values:
 
@@ -107,19 +109,21 @@ EDN doesn't require this and can consist in multiple heterogenous values:
 
 As a consequence, EDN can be used to stream your data structures.
 
+<br/>
+### Conclusion: EDN should be preferred to Json
 
-> All of these points make EDN a far better & stricter & more evolutive notation to represent data structures than Json. I still wonder why Json has become the de-facto standard except for the reason that the not so serious Javascript language parses it natively.
-> But JS could also parse EDN without any problem and all more robust & typed backend languages would earn a lot from using EDN instead of JSON for their interfaces.
-> EDN could be used in REST API & also for streaming API.
-> That's exactly why, I wanted to provide a complete Scala API for EDN to test this idea a bit further.
+All of these points make EDN a far better & stricter & more evolutive notation to represent data structures than Json. I still wonder why Json has become the de-facto standard except for the reason that the not so serious Javascript language parses it natively.
+But JS could also parse EDN without any problem and all more robust & typed backend languages would earn a lot from using EDN instead of JSON for their interfaces.
+EDN could be used in REST API & also for streaming API.
+That's exactly why, I wanted to provide a complete Scala API for EDN to test this idea a bit further.
 
 <br/>
 <br/>
-## Scaledn 
+## Scaledn insight
 
 ### Runtime Parsing 
 
-Scaledn can be used to parse the string or arrays of chars received by your API.
+Scaledn can be used to parse the EDN string or arrays of chars received by your API.
 
 All types described in EDN format are isomorphic to Scala types so I've decided to skip the complete AST wrapping those types and directly parse to Scala types.
 
@@ -160,9 +164,12 @@ parseEDN("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} #_foo/bar :bar/foo""") mat
 }
 ```
 
-### Compile-time parsing with Macros
+> Some people will think `Any` is a bit too large and I agree but it's quite practical to use. Moreover, using validation explained a bit later, you can parse your EDN and then map it to a stronger typed scala structure and then `Any disappears`
 
-When you use static EDN structures in your Scala code, you can write them in their string format adn _scaledn_ can parse them at compile-time using Scala macros and thus prevent a lot of errors you can encounter in dynamic languages.
+<br/>
+## Compile-time parsing with Macros
+
+When you use static EDN structures in your Scala code, you can write them in their string format and _scaledn_ can parse them at compile-time using Scala macros and thus prevent a lot of errors you can encounter in dynamic languages.
 
 The macro mechanism is based on quasiquotes & whitebox macro contexts which allow to infer types of your parsed EDN structures at compile-time. For example:
 
@@ -187,7 +194,7 @@ Here is how you can use it:
 import scaledn._
 import macros._
 
-// All types can be omitted below, the macro infers them quite well
+// All types are just for info and can be omitted below, the macro infers them quite well
 val e: Long = EDN("\"toto\"")
 
 val bt: Boolean = EDN("true")
@@ -217,7 +224,7 @@ val s = EDNs("""(1 2 3) "toto" [true false] :foo/bar""")
 
 ### Shapeless heterogenous collections
 
-EDN allows to manipulate heterogenous collections. In Scala, when one think "heterogenous collection", one think [Shapeless](https://github.com/milessabin/shapeless). Scaledn macros can parse & map your EDN structures to 
+EDN allows to manipulate heterogenous collections. In Scala, when one thinks _heterogenous collection_, one thinks [Shapeless](https://github.com/milessabin/shapeless). Scaledn macros can parse & map your EDN stringified structures to Scala strongly typed structures.
 
 
 ```scala
@@ -242,6 +249,8 @@ s3 should equal (
 )
 ```
 
+> please note the `H` for heterogenous
+
 <br/>
 ### Macro API
 
@@ -253,7 +262,7 @@ Have a look directly at [Macro API](macros/src/main/scala/macros.scala)
 
 <br/>
 <br/>
-## Runtie validation of EDN to Scala
+## Runtime validation of EDN to Scala
 
 When writing REST or external API, the data received can never be trusted before being validated. So, you generally try to validate what is received and map it to a strong-typed structures. For example:
 
@@ -295,6 +304,11 @@ import validate._
 import play.api.data.mapping._
 import shapeless.{HNil, ::}
 
+case class CP(cp: Int)
+case class Address(street: String, cp: CP)
+case class Person(name: String, age: Int, addr: Address)
+// Remark that NO implicits must be declared on our case classes
+
 // HLISTS
 parseEDN("""(1 "toto" true nil)""").map(
   validate[Long :: String :: Boolean :: EDNNil.type :: HNil]
@@ -310,12 +324,6 @@ parseEDN("""("toto" 34 {"street" "chboing", "cp" {"cp" 75009}})""").map(
 )
 
 // CASECLASSES
-case class CP(cp: Int)
-case class Address(street: String, cp: CP)
-case class Person(name: String, age: Int, addr: Address)
-
-// Remark that NO implicits must be declared on our case classes
-
 parseEDN("""("toto" 34 ("chboing" (75009)))""").map(
   validate[Person]
 ).success.value should be (
@@ -330,14 +338,14 @@ parseEDN("""{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" {"cp" 750
 
 ```
 
-I think here you can see the power of this validation feature without writing any boilerplate...
+> I think here you can see the power of this validation feature without writing any boilerplate...
 
 
 <br/>
 <br/>
 ## Serializing Scala to EDN
 
-Using [Generic Validation API](https://github.com/jto/validation), you can also write scala strucures to any other data format.
+Using [Generic Validation API](https://github.com/jto/validation), you can also write scala structures to any other data format.
 
 ```scala
 import scaledn._
