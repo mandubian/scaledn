@@ -27,7 +27,7 @@ import scaledn.macros._
 class MacrosSpec extends FlatSpec with Matchers with TryValues {
 
   "EDN Macros" should "parse basic types" in {
-    val e: Long = EDN("\"toto\"")
+    val e: String = EDN("\"toto\"")
     e should equal ("toto")
 
     val bt: Boolean = EDN("true")
@@ -139,6 +139,18 @@ class MacrosSpec extends FlatSpec with Matchers with TryValues {
       EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) ::
       HNil
     )
+  }
+
+  it should "use string interpolation" in {
+    import shapeless.{HNil, ::}
+
+    val l = 123L
+    val s = List("foo", "bar")
+
+    val r: Long = EDN(s"$l")
+
+    val r1: Seq[Any] = EDN(s"($l $s)")
+    val r2: Long :: List[String] :: HNil = EDNH(s"($l $s)")
   }
 
 }

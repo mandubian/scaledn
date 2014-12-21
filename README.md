@@ -258,7 +258,27 @@ Scaledn provides different macros depending on the depth of introspection you re
 
 Have a look directly at [Macro API](macros/src/main/scala/macros.scala)
 
+<br/>
+### Mixing macro with Scala string interpolation
 
+Following ideas implemented by Daniel James in [Datomisca](http://pellucidanalytics.github.io/datomisca/), scaledn proposes to use String interpolation mixed with parsing macro such as:
+
+```scala
+import scaledn._
+import macros._
+
+import shapeless.{HNil, ::}
+
+val l = 123L
+val s = List("foo", "bar")
+
+val r: Long = EDN(s"$l")
+
+val r1: Seq[Any] = EDN(s"($l $s)")
+val r2: Long :: List[String] :: HNil = EDNH(s"($l $s)")
+```
+
+Nothing to add, macros are cool sometimes :)
 
 <br/>
 <br/>

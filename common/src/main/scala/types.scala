@@ -22,7 +22,7 @@
   * - EDN Symbol          foo/bar
   * - EDN Keyword         :foo/bar
   * - EDN Nil             nil
-  * - EDN Tagged values    #foo/bar value
+  * - EDN Tagged values   #foo/bar value
   *
   *
   * The following types aren't represented in the AST because the types 

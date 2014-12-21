@@ -39,8 +39,19 @@ trait EDNMacros {
     * val map = EDN("""{ 1 "toto", 2 "tata", 3 "tutu" }""")
     * map should equal (Map(1L -> "toto", 2L -> "tata", 3L -> "tutu"))
     * ```
+    *
+    * You can also use String interpolation mixed with this macro
+    * ```scala
+    * // the types are just for info as it is inferred by scalac macro
+    * val l = 123L
+    * val s = List("foo", "bar")
+* 
+    * val r: Long = EDN(s"$l")
+* 
+    * val r1: Seq[Any] = EDN(s"($l $s)")
+    * ```
     */
-  def EDN(edn: String) = macro MacroImpl.ednImpl
+  def EDN(edn: String): Any = macro MacroImpl.ednImpl
 
   /**
     * Macro parsing **Multiple** EDN value mapping collections to scala collection
@@ -48,7 +59,7 @@ trait EDNMacros {
     * So, heterogenous collection will use `Any`
     *
     * ```scala
-    * // the type is just for info as it is inferred by scalac macro
+    * // the types are just for info as it is inferred by scalac macro
     * val s: Seq[Any] = EDNs("""(1 2 3) "toto" [true false] :foo/bar""")
     * s should equal (Seq(
     *   Seq(1L, 2L, 3L),
@@ -57,8 +68,11 @@ trait EDNMacros {
     *   EDNKeyword(EDNSymbol("foo/bar", Some("foo")))
     * ))
     * ```
+    *
+    * You can also use String interpolation mixed with this macro
+    *
     */
-  def EDNs(edn: String) = macro MacroImpl.ednsImpl
+  def EDNs(edn: String): Any = macro MacroImpl.ednsImpl
 
   /**
     * Macro parsing **Single** EDN Value mapping collections to heterogenous shapeless HList
@@ -67,7 +81,7 @@ trait EDNMacros {
     * To recursively convert to HList, use recursive macros
     *
     * ```scala
-    * // the type is just for info as it is inferred by scalac macro
+    * // the types are just for info as it is inferred by scalac macro
     * val s: Long :: String :: Boolean :: HNil = EDNH("""(1 "toto" true)""")
     * s should equal (1L :: "toto" :: true :: HNil)
     *
@@ -79,8 +93,17 @@ trait EDNMacros {
     *   HNil
     * )
     * ```
+    *
+    * You can also use String interpolation mixed with this macro
+    * ```scala
+    * // the types are just for info as it is inferred by scalac macro
+    * val l = 123L
+    * val s = List("foo", "bar")
+    *
+    * val r2: Long :: List[String] :: HNil = EDNH(s"($l $s)")
+    * ```
     */
-  def EDNH(edn: String) = macro MacroImpl.ednhImpl
+  def EDNH(edn: String): Any = macro MacroImpl.ednhImpl
 
   /**
     * Macro parsing **Multiple** EDN Value mapping collections to heterogenous shapeless HList
@@ -90,17 +113,10 @@ trait EDNMacros {
     *
     * ```scala
     * // the type is just for info as it is inferred by scalac macro
-    * val s: List[Long] :: String :: Vector[Boolean] :: EDNKeyword :: HNil = EDNHs("""(1 2 3) "toto" [true false] :foo/bar""")
-    * s should equal (
-    *   Seq(1L, 2L, 3L) ::
-    *   "toto" ::
-    *   Vector(true, false) ::
-    *   EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) ::
-    *   HNil
-    * )
-    * ```
+    * val s: List[Long] :: String :: Vector[Boolean] :: EDNKeyword.
+    *
     */
-  def EDNHs(edn: String) = macro MacroImpl.ednhsImpl
+  def EDNHs(edn: String): Any = macro MacroImpl.ednhsImpl
 
   /**
     * Macro parsing **Single** EDN Value mapping **recursively** collections
@@ -117,8 +133,11 @@ trait EDNMacros {
     *   HNil
     * )
     * ```
+    *
+    * You can also use String interpolation mixed with this macro.
+    *
     */
-  def EDNHR(edn: String) = macro MacroImpl.ednhrImpl
+  def EDNHR(edn: String): Any = macro MacroImpl.ednhrImpl
 
   /**
     * Macro parsing **Multiple** EDN Value mapping **recursively** collections
@@ -135,11 +154,15 @@ trait EDNMacros {
     *   HNil
     * )
     * ```
+    *
+    * You can also use String interpolation mixed with this macro.
+    *
     */
-  def EDNHRs(edn: String) = macro MacroImpl.ednhrsImpl
+  def EDNHRs(edn: String): Any = macro MacroImpl.ednhrsImpl
 }
 
 object MacroImpl {
+  import scala.collection.mutable
 
   private def abortWithMessage(c: Context, message: String) =
     c.abort(c.enclosingPosition, message)
@@ -149,7 +172,7 @@ object MacroImpl {
 
   def genericMacro[T](c: Context)(edn: c.Expr[String])
       (parse: EDNParser => Try[T])
-      (literal: (T, Helper[c.type]) => c.Tree): c.Expr[Any] =
+      (literal: (T, Helper[c.type], mutable.Stack[c.Tree]) => c.Tree): c.Expr[Any] =
   {
     import c.universe._
 
@@ -159,10 +182,24 @@ object MacroImpl {
       case Literal(Constant(s: String)) =>
         val parser = EDNParser(s)
         parse(parser) match {
-          case TrySuccess(s) => c.Expr(literal(s, helper))
+          case TrySuccess(s) => c.Expr(literal(s, helper, mutable.Stack.empty[c.Tree]))
           case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
           case TryFailure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
         }
+
+      case s@q"scala.StringContext.apply(..$parts).s(..$args)" =>
+        val partsWithPlaceholders = q"""Seq(..$parts).mkString(" scaledn/! ")"""
+        val strWithPlaceHolders = c.eval(c.Expr[String](c.untypecheck(partsWithPlaceholders.duplicate)))
+        val parser = EDNParser(strWithPlaceHolders)
+        val argsStack = mutable.Stack.concat(args)
+        parse(parser) match {
+          case TrySuccess(s) => c.Expr(literal(s, helper, argsStack))
+          case TryFailure(f : org.parboiled2.ParseError) => abortWithMessage(c, parser.formatError(f))
+          case TryFailure(e) => abortWithMessage(c, "Unexpected failure: " + e.getMessage)
+        }
+
+      case _ =>
+        abortWithMessage(c, "Expected a string literal")
     }
   }
 
@@ -170,7 +207,7 @@ object MacroImpl {
     genericMacro[EDN](c)(edn){
       parser => parser.Root.run().map(_.head)
     }{ 
-      (t, helper) => helper.literalEDN(t)
+      (t, helper, stack) => helper.literalEDN(t, stack)
     }
 
 
@@ -178,7 +215,7 @@ object MacroImpl {
     genericMacro[Seq[EDN]](c)(edn){
       parser => parser.Root.run()
     }{ 
-      (t, helper) => helper.literalEDN(t)
+      (t, helper, stack) => helper.literalEDN(t, stack)
     }
 
 
@@ -186,7 +223,7 @@ object MacroImpl {
     genericMacro[EDN](c)(edn){
       parser => parser.Root.run().map(_.head)
     }{ 
-      (t, helper) => helper.literalEDNH(t)
+      (t, helper, stack) => helper.literalEDNH(t, stack)
     }
 
 
@@ -194,7 +231,7 @@ object MacroImpl {
     genericMacro[Seq[EDN]](c)(edn){
       parser => parser.Root.run()
     }{ 
-      (t, helper) => helper.literalEDNHS(t)
+      (t, helper, stack) => helper.literalEDNHS(t, stack)
     }
 
 
@@ -202,7 +239,7 @@ object MacroImpl {
     genericMacro[EDN](c)(edn){
       parser => parser.Root.run().map(_.head)
     }{ 
-      (t, helper) => helper.literalEDNHR(t)
+      (t, helper, stack) => helper.literalEDNHR(t, stack)
     }
 
 
@@ -210,7 +247,7 @@ object MacroImpl {
     genericMacro[Seq[EDN]](c)(edn){
       parser => parser.Root.run()
     }{ 
-      (t, helper) => helper.literalEDNHRS(t)
+      (t, helper, stack) => helper.literalEDNHRS(t, stack)
     }
 
 }
@@ -238,7 +275,7 @@ class Helper[C <: Context](val c: C) {
           List(Literal(Constant(n.toString))))).tree
   }
 
-  def literalEDN(edn: Any, stk: mutable.Stack[c.Tree] = mutable.Stack.empty[c.Tree]): c.Tree =
+  def literalEDN(edn: Any, stk: mutable.Stack[c.Tree]): c.Tree =
     edn match {
       case s: String => q"$s"
       case b: Boolean => q"$b"
@@ -246,23 +283,23 @@ class Helper[C <: Context](val c: C) {
       case d: Double => q"$d"
       case bi: BigInt => q"$bi"
       case bd: BigDecimal => q"$bd"
-      case s: EDNSymbol => q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
-      case kw: EDNKeyword => q"_root_.scaledn.EDNKeyword(${literalEDN(kw.value)})"
+      case s: EDNSymbol => literalEDNSymbol(s, stk) //q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
+      case kw: EDNKeyword => q"_root_.scaledn.EDNKeyword(${literalEDN(kw.value, stk)})"
       case EDNNil => q"_root_.scaledn.EDNNil"
       case list: List[EDN] =>
-        val args = list.map(literalEDN(_))
+        val args = list.map(literalEDN(_, stk))
         q"_root_.scala.collection.immutable.List(..$args)"
       case vector: Vector[EDN] =>
-        val args = vector.map(literalEDN(_))
+        val args = vector.map(literalEDN(_, stk))
         q"_root_.scala.collection.immutable.Vector(..$args)"
       case set: Set[EDN @unchecked] =>
-        val args = set.map(literalEDN(_))
+        val args = set.map(literalEDN(_, stk))
         q"_root_.scala.collection.immutable.Set(..$args)"
       case map: Map[EDN @unchecked, EDN @unchecked] =>
-        val args = map.map{ case(k, v) => literalEDN(k) -> literalEDN(v) }
+        val args = map.map{ case(k, v) => literalEDN(k, stk) -> literalEDN(v, stk) }
         q"_root_.scala.collection.immutable.Map(..$args)"
       case seq: Seq[EDN] =>
-        val args = seq.map(literalEDN(_))
+        val args = seq.map(literalEDN(_, stk))
         q"_root_.scala.collection.immutable.Seq(..$args)"
       case x =>
         if (x == null)
@@ -271,52 +308,65 @@ class Helper[C <: Context](val c: C) {
           abortWithMessage(s"unexpected value $x with ${x.getClass}")
     }
 
+  def literalEDNSymbol(s: EDNSymbol, stk: mutable.Stack[c.Tree]): c.Tree = {
+    if (s.value == "scaledn/!")
+      try {
+        val t = stk.pop()
+        q"""$t"""
+      } catch {
+        case ex: NoSuchElementException =>
+          abortWithMessage("The symbol 'scaledn/!' is reserved by Scaledn")
+      }
+    else
+      q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
 
-  def literalEDNH(edn: EDN): c.Tree = {
+  }
+
+  def literalEDNH(edn: EDN, stk: mutable.Stack[c.Tree]): c.Tree = {
     edn match {
-      case list: List[EDN] => literalEDNHS(list)
-      case vector: Vector[EDN] => literalEDNHS(vector)
-      case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq)
-      case map: Map[EDN @unchecked, EDN @unchecked] => literalRecords(map.toSeq)
-      case x => literalEDN(x)
+      case list: List[EDN] => literalEDNHS(list, stk)
+      case vector: Vector[EDN] => literalEDNHS(vector, stk)
+      case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq, stk)
+      case map: Map[EDN @unchecked, EDN @unchecked] => literalRecords(map.toSeq, stk)
+      case x => literalEDN(x, stk)
     }
   }
 
-  def literalEDNHR(edn: EDN): c.Tree = {
+  def literalEDNHR(edn: EDN, stk: mutable.Stack[c.Tree]): c.Tree = {
     edn match {
-      case list: List[EDN] => literalEDNHS(list)
-      case vector: Vector[EDN] => literalEDNHS(vector)
-      case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq)
-      case map: Map[EDN @unchecked, EDN @unchecked] => literalRecordsR(map.toSeq)
-      case x => literalEDNH(x)
+      case list: List[EDN] => literalEDNHS(list, stk)
+      case vector: Vector[EDN] => literalEDNHS(vector, stk)
+      case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq, stk)
+      case map: Map[EDN @unchecked, EDN @unchecked] => literalRecordsR(map.toSeq, stk)
+      case x => literalEDNH(x, stk)
     }
   }
 
-  def literalEDNHS(edns: Seq[EDN]): c.Tree = {
+  def literalEDNHS(edns: Seq[EDN], stk: mutable.Stack[c.Tree]): c.Tree = {
     edns match {
       case Seq() => literalHNil
-      case head +: tail => literalHL(literalEDN(head), literalEDNHS(tail))
+      case head +: tail => literalHL(literalEDN(head, stk), literalEDNHS(tail, stk))
     }
   }
 
-  def literalEDNHRS(edns: Seq[EDN]): c.Tree = {
+  def literalEDNHRS(edns: Seq[EDN], stk: mutable.Stack[c.Tree]): c.Tree = {
     edns match {
       case Seq() => literalHNil
-      case head +: tail => literalHL(literalEDNHR(head), literalEDNHRS(tail))
+      case head +: tail => literalHL(literalEDNHR(head, stk), literalEDNHRS(tail, stk))
     }
   }
 
-  def literalRecords(edns: Seq[(EDN, EDN)]): c.Tree = {
+  def literalRecords(edns: Seq[(EDN, EDN)], stk: mutable.Stack[c.Tree]): c.Tree = {
     edns match {
       case Seq() => literalHNil
-      case (k, v) +: tail => literalHL(literalRecord(literalEDN(k), literalEDN(v)), literalRecords(tail))
+      case (k, v) +: tail => literalHL(literalRecord(literalEDN(k, stk), literalEDN(v, stk)), literalRecords(tail, stk))
     }
   }
 
-  def literalRecordsR(edns: Seq[(EDN, EDN)]): c.Tree = {
+  def literalRecordsR(edns: Seq[(EDN, EDN)], stk: mutable.Stack[c.Tree]): c.Tree = {
     edns match {
       case Seq() => literalHNil
-      case (k, v) +: tail => literalHL(literalRecord(literalEDNHR(k), literalEDNHR(v)), literalRecordsR(tail))
+      case (k, v) +: tail => literalHL(literalRecord(literalEDNHR(k, stk), literalEDNHR(v, stk)), literalRecordsR(tail, stk))
     }
   }
 
