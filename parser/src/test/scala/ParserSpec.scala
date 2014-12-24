@@ -155,9 +155,20 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     )
   }
 
+  it should "parse Multiple tags" in {
+     EDNParser("#custom0 #custom1 1").Tagged.run().success.value should be (
+      EDNTagged(EDNSymbol("custom0"), EDNTagged(EDNSymbol("custom1"), 1L))
+    )
+  }
+
+
   it should "parse Discard" in {
     EDNParser("""#_foo/bar""").Discard.run() should be ('success)
     EDNParser("""#_  :foo/bar""").Discard.run() should be ('success)
+  }
+
+  it should "parse mutiple Discards" in {
+    EDNParser("""[#_ #_ 1 2 3]""").Vector.run().success.value should be (Vector(3L))
   }
 
   it should "parse Comment" in {
