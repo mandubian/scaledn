@@ -49,7 +49,7 @@ lazy val validation = project
       "com.chuusai"       %% "shapeless" % "2.1.0-SNAPSHOT" changing()
     )
   )
-  .dependsOn (common, parser % "test->test")
+  .dependsOn (common, parser % "test->test", macros % "test->test")
 
 lazy val macros = project
   .settings(

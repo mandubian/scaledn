@@ -284,7 +284,7 @@ class Helper[C <: Context](val c: C) {
       case bi: BigInt => q"$bi"
       case bd: BigDecimal => q"$bd"
       case s: EDNSymbol => literalEDNSymbol(s, stk) //q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
-      case kw: EDNKeyword => q"_root_.scaledn.EDNKeyword(${literalEDN(kw.value, stk)})"
+      case kw: EDNKeyword => literalEDNKeyword(kw, stk)
       case EDNNil => q"_root_.scaledn.EDNNil"
       case list: List[EDN] =>
         val args = list.map(literalEDN(_, stk))
@@ -301,12 +301,53 @@ class Helper[C <: Context](val c: C) {
       case seq: Seq[EDN] =>
         val args = seq.map(literalEDN(_, stk))
         q"_root_.scala.collection.immutable.Seq(..$args)"
+      case t: EDNTagged[EDN @unchecked] =>
+        val tag = literalEDNSymbol(t.tag, stk)
+        val value = literalEDN(t.value, stk)
+        q"_root_.scaledn.EDNTagged($tag, $value)"
+      case x =>
+        // TODO Add search implicit for this element
+        if (x == null)
+          abortWithMessage("null is not supported")
+        else
+          abortWithMessage(s"unexpected value $x with ${x.getClass}")
+    }
+
+  def literalEDNR(edn: Any, stk: mutable.Stack[c.Tree]): c.Tree =
+    edn match {
+      case s: String => q"$s"
+      case b: Boolean => q"$b"
+      case l: Long => q"$l"
+      case d: Double => q"$d"
+      case bi: BigInt => q"$bi"
+      case bd: BigDecimal => q"$bd"
+      case s: EDNSymbol => literalEDNSymbol(s, stk) //q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
+      case kw: EDNKeyword => literalEDNKeyword(kw, stk)
+      case EDNNil => q"_root_.scaledn.EDNNil"
+      case list: List[EDN] =>
+        literalEDNHS(list, stk)
+      case vector: Vector[EDN] =>
+        literalEDNHS(vector, stk)
+      case set: Set[EDN @unchecked] =>
+        literalEDNHS(set.toSeq, stk)
+      case map: Map[EDN @unchecked, EDN @unchecked] =>
+        literalRecords(map.toSeq, stk)
+      case seq: Seq[EDN] =>
+        literalEDNHS(seq, stk)
+      case t: EDNTagged[EDN @unchecked] =>
+        val tag = literalEDNSymbol(t.tag, stk)
+        val value = literalEDNR(t.value, stk)
+        println("VALUE:"+value)
+        q"_root_.scaledn.EDNTagged($tag, $value)"
       case x =>
         if (x == null)
           abortWithMessage("nil is not supported")
         else
           abortWithMessage(s"unexpected value $x with ${x.getClass}")
     }
+
+  def literalEDNKeyword(kw: EDNKeyword, stk: mutable.Stack[c.Tree]): c.Tree =
+    q"_root_.scaledn.EDNKeyword(${literalEDNSymbol(kw.value, stk)})"
 
   def literalEDNSymbol(s: EDNSymbol, stk: mutable.Stack[c.Tree]): c.Tree = {
     if (s.value == "scaledn/!")
@@ -328,17 +369,19 @@ class Helper[C <: Context](val c: C) {
       case vector: Vector[EDN] => literalEDNHS(vector, stk)
       case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq, stk)
       case map: Map[EDN @unchecked, EDN @unchecked] => literalRecords(map.toSeq, stk)
+      case seq: Seq[EDN] => literalEDNHS(seq, stk)
       case x => literalEDN(x, stk)
     }
   }
 
   def literalEDNHR(edn: EDN, stk: mutable.Stack[c.Tree]): c.Tree = {
     edn match {
-      case list: List[EDN] => literalEDNHS(list, stk)
-      case vector: Vector[EDN] => literalEDNHS(vector, stk)
-      case set: Set[EDN @unchecked] => literalEDNHS(set.toSeq, stk)
+      case list: List[EDN] => literalEDNHRS(list, stk)
+      case vector: Vector[EDN] => literalEDNHRS(vector, stk)
+      case set: Set[EDN @unchecked] => literalEDNHRS(set.toSeq, stk)
       case map: Map[EDN @unchecked, EDN @unchecked] => literalRecordsR(map.toSeq, stk)
-      case x => literalEDNH(x, stk)
+      case seq: Seq[EDN] => literalEDNHRS(seq, stk)
+      case x => literalEDNR(x, stk)
     }
   }
 

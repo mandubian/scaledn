@@ -54,16 +54,18 @@ trait Writes extends LowWrites {
 
   implicit val symbolW = Write[EDNSymbol, String]( s => s.toString )
   implicit val nilW = Write[EDNNil.type, String]( s => "nil" )
-  implicit val keywordW = Write[EDNKeyword, String]( s => s.toString )
-  implicit def taggedW[A] = Write[EDNTagged[A], String]( s => s.toString )
+  implicit val keywordW = Write[EDNKeyword, String]( s => ":" + symbolW.writes(s.value) )
 
-  implicit def seqSW[A] = Write[Seq[A], String]( s => s.mkString("(", " ", ")") )
-  implicit def listSW[A] = Write[List[A], String]( s => s.mkString("(", " ", ")") )
-  implicit def vectorSW[A] = Write[Vector[A], String]( s => s.mkString("[", " ", "]") )
-  implicit def setSW[A] = Write[Set[A], String]( s => s.mkString("#{", " ", "}") )
+  implicit def taggedW[A](implicit w: Write[A, String]) =
+    Write[EDNTagged[A], String]( t => s"#${t.tag} ${w.writes(t.value)}" )
+
+  implicit def seqSW[A](implicit w: Write[A, String]) = Write[Seq[A], String]( s => s.map(w.writes).mkString("(", " ", ")") )
+  implicit def listSW[A](implicit w: Write[A, String]) = Write[List[A], String]( s => s.map(w.writes).mkString("(", " ", ")") )
+  implicit def vectorSW[A](implicit w: Write[A, String]) = Write[Vector[A], String]( s => s.map(w.writes).mkString("[", " ", "]") )
+  implicit def setSW[A](implicit w: Write[A, String]) = Write[Set[A], String]( s => s.map(w.writes).mkString("#{", " ", "}") )
   implicit def mapSW[K, V](implicit wk: Write[K, String], wv: Write[V, String]) =
     Write[Map[K, V], String]{ s => s.map{ case (k,v) =>
-      s"${wk.writes(k)} ${wv.writes(v)}" }.mkString("{", ",", "}")
+      s"${wk.writes(k)} ${wv.writes(v)}" }.mkString("{", ", ", "}")
     }
 
   implicit def ednW: Write[EDN, String] = Write[EDN, String]{
@@ -79,12 +81,12 @@ trait Writes extends LowWrites {
     case c: Char => charW.writes(c)
     case s: EDNSymbol => symbolW.writes(s)
     case k: EDNKeyword => keywordW.writes(k)
-    case t: EDNTagged[_] => taggedW.writes(t)
+    case t: EDNTagged[EDN @unchecked] => taggedW(ednW).writes(t)
     case EDNNil => "nil"
-    case s: List[_] => listSW.writes(s)
-    case s: Vector[_] => vectorSW.writes(s)
-    case s: Set[_] => setSW.writes(s)
-    case s: Seq[_] => seqSW.writes(s)
+    case s: List[EDN] => listSW(ednW).writes(s)
+    case s: Vector[EDN] => vectorSW(ednW).writes(s)
+    case s: Set[EDN @unchecked] => setSW(ednW).writes(s)
+    case s: Seq[EDN] => seqSW(ednW).writes(s)
     case s: Map[EDN @ unchecked, EDN @ unchecked] => mapSW[EDN, EDN](ednW, ednW).writes(s)
 
     case s => throw new RuntimeException(s"$s unsupported EDN type")
@@ -105,6 +107,17 @@ trait Writes extends LowWrites {
       }
     }
 
+
+  implicit def customTagged[I, J](implicit wi:Write[I, EDNTagged[J]], wj:Write[J, String]): Write[I, String] = 
+    Write[I, String]{ i =>
+      taggedW(wj).writes(wi.writes(i))
+    }
+
+
+}
+
+trait LowWrites extends SuperLowWrites {
+
   import shapeless._
   import shapeless.labelled.FieldType
   import syntax.singleton._
@@ -115,12 +128,10 @@ trait Writes extends LowWrites {
   import shapeless.ops.record.Selector
   import record._
 
-  import shapelessext._
+  // import shapelessext._
+
 
   implicit def writeHNil: Write[HNil, String] = Write { _ => "()" }
-
-  // implicit def writeHList1[H](implicit wh: SeqWrite[H, String]): Write[H :: HNil, String] =
-  //   Write { hl => "(" + wh.writes(hl.head) + ")" }
 
   implicit def writeHList[H, HT <: HList](
     implicit
@@ -131,19 +142,23 @@ trait Writes extends LowWrites {
       (wh.writes(h) +: wt.writes(t)).mkString("(", " ", ")")
     }
 
-  implicit def genWriteTuple[P, HL <: HList](
+  implicit def genWriteTuple[P, HL <: HList, HH , HT <: HList](
     implicit
       tuple: IsTuple[P],
       gen: Generic.Aux[P, HL],
-      w: Write[HL, String]
+      c: IsHCons.Aux[HL, HH, HT],
+      wh: Write[HH, String],
+      wt: SeqWrite[HT, String]
   ): Write[P, String] =
     Write{ p =>
-      w.writes(gen.to(p))
+      val t = gen.to(p)
+      (wh.writes(t.head) +: wt.writes(t.tail)).mkString("[", " ", "]")
     }
 
   implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
     implicit
       cc: IsCaseClass[P],
+      not: P <:!< EDNValue,
       gen: LabelledGeneric.Aux[P, HL],
       c: IsHCons.Aux[HL, F, HT],
       un: Unpack2[F, FieldType, K, V],
@@ -169,8 +184,7 @@ trait Writes extends LowWrites {
 
 }
 
-
-trait LowWrites extends play.api.data.mapping.DefaultWrites {
+trait SuperLowWrites extends play.api.data.mapping.DefaultWrites {
   import shapeless._
   import shapeless.labelled.FieldType
   import shapeless.ops.hlist.IsHCons

@@ -23,8 +23,8 @@ import play.api.data.mapping._
 import play.api.libs.functional.syntax._
 
 import scaledn._
-import scaledn.write._
-
+import write._
+import macros._
 
 class WriteSpec extends FlatSpec with Matchers with TryValues {
 
@@ -50,7 +50,7 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
     toEDNString(List(1, 2, 3)) should equal ("""(1 2 3)""")
     toEDNString(Vector(1, 2, 3)) should equal ("""[1 2 3]""")
     toEDNString(Set(1, 2, 3)) should equal ("""#{1 2 3}""")
-    toEDNString(Map("toto" -> 1, "tata" -> 2, "tutu" -> 3)) should equal ("""{"toto" 1,"tata" 2,"tutu" 3}""")
+    toEDNString(Map("toto" -> 1, "tata" -> 2, "tutu" -> 3)) should equal ("""{"toto" 1, "tata" 2, "tutu" 3}""")
     toEDNString(Seq(1, 2, 3)) should equal ("""(1 2 3)""")
   }
 
@@ -74,10 +74,21 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
       """{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}}"""
     )
 
-    toEDNString((23, true)) should equal ("""(23 true)""")
+    toEDNString((23, true)) should equal ("""[23 true]""")
     toEDNString((23, Vector(1, 2, 3), "toto" :: 2 :: true :: HNil, Person("toto", 34, Address("chboing", 75009)))) should equal (
-      """(23 [1 2 3] ("toto" 2 true) {"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}})"""
+      """[23 [1 2 3] ("toto" 2 true) {"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}}]"""
     )
   }
 
+  it should "write tagged classes" in {
+
+    implicit val taggedPerson = Write{ p: Person =>
+      EDN(s"#myns/person {:name ${p.name}, :age ${p.age}, :addr {:street ${p.addr.street}, :cp ${p.addr.cp}} }")
+    }
+
+    toEDNString(Person("toto", 34, Address("chboing", 75009))) should equal (
+      """#myns/person {:name "toto", :age 34, :addr {:street "chboing", :cp 75009}}"""
+    )
+
+  }
 }
