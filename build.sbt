@@ -6,7 +6,7 @@ organization in ThisBuild := "com.mandubian"
 
 scalaVersion in ThisBuild := "2.11.4"
 
-version in ThisBuild := "1.0-SNAPSHOT"
+version in ThisBuild := "1.0.0-SNAPSHOT"
 
 libraryDependencies in ThisBuild ++= Seq(
   "org.scalatest"   %% "scalatest"        % "2.2.1"             % "test"
@@ -33,6 +33,7 @@ lazy val common = project
 
 lazy val parser = project
   .settings(
+    name := "scaledn-parser",
     libraryDependencies ++= Seq(
       "org.parboiled"   %% "parboiled"        % "2.0.1",
       "joda-time"        % "joda-time"        % "2.6",
@@ -45,6 +46,7 @@ lazy val parser = project
 
 lazy val validation = project
   .settings(
+    name := "scaledn-validation",
     libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
     libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-compiler" % _),
     libraryDependencies ++= Seq(
@@ -62,6 +64,7 @@ lazy val validation = project
 
 lazy val macros = project
   .settings(
+    name := "scaledn-macros",
     libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
     publishMavenStyle := true
   )
@@ -69,6 +72,8 @@ lazy val macros = project
   .dependsOn (parser)
 
 versionWithGit
+
+git.baseVersion := "1.0.0"
 
 licenses in ThisBuild += ("Apache-2.0", url("http://www.apache.org/licenses/"))
 
