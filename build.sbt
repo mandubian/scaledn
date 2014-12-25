@@ -1,8 +1,12 @@
-name := "scaladn"
+import com.typesafe.sbt.SbtGit._
+
+name in ThisBuild := "scaledn"
+
+organization in ThisBuild := "com.mandubian"
 
 scalaVersion in ThisBuild := "2.11.4"
 
-version := "1.0-SNAPSHOT"
+version in ThisBuild := "1.0-SNAPSHOT"
 
 libraryDependencies in ThisBuild ++= Seq(
   "org.scalatest"   %% "scalatest"        % "2.2.1"             % "test"
@@ -23,7 +27,7 @@ fork in test := true
 
 //javaOptions in test += "-Xmx4G"
 
-lazy val root = (project in file(".")).aggregate (common, parser, validation)
+lazy val root = (project in file(".")) settings (publish := { }) aggregate (common, parser, macros, validation)
 
 lazy val common = project
 
@@ -33,8 +37,11 @@ lazy val parser = project
       "org.parboiled"   %% "parboiled"        % "2.0.1",
       "joda-time"        % "joda-time"        % "2.6",
       "org.joda"         % "joda-convert"     % "1.2"
-    )
-  ).dependsOn (common)
+    ),
+    publishMavenStyle := true
+  )
+  .settings(bintraySettings:_*)
+  .dependsOn (common)
 
 lazy val validation = project
   .settings(
@@ -47,14 +54,27 @@ lazy val validation = project
       "com.typesafe.play" %% "play-functional" % "2.3.7",
       "com.typesafe.play" %% "play-json" % "2.3.7",
       "com.chuusai"       %% "shapeless" % "2.1.0-SNAPSHOT" changing()
-    )
+    ),
+    publishMavenStyle := true
   )
+  .settings(bintraySettings:_*)
   .dependsOn (common, parser % "test->test", macros % "test->test")
 
 lazy val macros = project
   .settings(
-    libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
-  ) dependsOn (parser)
+    libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
+    publishMavenStyle := true
+  )
+  .settings(bintraySettings:_*)
+  .dependsOn (parser)
+
+versionWithGit
+
+licenses in ThisBuild += ("Apache-2.0", url("http://www.apache.org/licenses/"))
+
+publishMavenStyle in ThisBuild := true
+
+bintrayPublishSettings
 
 //resolvers ++= Seq(
 //  "Sonatype OSS Releases"  at "http://oss.sonatype.org/content/repositories/releases/",
@@ -66,3 +86,4 @@ lazy val macros = project
 //  Resolver.sonatypeRepo("releases"),
 //  Resolver.sonatypeRepo("snapshots")
 //)
+
