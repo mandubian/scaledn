@@ -76,6 +76,7 @@ lazy val myproj = project
   )
 ```
 
+> There is a [helloedn sample](samples/helloedn)
 
 ## Why EDN?...
 
