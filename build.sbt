@@ -30,6 +30,11 @@ fork in test := true
 lazy val root = (project in file(".")) settings (publish := { }) aggregate (common, parser, macros, validation)
 
 lazy val common = project
+  .settings(
+    name := "scaledn-common",
+    publishMavenStyle := true
+  )
+  .settings(bintraySettings:_*)
 
 lazy val parser = project
   .settings(
@@ -70,6 +75,8 @@ lazy val macros = project
   )
   .settings(bintraySettings:_*)
   .dependsOn (parser)
+
+lazy val sampleHelloEDN = project in file("samples/helloedn")
 
 versionWithGit
 

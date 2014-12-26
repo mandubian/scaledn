@@ -10,6 +10,72 @@ A Scala [EDN](https://github.com/edn-format/edn) parser/serializer/validator bas
 
 > It works only in Scala 2.11.x
 
+## Using it in your project
+
+> For now, the deps are still snapshots as the API is being robustified according to comments of you, users. So **I deliver Jars on Bintray for now based on ugly Git hashes**.
+
+### Add Bintray SBT to your project 
+
+> Follow instructions on [bintray-sbt](https://github.com/softprops/bintray-sbt)
+
+#### Add sbt-bintray to your sbt `project/plugins.sbt`
+
+```scala
+resolvers += Resolver.url(
+  "bintray-sbt-plugin-releases",
+    url("http://dl.bintray.com/content/sbt/sbt-plugin-releases"))(
+        Resolver.ivyStylePatterns)
+
+addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
+```
+
+#### Add sbt 0.13.x to your sbt `project/build.properties`
+
+> this plugin targets sbt 0.13.
+
+You will need to add the following to your `project/build.properties` file if you have multiple versions of sbt installed
+
+```
+sbt.version=0.13.7
+```
+
+#### Add Bintray resolver + deps to your `build.sbt`
+
+```scala
+resolvers += bintray.Opts.resolver.mavenRepo("mandubian")
+
+scalednVersion := "1.0.0-f77f98cc305ce8a304d8941f800505c6b3d41d74"
+
+libraryDependencies ++= Seq(
+  // only need scaledn parser?
+    "com.mandubian" %% "scaledn-parser"     % scalednVersion
+  // only need scaledn validation/serialization?
+  , "com.mandubian" %% "scaledn-validation" % scalednVersion
+  // only need scaledn macros?
+  , "com.mandubian" %% "scaledn-macros"     % scalednVersion
+)
+
+
+//or for custom subprojects
+
+scalednVersion := "1.0.0-f77f98cc305ce8a304d8941f800505c6b3d41d74"
+
+lazy val myproj = project
+  .settings(
+    resolvers += bintray.Opts.resolver.mavenRepo("mandubian")
+  )
+  .settings(
+    libraryDependencies ++= Seq(
+      // only need scaledn parser?
+        "com.mandubian" %% "scaledn-parser"     % scalednVersion
+      // only need scaledn validation/serialization?
+      , "com.mandubian" %% "scaledn-validation" % scalednVersion
+      // only need scaledn macros?
+      , "com.mandubian" %% "scaledn-macros"     % scalednVersion
+    )
+  )
+```
+
 
 ## Why EDN?...
 
