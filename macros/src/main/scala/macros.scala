@@ -302,7 +302,7 @@ class Helper[C <: Context](val c: C) {
         val args = seq.map(literalEDN(_, stk))
         q"_root_.scala.collection.immutable.Seq(..$args)"
       case t: EDNTagged[EDN @unchecked] =>
-        val tag = literalEDNSymbol(t.tag, stk)
+        val tag = literalEDNNamed(t.tag, stk)
         val value = literalEDN(t.value, stk)
         q"_root_.scaledn.EDNTagged($tag, $value)"
       case x =>
@@ -335,7 +335,7 @@ class Helper[C <: Context](val c: C) {
       case seq: Seq[EDN] =>
         literalEDNHS(seq, stk)
       case t: EDNTagged[EDN @unchecked] =>
-        val tag = literalEDNSymbol(t.tag, stk)
+        val tag = literalEDNNamed(t.tag, stk)
         val value = literalEDNR(t.value, stk)
         println("VALUE:"+value)
         q"_root_.scaledn.EDNTagged($tag, $value)"
@@ -347,10 +347,22 @@ class Helper[C <: Context](val c: C) {
     }
 
   def literalEDNKeyword(kw: EDNKeyword, stk: mutable.Stack[c.Tree]): c.Tree =
-    q"_root_.scaledn.EDNKeyword(${literalEDNSymbol(kw.value, stk)})"
+    q"_root_.scaledn.EDNKeyword(${literalEDNNamed(kw.named, stk)})"
 
   def literalEDNSymbol(s: EDNSymbol, stk: mutable.Stack[c.Tree]): c.Tree = {
-    if (s.value == "scaledn/!")
+    if (s.named == "scaledn" / "!")
+      try {
+        val t = stk.pop()
+        q"""$t"""
+      } catch {
+        case ex: NoSuchElementException =>
+          abortWithMessage("The symbol 'scaledn/!' is reserved by Scaledn")
+      }
+    else q"_root_.scaledn.EDNSymbol(${literalEDNNamed(s.named, stk)})"
+  }
+
+  def literalEDNNamed(s: Named, stk: mutable.Stack[c.Tree]): c.Tree = {
+    if (s.name == "scaledn/!")
       try {
         val t = stk.pop()
         q"""$t"""
@@ -359,8 +371,25 @@ class Helper[C <: Context](val c: C) {
           abortWithMessage("The symbol 'scaledn/!' is reserved by Scaledn")
       }
     else
-      q"_root_.scaledn.EDNSymbol(${s.value}, ${s.namespace})"
+      q"_root_.scaledn.Named(${s.name}, ${literalEDNNamespace(s.namespace, stk)})"
 
+  }
+
+  def literalEDNNamespace(s: Namespace, stk: mutable.Stack[c.Tree]): c.Tree = {
+    s match {
+      case NoNS   => q"_root_.scaledn.NoNS"
+      case NS(ns) =>
+        if (ns == "scaledn/!")
+          try {
+            val t = stk.pop()
+            q"""$t"""
+          } catch {
+            case ex: NoSuchElementException =>
+              abortWithMessage("The symbol 'scaledn/!' is reserved by Scaledn")
+          }
+        else
+          q"_root_.scaledn.NS($ns)"
+    }
   }
 
   def literalEDNH(edn: EDN, stk: mutable.Stack[c.Tree]): c.Tree = {

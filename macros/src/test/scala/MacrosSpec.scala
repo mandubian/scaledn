@@ -49,10 +49,10 @@ class MacrosSpec extends FlatSpec with Matchers with TryValues {
     bd should equal (BigDecimal("123.456"))
 
     val s: EDNSymbol = EDN("foo/bar")
-    s should equal (EDNSymbol("foo/bar", Some("foo")))
+    s should equal (EDNSymbol("foo" / "bar"))
 
     val kw: EDNKeyword = EDN(":foo/bar")
-    kw should equal (EDNKeyword(EDNSymbol("foo/bar", Some("foo"))))
+    kw should equal (EDNKeyword("foo" / "bar"))
 
     val nil: EDNNil.type = EDN("nil")
     nil should equal (EDNNil)
@@ -88,7 +88,7 @@ class MacrosSpec extends FlatSpec with Matchers with TryValues {
       Seq(1L, 2L, 3L),
       "toto",
       Vector(true, false),
-      EDNKeyword(EDNSymbol("foo/bar", Some("foo")))
+      EDNKeyword("foo" / "bar")
     ))
   }
 
@@ -127,7 +127,7 @@ class MacrosSpec extends FlatSpec with Matchers with TryValues {
       Seq(1L, 2L, 3L) ::
       "toto" ::
       Vector(true, false) ::
-      EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) ::
+      EDNKeyword("foo" / "bar") ::
       HNil
     )
 
@@ -136,7 +136,7 @@ class MacrosSpec extends FlatSpec with Matchers with TryValues {
       (1L :: 2L :: 3L :: HNil) ::
       "toto" ::
       (true :: false :: HNil) ::
-      EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) ::
+      EDNKeyword("foo" / "bar") ::
       HNil
     )
   }

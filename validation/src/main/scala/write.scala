@@ -54,7 +54,7 @@ trait Writes extends LowWrites {
 
   implicit val symbolW = Write[EDNSymbol, String]( s => s.toString )
   implicit val nilW = Write[EDNNil.type, String]( s => "nil" )
-  implicit val keywordW = Write[EDNKeyword, String]( s => ":" + symbolW.writes(s.value) )
+  implicit val keywordW = Write[EDNKeyword, String]( s => s.toString )
 
   implicit def taggedW[A](implicit w: Write[A, String]) =
     Write[EDNTagged[A], String]( t => s"#${t.tag} ${w.writes(t.value)}" )
@@ -127,8 +127,6 @@ trait LowWrites extends SuperLowWrites {
   import syntax.singleton._
   import shapeless.ops.record.Selector
   import record._
-
-  // import shapelessext._
 
 
   implicit def writeHNil: Write[HNil, String] = Write { _ => "()" }
