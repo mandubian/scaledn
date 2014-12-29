@@ -68,7 +68,7 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
   }
 
   it should "write case class & tuple" in {
-    import shapeless.{::, HNil}
+    import shapeless.{::, HNil, HasProductGeneric, IsTuple}
 
     toEDNString(Person("toto", 34, Address("chboing", 75009))) should equal (
       """{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}}"""

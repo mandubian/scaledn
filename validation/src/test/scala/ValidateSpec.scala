@@ -160,6 +160,7 @@ class ValidateSpec extends FlatSpec with Matchers with TryValues {
   }
 
   it should "validate case class / tuples" in {
+    import shapeless.HasProductGeneric
 
     parseEDN("""("toto" 34 ("chboing" (75009)))""").map(
       validate[Person]

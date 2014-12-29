@@ -155,23 +155,6 @@ trait LowWrites extends SuperLowWrites {
       (wh.writes(t.head) +: wt.writes(t.tail)).mkString("[", " ", "]")
     }
 
-  implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
-    implicit
-      cc: IsCaseClass[P],
-      not: P <:!< EDNValue,
-      gen: LabelledGeneric.Aux[P, HL],
-      c: IsHCons.Aux[HL, F, HT],
-      un: Unpack2[F, FieldType, K, V],
-      wh: Write[FieldType[K, V], String],
-      wt: SeqWrite[HT, String],
-      witness: Witness.Aux[K],
-      selector : Selector.Aux[HL, K, V]
-  ): Write[P, String] =
-    Write{ p =>
-      val t = gen.to(p)
-      (wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).mkString("{", ", ", "}")
-    }
-
   implicit def subGenWrite[H, HT <: HList, K, V](
     implicit
       un: Unpack2[H, FieldType, K, V],
@@ -192,6 +175,22 @@ trait SuperLowWrites extends play.api.data.mapping.DefaultWrites {
   import shapeless.ops.record.Selector
   import record._
 
+  implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
+    implicit
+      cc: HasProductGeneric[P],
+      not: P <:!< EDNValue,
+      gen: LabelledGeneric.Aux[P, HL],
+      c: IsHCons.Aux[HL, F, HT],
+      un: Unpack2[F, FieldType, K, V],
+      wh: Write[FieldType[K, V], String],
+      wt: SeqWrite[HT, String],
+      witness: Witness.Aux[K],
+      selector : Selector.Aux[HL, K, V]
+  ): Write[P, String] =
+    Write{ p =>
+      val t = gen.to(p)
+      (wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).mkString("{", ", ", "}")
+    }
 
   implicit def fieldTypeW[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) =
     Write[FieldType[K, V], String] { f =>
