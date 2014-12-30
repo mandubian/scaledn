@@ -1,0 +1,1748 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>Rules - scaledn.validate.Rules</title>
+          <meta name="description" content="Rules - scaledn.validate.Rules" />
+          <meta name="keywords" content="Rules scaledn.validate.Rules" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../index.html';
+            var hash = 'scaledn.validate.Rules$';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <a href="Rules.html" title="Go to companion"><img src="../../lib/object_to_trait_big.png" /></a>
+        <p id="owner"><a href="../package.html" class="extype" name="scaledn">scaledn</a>.<a href="package.html" class="extype" name="scaledn.validate">validate</a></p>
+        <h1><a href="Rules.html" title="Go to companion">Rules</a></h1> <span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Rules</span><span class="result"> extends <a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a>, <a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a>, <a href="LowerRules.html" class="extype" name="scaledn.validate.LowerRules">LowerRules</a>, <span class="extype" name="play.api.data.mapping.DefaultRules">DefaultRules</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>], <span class="extype" name="play.api.data.mapping.DateRules">DateRules</span>, <span class="extype" name="play.api.data.mapping.GenericRules">GenericRules</span>, <a href="ValidationUtils.html" class="extype" name="scaledn.validate.ValidationUtils">ValidationUtils</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="scaledn.validate.Rules"><span>Rules</span></li><li class="in" name="scaledn.validate.Rules"><span>Rules</span></li><li class="in" name="scaledn.validate.ShapelessRules"><span>ShapelessRules</span></li><li class="in" name="scaledn.validate.LowerRules"><span>LowerRules</span></li><li class="in" name="play.api.data.mapping.DefaultRules"><span>DefaultRules</span></li><li class="in" name="play.api.data.mapping.DateRules"><span>DateRules</span></li><li class="in" name="play.api.data.mapping.GenericRules"><span>GenericRules</span></li><li class="in" name="scaledn.validate.ValidationUtils"><span>ValidationUtils</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@##():Int" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#BigDecimalR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BigDecimalR:play.api.data.mapping.Rule[scaledn.EDN,BigDecimal]"></a>
+      <a id="BigDecimalR:Rule[EDN,BigDecimal]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BigDecimalR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.BigDecimal">BigDecimal</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@BigDecimalR:play.api.data.mapping.Rule[scaledn.EDN,BigDecimal]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#_listR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_listR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[List[I],List[O]]"></a>
+      <a id="_listR[I,O](RuleLike[I,O]):Rule[List[I],List[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_listR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="scaledn.validate.Rules._listR.I">I</span>, <span class="extype" name="scaledn.validate.Rules._listR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scaledn.validate.Rules._listR.I">I</span>], <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaledn.validate.Rules._listR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@_listR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[List[I],List[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#_seqR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_seqR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Seq[O]]"></a>
+      <a id="_seqR[I,O](RuleLike[I,O]):Rule[Seq[I],Seq[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_seqR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="scaledn.validate.Rules._seqR.I">I</span>, <span class="extype" name="scaledn.validate.Rules._seqR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scaledn.validate.Rules._seqR.I">I</span>], <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scaledn.validate.Rules._seqR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@_seqR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Seq[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#_setR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_setR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Set[I],Set[O]]"></a>
+      <a id="_setR[I,O](RuleLike[I,O]):Rule[Set[I],Set[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_setR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="scaledn.validate.Rules._setR.I">I</span>, <span class="extype" name="scaledn.validate.Rules._setR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="scaledn.validate.Rules._setR.I">I</span>], <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="scaledn.validate.Rules._setR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@_setR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Set[I],Set[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#_vectorR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_vectorR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Vector[I],Vector[O]]"></a>
+      <a id="_vectorR[I,O](RuleLike[I,O]):Rule[Vector[I],Vector[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_vectorR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="scaledn.validate.Rules._vectorR.I">I</span>, <span class="extype" name="scaledn.validate.Rules._vectorR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="scaledn.validate.Rules._vectorR.I">I</span>], <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="scaledn.validate.Rules._vectorR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@_vectorR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Vector[I],Vector[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.ShapelessRules#ap2" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ap2[HH,HT&lt;:shapeless.HList](head:play.api.data.mapping.VA[HH],tail:play.api.data.mapping.VA[HT])(implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):play.api.data.mapping.VA[shapeless.::[HH,HT]]"></a>
+      <a id="ap2[HH,HT&lt;:HList](VA[HH],VA[HT])(Applicative[VA]):VA[::[HH,HT]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ap2</span><span class="tparams">[<span name="HH">HH</span>, <span name="HT">HT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>]</span><span class="params">(<span name="head">head: <span class="extype" name="play.api.data.mapping.VA">VA</span>[<span class="extype" name="scaledn.validate.ShapelessRules.ap2.HH">HH</span>]</span>, <span name="tail">tail: <span class="extype" name="play.api.data.mapping.VA">VA</span>[<span class="extype" name="scaledn.validate.ShapelessRules.ap2.HT">HT</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="applicative">applicative: <span class="extype" name="play.api.libs.functional.Applicative">Applicative</span>[<span class="extype" name="play.api.data.mapping.VA">VA</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.VA">VA</span>[<span class="extype" name="shapeless.::">::</span>[<span class="extype" name="scaledn.validate.ShapelessRules.ap2.HH">HH</span>, <span class="extype" name="scaledn.validate.ShapelessRules.ap2.HT">HT</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@ap2[HH,HT&lt;:shapeless.HList](head:play.api.data.mapping.VA[HH],tail:play.api.data.mapping.VA[HT])(implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):play.api.data.mapping.VA[shapeless.::[HH,HT]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#arrayR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="arrayR[I,O](implicitevidence$1:scala.reflect.ClassTag[O],implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Array[O]]"></a>
+      <a id="arrayR[I,O](ClassTag[O],RuleLike[I,O]):Rule[Seq[I],Array[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">arrayR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.ClassTag">ClassTag</span>[<span class="extype" name="play.api.data.mapping.GenericRules.arrayR.O">O</span>]</span>, <span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.arrayR.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.arrayR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="play.api.data.mapping.GenericRules.arrayR.I">I</span>], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="play.api.data.mapping.GenericRules.arrayR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@arrayR[I,O](implicitevidence$1:scala.reflect.ClassTag[O],implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Array[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#bigIntR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="bigIntR:play.api.data.mapping.Rule[scaledn.EDN,BigInt]"></a>
+      <a id="bigIntR:Rule[EDN,BigInt]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bigIntR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.BigInt">BigInt</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@bigIntR:play.api.data.mapping.Rule[scaledn.EDN,BigInt]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#booleanR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="booleanR:play.api.data.mapping.Rule[scaledn.EDN,Boolean]"></a>
+      <a id="booleanR:Rule[EDN,Boolean]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">booleanR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@booleanR:play.api.data.mapping.Rule[scaledn.EDN,Boolean]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.LowerRules#caseClassR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="caseClassR[P,HL&lt;:shapeless.HList,HH,HT&lt;:shapeless.HList,K,V,VS&lt;:shapeless.HList,VH,VT&lt;:shapeless.HList](implicitcc:shapeless.HasProductGeneric[P],implicitnot:shapeless.&lt;:!&lt;[P,scaledn.EDNValue],implicitgenFields:shapeless.LabelledGeneric.Aux[P,HL],implicitc1:shapeless.ops.hlist.IsHCons.Aux[HL,HH,HT],implicitun1:shapeless.Unpack2[HH,shapeless.labelled.FieldType,K,V],implicithhr:play.api.data.mapping.Rule[scaledn.EDN,shapeless.labelled.FieldType[K,V]],implicithtr:scaledn.validate.SubRule[scaledn.EDN,HT],implicitgenValues:shapeless.Generic.Aux[P,VS],implicitc2:shapeless.ops.hlist.IsHCons.Aux[VS,VH,VT],implicitvhr:play.api.data.mapping.Rule[scaledn.EDN,VH],implicitvtr:scaledn.validate.SubRule2[scaledn.EDN,VT]):play.api.data.mapping.Rule[scaledn.EDN,P]"></a>
+      <a id="caseClassR[P,HL&lt;:HList,HH,HT&lt;:HList,K,V,VS&lt;:HList,VH,VT&lt;:HList](HasProductGeneric[P],&lt;:!&lt;[P,EDNValue],Aux[P,HL],Aux[HL,HH,HT],Unpack2[HH,FieldType,K,V],Rule[EDN,FieldType[K,V]],SubRule[EDN,HT],Aux[P,VS],Aux[VS,VH,VT],Rule[EDN,VH],SubRule2[EDN,VT]):Rule[EDN,P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">caseClassR</span><span class="tparams">[<span name="P">P</span>, <span name="HL">HL &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="HH">HH</span>, <span name="HT">HT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="K">K</span>, <span name="V">V</span>, <span name="VS">VS &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="VH">VH</span>, <span name="VT">VT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="cc">cc: <span class="extype" name="shapeless.HasProductGeneric">HasProductGeneric</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.P">P</span>]</span>, <span name="not">not: <span class="extype" name="shapeless.&lt;:!&lt;">&lt;:!&lt;</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.P">P</span>, <a href="../EDNValue.html" class="extype" name="scaledn.EDNValue">EDNValue</a>]</span>, <span name="genFields">genFields: <span class="extype" name="shapeless.LabelledGeneric.Aux">Aux</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.P">P</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.HL">HL</span>]</span>, <span name="c1">c1: <span class="extype" name="shapeless.ops.hlist.IsHCons.Aux">Aux</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.HL">HL</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.HH">HH</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.HT">HT</span>]</span>, <span name="un1">un1: <span class="extype" name="shapeless.Unpack2">Unpack2</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.HH">HH</span>, <span class="extype" name="shapeless.labelled.FieldType">FieldType</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.K">K</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.V">V</span>]</span>, <span name="hhr">hhr: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.labelled.FieldType">FieldType</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.K">K</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.V">V</span>]]</span>, <span name="htr">htr: <a href="SubRule.html" class="extype" name="scaledn.validate.SubRule">SubRule</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.HT">HT</span>]</span>, <span name="genValues">genValues: <span class="extype" name="shapeless.Generic.Aux">Aux</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.P">P</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.VS">VS</span>]</span>, <span name="c2">c2: <span class="extype" name="shapeless.ops.hlist.IsHCons.Aux">Aux</span>[<span class="extype" name="scaledn.validate.LowerRules.caseClassR.VS">VS</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.VH">VH</span>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.VT">VT</span>]</span>, <span name="vhr">vhr: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.VH">VH</span>]</span>, <span name="vtr">vtr: <a href="SubRule2.html" class="extype" name="scaledn.validate.SubRule2">SubRule2</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.VT">VT</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.caseClassR.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@caseClassR[P,HL&lt;:shapeless.HList,HH,HT&lt;:shapeless.HList,K,V,VS&lt;:shapeless.HList,VH,VT&lt;:shapeless.HList](implicitcc:shapeless.HasProductGeneric[P],implicitnot:shapeless.&lt;:!&lt;[P,scaledn.EDNValue],implicitgenFields:shapeless.LabelledGeneric.Aux[P,HL],implicitc1:shapeless.ops.hlist.IsHCons.Aux[HL,HH,HT],implicitun1:shapeless.Unpack2[HH,shapeless.labelled.FieldType,K,V],implicithhr:play.api.data.mapping.Rule[scaledn.EDN,shapeless.labelled.FieldType[K,V]],implicithtr:scaledn.validate.SubRule[scaledn.EDN,HT],implicitgenValues:shapeless.Generic.Aux[P,VS],implicitc2:shapeless.ops.hlist.IsHCons.Aux[VS,VH,VT],implicitvhr:play.api.data.mapping.Rule[scaledn.EDN,VH],implicitvtr:scaledn.validate.SubRule2[scaledn.EDN,VT]):play.api.data.mapping.Rule[scaledn.EDN,P]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">TRICKKKKKKK
+scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+</p><div class="fullcomment"><div class="comment cmt"><p>TRICKKKKKKK
+scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LowerRules.html" class="extype" name="scaledn.validate.LowerRules">LowerRules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#checked" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="checked[I](implicitb:play.api.data.mapping.RuleLike[I,Boolean]):play.api.data.mapping.Rule[I,Boolean]"></a>
+      <a id="checked[I](RuleLike[I,Boolean]):Rule[I,Boolean]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">checked</span><span class="tparams">[<span name="I">I</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="b">b: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.checked.I">I</span>, <span class="extype" name="scala.Boolean">Boolean</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="play.api.data.mapping.GenericRules.checked.I">I</span>, <span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@checked[I](implicitb:play.api.data.mapping.RuleLike[I,Boolean]):play.api.data.mapping.Rule[I,Boolean]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@clone():Object" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#date" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="date(format:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,java.util.Date]"></a>
+      <a id="date(String,(String)⇒String):Rule[String,Date]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">date</span><span class="params">(<span name="format">format: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="corrector">corrector: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.util.Date">Date</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@date(format:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,java.util.Date]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#date" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="date:play.api.data.mapping.Rule[String,java.util.Date]"></a>
+      <a id="date:Rule[String,Date]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">date</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.util.Date">Date</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@date:play.api.data.mapping.Rule[String,java.util.Date]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#doubleR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="doubleR:play.api.data.mapping.Rule[scaledn.EDN,Double]"></a>
+      <a id="doubleR:Rule[EDN,Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">doubleR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Double">Double</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@doubleR:play.api.data.mapping.Rule[scaledn.EDN,Double]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#email" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="email:play.api.data.mapping.Rule[String,String]"></a>
+      <a id="email:Rule[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">email</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@email:play.api.data.mapping.Rule[String,String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#equalTo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equalTo[T](t:T):play.api.data.mapping.Rule[T,T]"></a>
+      <a id="equalTo[T](T):Rule[T,T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equalTo</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="t">t: <span class="extype" name="play.api.data.mapping.GenericRules.equalTo.T">T</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="play.api.data.mapping.GenericRules.equalTo.T">T</span>, <span class="extype" name="play.api.data.mapping.GenericRules.equalTo.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@equalTo[T](t:T):play.api.data.mapping.Rule[T,T]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scaledn.validate.ShapelessRules#fieldTypeR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fieldTypeR[K&lt;:Symbol,V](implicitwitness:shapeless.Witness.Aux[K],implicitwv:play.api.data.mapping.RuleLike[scaledn.EDN,V]):play.api.data.mapping.Rule[scaledn.EDN,shapeless.labelled.FieldType[K,V]]"></a>
+      <a id="fieldTypeR[K&lt;:Symbol,V](Aux[K],RuleLike[EDN,V]):Rule[EDN,FieldType[K,V]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fieldTypeR</span><span class="tparams">[<span name="K">K &lt;: <span class="extype" name="scala.Symbol">Symbol</span></span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="witness">witness: <span class="extype" name="shapeless.Witness.Aux">Aux</span>[<span class="extype" name="scaledn.validate.ShapelessRules.fieldTypeR.K">K</span>]</span>, <span name="wv">wv: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.ShapelessRules.fieldTypeR.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.labelled.FieldType">FieldType</span>[<span class="extype" name="scaledn.validate.ShapelessRules.fieldTypeR.K">K</span>, <span class="extype" name="scaledn.validate.ShapelessRules.fieldTypeR.V">V</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@fieldTypeR[K&lt;:Symbol,V](implicitwitness:shapeless.Witness.Aux[K],implicitwv:play.api.data.mapping.RuleLike[scaledn.EDN,V]):play.api.data.mapping.Rule[scaledn.EDN,shapeless.labelled.FieldType[K,V]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scaledn.validate.Rules#floatR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="floatR:play.api.data.mapping.Rule[scaledn.EDN,Float]"></a>
+      <a id="floatR:Rule[EDN,Float]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">floatR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Float">Float</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@floatR:play.api.data.mapping.Rule[scaledn.EDN,Float]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#headAs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="headAs[I,O](implicitc:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],O]"></a>
+      <a id="headAs[I,O](RuleLike[I,O]):Rule[Seq[I],O]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">headAs</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="c">c: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.headAs.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.headAs.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="play.api.data.mapping.GenericRules.headAs.I">I</span>], <span class="extype" name="play.api.data.mapping.GenericRules.headAs.O">O</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@headAs[I,O](implicitc:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],O]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.ShapelessRules#hlistR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hlistR[HH,HT&lt;:shapeless.HList,K,V](implicithr:play.api.data.mapping.Rule[scaledn.EDN,HH],implicitht:scaledn.validate.SubRule[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):play.api.data.mapping.Rule[scaledn.EDN,shapeless.::[HH,HT]]"></a>
+      <a id="hlistR[HH,HT&lt;:HList,K,V](Rule[EDN,HH],SubRule[EDN,HT],Applicative[VA]):Rule[EDN,::[HH,HT]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hlistR</span><span class="tparams">[<span name="HH">HH</span>, <span name="HT">HT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="hr">hr: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistR.HH">HH</span>]</span>, <span name="ht">ht: <a href="SubRule.html" class="extype" name="scaledn.validate.SubRule">SubRule</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistR.HT">HT</span>]</span>, <span name="applicative">applicative: <span class="extype" name="play.api.libs.functional.Applicative">Applicative</span>[<span class="extype" name="play.api.data.mapping.VA">VA</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.::">::</span>[<span class="extype" name="scaledn.validate.ShapelessRules.hlistR.HH">HH</span>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistR.HT">HT</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hlistR[HH,HT&lt;:shapeless.HList,K,V](implicithr:play.api.data.mapping.Rule[scaledn.EDN,HH],implicitht:scaledn.validate.SubRule[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):play.api.data.mapping.Rule[scaledn.EDN,shapeless.::[HH,HT]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">TRICKKKKKKK
+scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+</p><div class="fullcomment"><div class="comment cmt"><p>TRICKKKKKKK
+scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></dd></dl></div>
+    </li><li name="scaledn.validate.LowerRules#hlistSR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hlistSR[HH,HT&lt;:shapeless.HList,K,V](implicithr:play.api.data.mapping.Rule[scaledn.EDN,HH],implicitht:scaledn.validate.SubRule2[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):scaledn.validate.SubRule[scaledn.EDN,shapeless.::[HH,HT]]"></a>
+      <a id="hlistSR[HH,HT&lt;:HList,K,V](Rule[EDN,HH],SubRule2[EDN,HT],Applicative[VA]):SubRule[EDN,::[HH,HT]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hlistSR</span><span class="tparams">[<span name="HH">HH</span>, <span name="HT">HT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="hr">hr: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.hlistSR.HH">HH</span>]</span>, <span name="ht">ht: <a href="SubRule2.html" class="extype" name="scaledn.validate.SubRule2">SubRule2</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.hlistSR.HT">HT</span>]</span>, <span name="applicative">applicative: <span class="extype" name="play.api.libs.functional.Applicative">Applicative</span>[<span class="extype" name="play.api.data.mapping.VA">VA</span>]</span>)</span><span class="result">: <a href="SubRule.html" class="extype" name="scaledn.validate.SubRule">SubRule</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.::">::</span>[<span class="extype" name="scaledn.validate.LowerRules.hlistSR.HH">HH</span>, <span class="extype" name="scaledn.validate.LowerRules.hlistSR.HT">HT</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hlistSR[HH,HT&lt;:shapeless.HList,K,V](implicithr:play.api.data.mapping.Rule[scaledn.EDN,HH],implicitht:scaledn.validate.SubRule2[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):scaledn.validate.SubRule[scaledn.EDN,shapeless.::[HH,HT]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LowerRules.html" class="extype" name="scaledn.validate.LowerRules">LowerRules</a></dd></dl></div>
+    </li><li name="scaledn.validate.LowerRules#hlistSR2" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hlistSR2[HH,HT&lt;:shapeless.HList,K,V](implicithr:play.api.data.mapping.Rule[scaledn.EDN,HH],implicitht:scaledn.validate.SubRule2[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):scaledn.validate.SubRule2[scaledn.EDN,shapeless.::[HH,HT]]"></a>
+      <a id="hlistSR2[HH,HT&lt;:HList,K,V](Rule[EDN,HH],SubRule2[EDN,HT],Applicative[VA]):SubRule2[EDN,::[HH,HT]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hlistSR2</span><span class="tparams">[<span name="HH">HH</span>, <span name="HT">HT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="hr">hr: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.hlistSR2.HH">HH</span>]</span>, <span name="ht">ht: <a href="SubRule2.html" class="extype" name="scaledn.validate.SubRule2">SubRule2</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.LowerRules.hlistSR2.HT">HT</span>]</span>, <span name="applicative">applicative: <span class="extype" name="play.api.libs.functional.Applicative">Applicative</span>[<span class="extype" name="play.api.data.mapping.VA">VA</span>]</span>)</span><span class="result">: <a href="SubRule2.html" class="extype" name="scaledn.validate.SubRule2">SubRule2</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.::">::</span>[<span class="extype" name="scaledn.validate.LowerRules.hlistSR2.HH">HH</span>, <span class="extype" name="scaledn.validate.LowerRules.hlistSR2.HT">HT</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hlistSR2[HH,HT&lt;:shapeless.HList,K,V](implicithr:play.api.data.mapping.Rule[scaledn.EDN,HH],implicitht:scaledn.validate.SubRule2[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):scaledn.validate.SubRule2[scaledn.EDN,shapeless.::[HH,HT]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LowerRules.html" class="extype" name="scaledn.validate.LowerRules">LowerRules</a></dd></dl></div>
+    </li><li name="scaledn.validate.ShapelessRules#hlistSRF" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hlistSRF[HH,HT&lt;:shapeless.HList,K,V](implicitun:shapeless.Unpack2[HH,shapeless.labelled.FieldType,K,V],implicithr:play.api.data.mapping.Rule[scaledn.EDN,shapeless.labelled.FieldType[K,V]],implicitht:scaledn.validate.SubRule[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):scaledn.validate.SubRule[scaledn.EDN,shapeless.::[HH,HT]]"></a>
+      <a id="hlistSRF[HH,HT&lt;:HList,K,V](Unpack2[HH,FieldType,K,V],Rule[EDN,FieldType[K,V]],SubRule[EDN,HT],Applicative[VA]):SubRule[EDN,::[HH,HT]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hlistSRF</span><span class="tparams">[<span name="HH">HH</span>, <span name="HT">HT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="un">un: <span class="extype" name="shapeless.Unpack2">Unpack2</span>[<span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.HH">HH</span>, <span class="extype" name="shapeless.labelled.FieldType">FieldType</span>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.K">K</span>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.V">V</span>]</span>, <span name="hr">hr: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.labelled.FieldType">FieldType</span>[<span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.K">K</span>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.V">V</span>]]</span>, <span name="ht">ht: <a href="SubRule.html" class="extype" name="scaledn.validate.SubRule">SubRule</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.HT">HT</span>]</span>, <span name="applicative">applicative: <span class="extype" name="play.api.libs.functional.Applicative">Applicative</span>[<span class="extype" name="play.api.data.mapping.VA">VA</span>]</span>)</span><span class="result">: <a href="SubRule.html" class="extype" name="scaledn.validate.SubRule">SubRule</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.::">::</span>[<span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.HH">HH</span>, <span class="extype" name="scaledn.validate.ShapelessRules.hlistSRF.HT">HT</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hlistSRF[HH,HT&lt;:shapeless.HList,K,V](implicitun:shapeless.Unpack2[HH,shapeless.labelled.FieldType,K,V],implicithr:play.api.data.mapping.Rule[scaledn.EDN,shapeless.labelled.FieldType[K,V]],implicitht:scaledn.validate.SubRule[scaledn.EDN,HT],implicitapplicative:play.api.libs.functional.Applicative[play.api.data.mapping.VA]):scaledn.validate.SubRule[scaledn.EDN,shapeless.::[HH,HT]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></dd></dl></div>
+    </li><li name="scaledn.validate.ShapelessRules#hnilR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hnilR:play.api.data.mapping.Rule[scaledn.EDN,shapeless.HNil]"></a>
+      <a id="hnilR:Rule[EDN,HNil]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hnilR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.HNil">HNil</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hnilR:play.api.data.mapping.Rule[scaledn.EDN,shapeless.HNil]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></dd></dl></div>
+    </li><li name="scaledn.validate.ShapelessRules#hnilSR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hnilSR:scaledn.validate.SubRule[scaledn.EDN,shapeless.HNil]"></a>
+      <a id="hnilSR:SubRule[EDN,HNil]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hnilSR</span><span class="result">: <a href="SubRule.html" class="extype" name="scaledn.validate.SubRule">SubRule</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.HNil">HNil</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hnilSR:scaledn.validate.SubRule[scaledn.EDN,shapeless.HNil]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></dd></dl></div>
+    </li><li name="scaledn.validate.LowerRules#hnilSR2" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hnilSR2:scaledn.validate.SubRule2[scaledn.EDN,shapeless.HNil]"></a>
+      <a id="hnilSR2:SubRule2[EDN,HNil]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hnilSR2</span><span class="result">: <a href="SubRule2.html" class="extype" name="scaledn.validate.SubRule2">SubRule2</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="shapeless.HNil">HNil</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@hnilSR2:scaledn.validate.SubRule2[scaledn.EDN,shapeless.HNil]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LowerRules.html" class="extype" name="scaledn.validate.LowerRules">LowerRules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#ignored" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ignored[I,O](o:O):play.api.data.mapping.Path=&gt;play.api.data.mapping.Rule[I,O]"></a>
+      <a id="ignored[I,O](O):(Path)⇒Rule[I,O]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ignored</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span name="o">o: <span class="extype" name="play.api.data.mapping.GenericRules.ignored.O">O</span></span>)</span><span class="result">: (<span class="extype" name="play.api.data.mapping.Path">Path</span>) ⇒ <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="play.api.data.mapping.GenericRules.ignored.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.ignored.O">O</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@ignored[I,O](o:O):play.api.data.mapping.Path=&gt;play.api.data.mapping.Rule[I,O]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#intR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="intR:play.api.data.mapping.Rule[scaledn.EDN,Int]"></a>
+      <a id="intR:Rule[EDN,Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">intR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@intR:play.api.data.mapping.Rule[scaledn.EDN,Int]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#isoDate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isoDate:play.api.data.mapping.Rule[String,java.util.Date]"></a>
+      <a id="isoDate:Rule[String,Date]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isoDate</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.util.Date">Date</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@isoDate:play.api.data.mapping.Rule[String,java.util.Date]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#jodaDate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jodaDate:play.api.data.mapping.Rule[String,org.joda.time.DateTime]"></a>
+      <a id="jodaDate:Rule[String,DateTime]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jodaDate</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.joda.time.DateTime">DateTime</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@jodaDate:play.api.data.mapping.Rule[String,org.joda.time.DateTime]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#jodaDateRule" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jodaDateRule(pattern:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,org.joda.time.DateTime]"></a>
+      <a id="jodaDateRule(String,(String)⇒String):Rule[String,DateTime]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jodaDateRule</span><span class="params">(<span name="pattern">pattern: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="corrector">corrector: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.joda.time.DateTime">DateTime</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@jodaDateRule(pattern:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,org.joda.time.DateTime]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#jodaLocalDate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jodaLocalDate:play.api.data.mapping.Rule[String,org.joda.time.LocalDate]"></a>
+      <a id="jodaLocalDate:Rule[String,LocalDate]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jodaLocalDate</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.joda.time.LocalDate">LocalDate</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@jodaLocalDate:play.api.data.mapping.Rule[String,org.joda.time.LocalDate]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#jodaLocalDateRule" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jodaLocalDateRule(pattern:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,org.joda.time.LocalDate]"></a>
+      <a id="jodaLocalDateRule(String,(String)⇒String):Rule[String,LocalDate]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jodaLocalDateRule</span><span class="params">(<span name="pattern">pattern: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="corrector">corrector: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.joda.time.LocalDate">LocalDate</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@jodaLocalDateRule(pattern:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,org.joda.time.LocalDate]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#jodaTime" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jodaTime:play.api.data.mapping.Rule[Long,org.joda.time.DateTime]"></a>
+      <a id="jodaTime:Rule[Long,DateTime]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jodaTime</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Long">Long</span>, <span class="extype" name="org.joda.time.DateTime">DateTime</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@jodaTime:play.api.data.mapping.Rule[Long,org.joda.time.DateTime]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#keywordR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="keywordR:play.api.data.mapping.Rule[scaledn.EDN,scaledn.EDNKeyword]"></a>
+      <a id="keywordR:Rule[EDN,EDNKeyword]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">keywordR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../EDNKeyword.html" class="extype" name="scaledn.EDNKeyword">EDNKeyword</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@keywordR:play.api.data.mapping.Rule[scaledn.EDN,scaledn.EDNKeyword]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#listR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="listR:play.api.data.mapping.Rule[scaledn.EDN,List[scaledn.EDN]]"></a>
+      <a id="listR:Rule[EDN,List[EDN]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">listR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.List">List</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@listR:play.api.data.mapping.Rule[scaledn.EDN,List[scaledn.EDN]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#listR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="listR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],List[O]]"></a>
+      <a id="listR[I,O](RuleLike[I,O]):Rule[Seq[I],List[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">listR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.listR.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.listR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="play.api.data.mapping.GenericRules.listR.I">I</span>], <span class="extype" name="scala.List">List</span>[<span class="extype" name="play.api.data.mapping.GenericRules.listR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@listR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],List[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#longR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="longR:play.api.data.mapping.Rule[scaledn.EDN,Long]"></a>
+      <a id="longR:Rule[EDN,Long]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">longR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Long">Long</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@longR:play.api.data.mapping.Rule[scaledn.EDN,Long]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#mapKVR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mapKVR[K,V](implicitrk:play.api.data.mapping.RuleLike[scaledn.EDN,K],implicitrv:play.api.data.mapping.RuleLike[scaledn.EDN,V]):play.api.data.mapping.Rule[scaledn.EDN,Map[K,V]]"></a>
+      <a id="mapKVR[K,V](RuleLike[EDN,K],RuleLike[EDN,V]):Rule[EDN,Map[K,V]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapKVR</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="rk">rk: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.mapKVR.K">K</span>]</span>, <span name="rv">rv: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.mapKVR.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scaledn.validate.Rules.mapKVR.K">K</span>, <span class="extype" name="scaledn.validate.Rules.mapKVR.V">V</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@mapKVR[K,V](implicitrk:play.api.data.mapping.RuleLike[scaledn.EDN,K],implicitrv:play.api.data.mapping.RuleLike[scaledn.EDN,V]):play.api.data.mapping.Rule[scaledn.EDN,Map[K,V]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#mapR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mapR:play.api.data.mapping.Rule[scaledn.EDN,Map[scaledn.EDN,scaledn.EDN]]"></a>
+      <a id="mapR:Rule[EDN,Map[EDN,EDN]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Predef.Map">Map</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@mapR:play.api.data.mapping.Rule[scaledn.EDN,Map[scaledn.EDN,scaledn.EDN]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.DefaultRules#mapR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mapR[K,O](r:play.api.data.mapping.RuleLike[K,O],p:play.api.data.mapping.RuleLike[I,Seq[(String,K)]]):play.api.data.mapping.Rule[I,Map[String,O]]"></a>
+      <a id="mapR[K,O](RuleLike[K,O],RuleLike[EDN,Seq[(String,K)]]):Rule[EDN,Map[String,O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapR</span><span class="tparams">[<span name="K">K</span>, <span name="O">O</span>]</span><span class="params">(<span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.DefaultRules.mapR.K">K</span>, <span class="extype" name="play.api.data.mapping.DefaultRules.mapR.O">O</span>]</span>, <span name="p">p: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="play.api.data.mapping.DefaultRules.mapR.K">K</span>)]]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="play.api.data.mapping.DefaultRules.mapR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@mapR[K,O](r:play.api.data.mapping.RuleLike[K,O],p:play.api.data.mapping.RuleLike[I,Seq[(String,K)]]):play.api.data.mapping.Rule[I,Map[String,O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DefaultRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#max" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="max[T](m:T)(implicito:Ordering[T]):play.api.data.mapping.Rule[T,T]"></a>
+      <a id="max[T](T)(Ordering[T]):Rule[T,T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">max</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="m">m: <span class="extype" name="play.api.data.mapping.GenericRules.max.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="o">o: <span class="extype" name="scala.Ordering">Ordering</span>[<span class="extype" name="play.api.data.mapping.GenericRules.max.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="play.api.data.mapping.GenericRules.max.T">T</span>, <span class="extype" name="play.api.data.mapping.GenericRules.max.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@max[T](m:T)(implicito:Ordering[T]):play.api.data.mapping.Rule[T,T]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#maxLength" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="maxLength(l:Int):play.api.data.mapping.Rule[String,String]"></a>
+      <a id="maxLength(Int):Rule[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">maxLength</span><span class="params">(<span name="l">l: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@maxLength(l:Int):play.api.data.mapping.Rule[String,String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#min" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="min[T](m:T)(implicito:Ordering[T]):play.api.data.mapping.Rule[T,T]"></a>
+      <a id="min[T](T)(Ordering[T]):Rule[T,T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">min</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="m">m: <span class="extype" name="play.api.data.mapping.GenericRules.min.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="o">o: <span class="extype" name="scala.Ordering">Ordering</span>[<span class="extype" name="play.api.data.mapping.GenericRules.min.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="play.api.data.mapping.GenericRules.min.T">T</span>, <span class="extype" name="play.api.data.mapping.GenericRules.min.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@min[T](m:T)(implicito:Ordering[T]):play.api.data.mapping.Rule[T,T]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#minLength" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="minLength(l:Int):play.api.data.mapping.Rule[String,String]"></a>
+      <a id="minLength(Int):Rule[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minLength</span><span class="params">(<span name="l">l: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@minLength(l:Int):play.api.data.mapping.Rule[String,String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#nilR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="nilR:play.api.data.mapping.Rule[scaledn.EDN,scaledn.EDNNil.type]"></a>
+      <a id="nilR:Rule[EDN,EDNNil.type]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">nilR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../EDNNil$.html" class="extype" name="scaledn.EDNNil">EDNNil</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@nilR:play.api.data.mapping.Rule[scaledn.EDN,scaledn.EDNNil.type]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#noConstraint" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="noConstraint[From]:play.api.data.mapping.Constraint[From]"></a>
+      <a id="noConstraint[From]:Constraint[From]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">noConstraint</span><span class="tparams">[<span name="From">From</span>]</span><span class="result">: <span class="extype" name="play.api.data.mapping.Constraint">Constraint</span>[<span class="extype" name="play.api.data.mapping.GenericRules.noConstraint.From">From</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@noConstraint[From]:play.api.data.mapping.Constraint[From]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#not" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="not[I,O](r:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[I,I]"></a>
+      <a id="not[I,O](RuleLike[I,O]):Rule[I,I]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">not</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.not.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.not.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="play.api.data.mapping.GenericRules.not.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.not.I">I</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@not[I,O](r:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[I,I]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#notEmpty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notEmpty:play.api.data.mapping.Rule[String,String]"></a>
+      <a id="notEmpty:Rule[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notEmpty</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="java.lang.String">String</span>, <span class="extype" name="java.lang.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@notEmpty:play.api.data.mapping.Rule[String,String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@notify():Unit" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#ooo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ooo[O](p:play.api.data.mapping.Path)(implicitpick:play.api.data.mapping.Path=&gt;play.api.data.mapping.RuleLike[scaledn.EDN,scaledn.EDN],implicitcoerce:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Option[O]]"></a>
+      <a id="ooo[O](Path)((Path)⇒RuleLike[EDN,EDN],RuleLike[EDN,O]):Rule[EDN,Option[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ooo</span><span class="tparams">[<span name="O">O</span>]</span><span class="params">(<span name="p">p: <span class="extype" name="play.api.data.mapping.Path">Path</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="pick">pick: (<span class="extype" name="play.api.data.mapping.Path">Path</span>) ⇒ <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]</span>, <span name="coerce">coerce: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.ooo.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scaledn.validate.Rules.ooo.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@ooo[O](p:play.api.data.mapping.Path)(implicitpick:play.api.data.mapping.Path=&gt;play.api.data.mapping.RuleLike[scaledn.EDN,scaledn.EDN],implicitcoerce:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Option[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.DefaultRules#opt" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="opt[J,O](r:=&gt;play.api.data.mapping.RuleLike[J,O],noneValues:play.api.data.mapping.RuleLike[I,I]*)(implicitpick:play.api.data.mapping.Path=&gt;play.api.data.mapping.RuleLike[I,I],implicitcoerce:play.api.data.mapping.RuleLike[I,J]):play.api.data.mapping.Path=&gt;play.api.data.mapping.Rule[I,Option[O]]"></a>
+      <a id="opt[J,O](⇒RuleLike[J,O],RuleLike[EDN,EDN]*)((Path)⇒RuleLike[EDN,EDN],RuleLike[EDN,J]):(Path)⇒Rule[EDN,Option[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">opt</span><span class="tparams">[<span name="J">J</span>, <span name="O">O</span>]</span><span class="params">(<span name="r">r: ⇒ <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.DefaultRules.opt.J">J</span>, <span class="extype" name="play.api.data.mapping.DefaultRules.opt.O">O</span>]</span>, <span name="noneValues">noneValues: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="pick">pick: (<span class="extype" name="play.api.data.mapping.Path">Path</span>) ⇒ <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]</span>, <span name="coerce">coerce: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="play.api.data.mapping.DefaultRules.opt.J">J</span>]</span>)</span><span class="result">: (<span class="extype" name="play.api.data.mapping.Path">Path</span>) ⇒ <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="play.api.data.mapping.DefaultRules.opt.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@opt[J,O](r:=&gt;play.api.data.mapping.RuleLike[J,O],noneValues:play.api.data.mapping.RuleLike[I,I]*)(implicitpick:play.api.data.mapping.Path=&gt;play.api.data.mapping.RuleLike[I,I],implicitcoerce:play.api.data.mapping.RuleLike[I,J]):play.api.data.mapping.Path=&gt;play.api.data.mapping.Rule[I,Option[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>DefaultRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#optionR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="optionR[J,O](r:=&gt;play.api.data.mapping.RuleLike[J,O],noneValues:play.api.data.mapping.RuleLike[scaledn.EDN,scaledn.EDN]*)(implicitpick:play.api.data.mapping.Path=&gt;play.api.data.mapping.RuleLike[scaledn.EDN,scaledn.EDN],implicitcoerce:play.api.data.mapping.RuleLike[scaledn.EDN,J]):play.api.data.mapping.Path=&gt;play.api.data.mapping.Rule[scaledn.EDN,Option[O]]"></a>
+      <a id="optionR[J,O](⇒RuleLike[J,O],RuleLike[EDN,EDN]*)((Path)⇒RuleLike[EDN,EDN],RuleLike[EDN,J]):(Path)⇒Rule[EDN,Option[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optionR</span><span class="tparams">[<span name="J">J</span>, <span name="O">O</span>]</span><span class="params">(<span name="r">r: ⇒ <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="scaledn.validate.Rules.optionR.J">J</span>, <span class="extype" name="scaledn.validate.Rules.optionR.O">O</span>]</span>, <span name="noneValues">noneValues: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="pick">pick: (<span class="extype" name="play.api.data.mapping.Path">Path</span>) ⇒ <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]</span>, <span name="coerce">coerce: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.optionR.J">J</span>]</span>)</span><span class="result">: (<span class="extype" name="play.api.data.mapping.Path">Path</span>) ⇒ <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scaledn.validate.Rules.optionR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@optionR[J,O](r:=&gt;play.api.data.mapping.RuleLike[J,O],noneValues:play.api.data.mapping.RuleLike[scaledn.EDN,scaledn.EDN]*)(implicitpick:play.api.data.mapping.Path=&gt;play.api.data.mapping.RuleLike[scaledn.EDN,scaledn.EDN],implicitcoerce:play.api.data.mapping.RuleLike[scaledn.EDN,J]):play.api.data.mapping.Path=&gt;play.api.data.mapping.Rule[scaledn.EDN,Option[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#pattern" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pattern(regex:scala.util.matching.Regex):play.api.data.mapping.Rule[String,String]"></a>
+      <a id="pattern(Regex):Rule[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pattern</span><span class="params">(<span name="regex">regex: <span class="extype" name="scala.util.matching.Regex">Regex</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@pattern(regex:scala.util.matching.Regex):play.api.data.mapping.Rule[String,String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#pickInEdn" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pickInEdn[II&lt;:scaledn.EDN,O](p:play.api.data.mapping.Path)(implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[II,O]"></a>
+      <a id="pickInEdn[II,O](Path)(RuleLike[EDN,O]):Rule[II,O]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pickInEdn</span><span class="tparams">[<span name="II">II</span>, <span name="O">O</span>]</span><span class="params">(<span name="p">p: <span class="extype" name="play.api.data.mapping.Path">Path</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.pickInEdn.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scaledn.validate.Rules.pickInEdn.II">II</span>, <span class="extype" name="scaledn.validate.Rules.pickInEdn.O">O</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@pickInEdn[II&lt;:scaledn.EDN,O](p:play.api.data.mapping.Path)(implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[II,O]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#pickList" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pickList[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,List[O]]"></a>
+      <a id="pickList[O](RuleLike[EDN,O]):Rule[EDN,List[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pickList</span><span class="tparams">[<span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.pickList.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scaledn.validate.Rules.pickList.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@pickList[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,List[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#pickSeq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pickSeq[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Seq[O]]"></a>
+      <a id="pickSeq[O](RuleLike[EDN,O]):Rule[EDN,Seq[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pickSeq</span><span class="tparams">[<span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.pickSeq.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scaledn.validate.Rules.pickSeq.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@pickSeq[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Seq[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#pickSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pickSet[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Set[O]]"></a>
+      <a id="pickSet[O](RuleLike[EDN,O]):Rule[EDN,Set[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pickSet</span><span class="tparams">[<span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.pickSet.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="scaledn.validate.Rules.pickSet.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@pickSet[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Set[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#pickVector" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pickVector[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Vector[O]]"></a>
+      <a id="pickVector[O](RuleLike[EDN,O]):Rule[EDN,Vector[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pickVector</span><span class="tparams">[<span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.Rules.pickVector.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="scaledn.validate.Rules.pickVector.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@pickVector[O](implicitr:play.api.data.mapping.RuleLike[scaledn.EDN,O]):play.api.data.mapping.Rule[scaledn.EDN,Vector[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#seqR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="seqR[I]:play.api.data.mapping.Rule[scaledn.EDN,Seq[scaledn.EDN]]"></a>
+      <a id="seqR[I]:Rule[EDN,Seq[EDN]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">seqR</span><span class="tparams">[<span name="I">I</span>]</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Seq">Seq</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@seqR[I]:play.api.data.mapping.Rule[scaledn.EDN,Seq[scaledn.EDN]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#seqR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="seqR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Seq[O]]"></a>
+      <a id="seqR[I,O](RuleLike[I,O]):Rule[Seq[I],Seq[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">seqR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.seqR.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.seqR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="play.api.data.mapping.GenericRules.seqR.I">I</span>], <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="play.api.data.mapping.GenericRules.seqR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@seqR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Seq[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#setR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setR:play.api.data.mapping.Rule[scaledn.EDN,Set[scaledn.EDN]]"></a>
+      <a id="setR:Rule[EDN,Set[EDN]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Predef.Set">Set</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@setR:play.api.data.mapping.Rule[scaledn.EDN,Set[scaledn.EDN]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#setR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Set[O]]"></a>
+      <a id="setR[I,O](RuleLike[I,O]):Rule[Seq[I],Set[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.setR.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.setR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="play.api.data.mapping.GenericRules.setR.I">I</span>], <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="play.api.data.mapping.GenericRules.setR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@setR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Set[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#shortR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="shortR:play.api.data.mapping.Rule[scaledn.EDN,Short]"></a>
+      <a id="shortR:Rule[EDN,Short]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">shortR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Short">Short</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@shortR:play.api.data.mapping.Rule[scaledn.EDN,Short]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#sqlDate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="sqlDate:play.api.data.mapping.Rule[String,java.sql.Date]"></a>
+      <a id="sqlDate:Rule[String,Date]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sqlDate</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.sql.Date">Date</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@sqlDate:play.api.data.mapping.Rule[String,java.sql.Date]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="play.api.data.mapping.DateRules#sqlDateRule" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="sqlDateRule(pattern:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,java.sql.Date]"></a>
+      <a id="sqlDateRule(String,(String)⇒String):Rule[String,Date]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sqlDateRule</span><span class="params">(<span name="pattern">pattern: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="corrector">corrector: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.sql.Date">Date</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@sqlDateRule(pattern:String,corrector:String=&gt;String):play.api.data.mapping.Rule[String,java.sql.Date]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#stringR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stringR:play.api.data.mapping.Rule[scaledn.EDN,String]"></a>
+      <a id="stringR:Rule[EDN,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stringR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@stringR:play.api.data.mapping.Rule[scaledn.EDN,String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scaledn.validate.Rules#symbolR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="symbolR:play.api.data.mapping.Rule[scaledn.EDN,scaledn.EDNSymbol]"></a>
+      <a id="symbolR:Rule[EDN,EDNSymbol]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">symbolR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../EDNSymbol.html" class="extype" name="scaledn.EDNSymbol">EDNSymbol</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@symbolR:play.api.data.mapping.Rule[scaledn.EDN,scaledn.EDNSymbol]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@toString():String" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#traversableR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="traversableR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Traversable[O]]"></a>
+      <a id="traversableR[I,O](RuleLike[I,O]):Rule[Seq[I],Traversable[O]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">traversableR</span><span class="tparams">[<span name="I">I</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="r">r: <span class="extype" name="play.api.data.mapping.RuleLike">RuleLike</span>[<span class="extype" name="play.api.data.mapping.GenericRules.traversableR.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.traversableR.O">O</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="play.api.data.mapping.GenericRules.traversableR.I">I</span>], <span class="extype" name="scala.Traversable">Traversable</span>[<span class="extype" name="play.api.data.mapping.GenericRules.traversableR.O">O</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@traversableR[I,O](implicitr:play.api.data.mapping.RuleLike[I,O]):play.api.data.mapping.Rule[Seq[I],Traversable[O]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.ValidationUtils#traverse" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="traverse[E,A,B,M[X]&lt;:TraversableOnce[X],N[X]&lt;:TraversableOnce[X]](vs:M[play.api.data.mapping.Validation[E,A]])(implicitcbf:scala.collection.generic.CanBuildFrom[M[A],A,N[A]]):play.api.data.mapping.Validation[E,N[A]]"></a>
+      <a id="traverse[E,A,B,M[X]&lt;:TraversableOnce[X],N[X]&lt;:TraversableOnce[X]](M[Validation[E,A]])(CanBuildFrom[M[A],A,N[A]]):Validation[E,N[A]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">traverse</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>, <span name="B">B</span>, <span name="M">M<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span class="extype" name="scala.TraversableOnce">TraversableOnce</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.M.X">X</span>]</span>, <span name="N">N<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span class="extype" name="scala.TraversableOnce">TraversableOnce</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.N.X">X</span>]</span>]</span><span class="params">(<span name="vs">vs: <span class="extype" name="scaledn.validate.ValidationUtils.traverse.M">M</span>[<span class="extype" name="play.api.data.mapping.Validation">Validation</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.E">E</span>, <span class="extype" name="scaledn.validate.ValidationUtils.traverse.A">A</span>]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: <span class="extype" name="scala.collection.generic.CanBuildFrom">CanBuildFrom</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.M">M</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.A">A</span>], <span class="extype" name="scaledn.validate.ValidationUtils.traverse.A">A</span>, <span class="extype" name="scaledn.validate.ValidationUtils.traverse.N">N</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.A">A</span>]]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Validation">Validation</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.E">E</span>, <span class="extype" name="scaledn.validate.ValidationUtils.traverse.N">N</span>[<span class="extype" name="scaledn.validate.ValidationUtils.traverse.A">A</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@traverse[E,A,B,M[X]&lt;:TraversableOnce[X],N[X]&lt;:TraversableOnce[X]](vs:M[play.api.data.mapping.Validation[E,A]])(implicitcbf:scala.collection.generic.CanBuildFrom[M[A],A,N[A]]):play.api.data.mapping.Validation[E,N[A]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ValidationUtils.html" class="extype" name="scaledn.validate.ValidationUtils">ValidationUtils</a></dd></dl></div>
+    </li><li name="scaledn.validate.ShapelessRules#tupleR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tupleR[P,VS&lt;:shapeless.HList,VH,VT&lt;:shapeless.HList](implicitcc:shapeless.IsTuple[P],implicitgenValues:shapeless.Generic.Aux[P,VS],implicitc2:shapeless.ops.hlist.IsHCons.Aux[VS,VH,VT],implicitvhr:play.api.data.mapping.Rule[scaledn.EDN,VH],implicitvtr:scaledn.validate.SubRule[scaledn.EDN,VT]):play.api.data.mapping.Rule[scaledn.EDN,P]"></a>
+      <a id="tupleR[P,VS&lt;:HList,VH,VT&lt;:HList](IsTuple[P],Aux[P,VS],Aux[VS,VH,VT],Rule[EDN,VH],SubRule[EDN,VT]):Rule[EDN,P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tupleR</span><span class="tparams">[<span name="P">P</span>, <span name="VS">VS &lt;: <span class="extype" name="shapeless.HList">HList</span></span>, <span name="VH">VH</span>, <span name="VT">VT &lt;: <span class="extype" name="shapeless.HList">HList</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="cc">cc: <span class="extype" name="shapeless.IsTuple">IsTuple</span>[<span class="extype" name="scaledn.validate.ShapelessRules.tupleR.P">P</span>]</span>, <span name="genValues">genValues: <span class="extype" name="shapeless.Generic.Aux">Aux</span>[<span class="extype" name="scaledn.validate.ShapelessRules.tupleR.P">P</span>, <span class="extype" name="scaledn.validate.ShapelessRules.tupleR.VS">VS</span>]</span>, <span name="c2">c2: <span class="extype" name="shapeless.ops.hlist.IsHCons.Aux">Aux</span>[<span class="extype" name="scaledn.validate.ShapelessRules.tupleR.VS">VS</span>, <span class="extype" name="scaledn.validate.ShapelessRules.tupleR.VH">VH</span>, <span class="extype" name="scaledn.validate.ShapelessRules.tupleR.VT">VT</span>]</span>, <span name="vhr">vhr: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.ShapelessRules.tupleR.VH">VH</span>]</span>, <span name="vtr">vtr: <a href="SubRule.html" class="extype" name="scaledn.validate.SubRule">SubRule</a>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.ShapelessRules.tupleR.VT">VT</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scaledn.validate.ShapelessRules.tupleR.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@tupleR[P,VS&lt;:shapeless.HList,VH,VT&lt;:shapeless.HList](implicitcc:shapeless.IsTuple[P],implicitgenValues:shapeless.Generic.Aux[P,VS],implicitc2:shapeless.ops.hlist.IsHCons.Aux[VS,VH,VT],implicitvhr:play.api.data.mapping.Rule[scaledn.EDN,VH],implicitvtr:scaledn.validate.SubRule[scaledn.EDN,VT]):play.api.data.mapping.Rule[scaledn.EDN,P]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">TRICKKKKKKK
+scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+</p><div class="fullcomment"><div class="comment cmt"><p>TRICKKKKKKK
+scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></dd></dl></div>
+    </li><li name="scaledn.validate.ValidationUtils#tupled2" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tupled2[E,A,B](vs:(play.api.data.mapping.Validation[E,A],play.api.data.mapping.Validation[E,B])):play.api.data.mapping.Validation[E,(A,B)]"></a>
+      <a id="tupled2[E,A,B]((Validation[E,A],Validation[E,B])):Validation[E,(A,B)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tupled2</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="vs">vs: (<span class="extype" name="play.api.data.mapping.Validation">Validation</span>[<span class="extype" name="scaledn.validate.ValidationUtils.tupled2.E">E</span>, <span class="extype" name="scaledn.validate.ValidationUtils.tupled2.A">A</span>], <span class="extype" name="play.api.data.mapping.Validation">Validation</span>[<span class="extype" name="scaledn.validate.ValidationUtils.tupled2.E">E</span>, <span class="extype" name="scaledn.validate.ValidationUtils.tupled2.B">B</span>])</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Validation">Validation</span>[<span class="extype" name="scaledn.validate.ValidationUtils.tupled2.E">E</span>, (<span class="extype" name="scaledn.validate.ValidationUtils.tupled2.A">A</span>, <span class="extype" name="scaledn.validate.ValidationUtils.tupled2.B">B</span>)]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@tupled2[E,A,B](vs:(play.api.data.mapping.Validation[E,A],play.api.data.mapping.Validation[E,B])):play.api.data.mapping.Validation[E,(A,B)]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ValidationUtils.html" class="extype" name="scaledn.validate.ValidationUtils">ValidationUtils</a></dd></dl></div>
+    </li><li name="play.api.data.mapping.GenericRules#validateWith" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="validateWith[I](msg:String,args:Any*)(pred:I=&gt;Boolean):play.api.data.mapping.Rule[I,I]"></a>
+      <a id="validateWith[I](String,Any*)((I)⇒Boolean):Rule[I,I]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">validateWith</span><span class="tparams">[<span name="I">I</span>]</span><span class="params">(<span name="msg">msg: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Any">Any</span>*</span>)</span><span class="params">(<span name="pred">pred: (<span class="extype" name="play.api.data.mapping.GenericRules.validateWith.I">I</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<span class="extype" name="play.api.data.mapping.GenericRules.validateWith.I">I</span>, <span class="extype" name="play.api.data.mapping.GenericRules.validateWith.I">I</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@validateWith[I](msg:String,args:Any*)(pred:I=&gt;Boolean):play.api.data.mapping.Rule[I,I]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericRules</dd></dl></div>
+    </li><li name="scaledn.validate.Rules#vectorR" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="vectorR:play.api.data.mapping.Rule[scaledn.EDN,Vector[scaledn.EDN]]"></a>
+      <a id="vectorR:Rule[EDN,Vector[EDN]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">vectorR</span><span class="result">: <span class="extype" name="play.api.data.mapping.Rule">Rule</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <span class="extype" name="scala.Vector">Vector</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@vectorR:play.api.data.mapping.Rule[scaledn.EDN,Vector[scaledn.EDN]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@wait():Unit" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.validate.Rules$@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scaledn.validate.Rules">
+              <h3>Inherited from <a href="Rules.html" class="extype" name="scaledn.validate.Rules">Rules</a></h3>
+            </div><div class="parent" name="scaledn.validate.ShapelessRules">
+              <h3>Inherited from <a href="ShapelessRules.html" class="extype" name="scaledn.validate.ShapelessRules">ShapelessRules</a></h3>
+            </div><div class="parent" name="scaledn.validate.LowerRules">
+              <h3>Inherited from <a href="LowerRules.html" class="extype" name="scaledn.validate.LowerRules">LowerRules</a></h3>
+            </div><div class="parent" name="play.api.data.mapping.DefaultRules">
+              <h3>Inherited from <span class="extype" name="play.api.data.mapping.DefaultRules">DefaultRules</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]</h3>
+            </div><div class="parent" name="play.api.data.mapping.DateRules">
+              <h3>Inherited from <span class="extype" name="play.api.data.mapping.DateRules">DateRules</span></h3>
+            </div><div class="parent" name="play.api.data.mapping.GenericRules">
+              <h3>Inherited from <span class="extype" name="play.api.data.mapping.GenericRules">GenericRules</span></h3>
+            </div><div class="parent" name="scaledn.validate.ValidationUtils">
+              <h3>Inherited from <a href="ValidationUtils.html" class="extype" name="scaledn.validate.ValidationUtils">ValidationUtils</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

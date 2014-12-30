@@ -1,0 +1,453 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>scaledn - scaledn</title>
+          <meta name="description" content="scaledn - scaledn" />
+          <meta name="keywords" content="scaledn scaledn" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../lib/template.js"></script>
+      <script type="text/javascript" src="../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../index.html';
+            var hash = 'scaledn.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../lib/package_big.png" />
+        
+        <h1>scaledn</h1> <span class="permalink">
+      <a href="../index.html#scaledn.package" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scaledn</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="scaledn"><span>scaledn</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="scaledn.EDN" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EDN=Any"></a>
+      <a id="EDN:EDN"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EDN</span><span class="result"> = <span class="extype" name="scala.Any">Any</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@EDN=Any" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">This is a dummy alias to make you believe you manipulate
+a very special EDN type whereas it is just an Any restricted
+by the EDN specified parsing to those types:</p><div class="fullcomment"><div class="comment cmt"><p>This is a dummy alias to make you believe you manipulate
+a very special EDN type whereas it is just an Any restricted
+by the EDN specified parsing to those types:</p><ul><li>Long (64bits)       12345</li><li>Double (64 bits)    123.45</li><li>BigInt              12345M</li><li>BigDecimal          123.45N</li><li>String              &quot;foobar&quot;</li><li>Characters          \c \newline \return \space \tab \\ ̈ etc...</li><li>EDN Symbol          foo/bar</li><li>EDN Keyword         :foo/bar</li><li>EDN Nil             nil</li><li>Tagged vaues        #foo/bar value</li><li>heterogenous list   (1 true &quot;toto&quot;)</li><li>heterogenous vector [1 true &quot;toto&quot;]</li><li>heterogenous set    #{1 true &quot;toto&quot;}</li><li>heterogenous map    {1 &quot;toto&quot;, 1.234 &quot;toto&quot;}</li></ul><p>For more info, go to the <a href="https://github.com/edn-format/edn" target="_blank">EDN format site</a>
+</p></div></div>
+    </li><li name="scaledn.EDNKeyword" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EDNKeywordextendsEDNValuewithProductwithSerializable"></a>
+      <a id="EDNKeyword:EDNKeyword"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="EDNKeyword.html"><span class="name">EDNKeyword</span></a><span class="params">(<span name="value">value: <a href="EDNSymbol.html" class="extype" name="scaledn.EDNSymbol">EDNSymbol</a></span>)</span><span class="result"> extends <a href="EDNValue.html" class="extype" name="scaledn.EDNValue">EDNValue</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@EDNKeywordextendsEDNValuewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">EDN keyword representing a unique identifier with a name and potentially a namespace
+like:</p><div class="fullcomment"><div class="comment cmt"><p>EDN keyword representing a unique identifier with a name and potentially a namespace
+like:</p><pre>:foo.bar/toto`</pre></div></div>
+    </li><li name="scaledn.EDNMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EDNMap=Map[String,scaledn.package.EDN]"></a>
+      <a id="EDNMap:EDNMap"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EDNMap</span><span class="result"> = <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <a href="#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@EDNMap=Map[String,scaledn.package.EDN]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Another alias to be used with Path writes (is it useful?)
+</p>
+    </li><li name="scaledn.EDNSymbol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EDNSymbolextendsEDNValuewithProductwithSerializable"></a>
+      <a id="EDNSymbol:EDNSymbol"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="EDNSymbol.html"><span class="name">EDNSymbol</span></a><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="namespace">namespace: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <a href="EDNValue.html" class="extype" name="scaledn.EDNValue">EDNValue</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@EDNSymbolextendsEDNValuewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">EDN Symbol representing an generic identifier with a name and potentially a namespace
+like:</p><div class="fullcomment"><div class="comment cmt"><p>EDN Symbol representing an generic identifier with a name and potentially a namespace
+like:</p><pre>foo.bar/toto</pre></div></div>
+    </li><li name="scaledn.EDNTagged" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EDNTagged[A]extendsEDNValuewithProductwithSerializable"></a>
+      <a id="EDNTagged[A]:EDNTagged[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="EDNTagged.html"><span class="name">EDNTagged</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="tag">tag: <a href="EDNSymbol.html" class="extype" name="scaledn.EDNSymbol">EDNSymbol</a></span>, <span name="value">value: <span class="extype" name="scaledn.EDNTagged.A">A</span></span>)</span><span class="result"> extends <a href="EDNValue.html" class="extype" name="scaledn.EDNValue">EDNValue</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@EDNTagged[A]extendsEDNValuewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">EDN tagged values look like <code>#foo.bar/toto 123L</code> and correspond to the extension
+mechanism provided by EDN.</p><div class="fullcomment"><div class="comment cmt"><p>EDN tagged values look like <code>#foo.bar/toto 123L</code> and correspond to the extension
+mechanism provided by EDN. The tag implies a semantic that should be managed by
+a handler. By default, EDN provides 2 default handlers:</p><ul><li>#inst &quot;1985-04-12T23:20:50.52Z&quot; for RFC-3339 instants</li><li>#uuid &quot;f81d4fae-7dec-11d0-a765-00a0c91e6bf6&quot; for UUID
+</li></ul></div></div>
+    </li><li name="scaledn.EDNValue" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="EDNValueextendsAnyRef"></a>
+      <a id="EDNValue:EDNValue"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="EDNValue.html"><span class="name">EDNValue</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@EDNValueextendsAnyRef" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">AST root type
+The types represented by the AST are:</p><div class="fullcomment"><div class="comment cmt"><p>AST root type
+The types represented by the AST are:</p><ul><li>EDN Symbol          foo/bar</li><li>EDN Keyword         :foo/bar</li><li>EDN Nil             nil</li><li>EDN Tagged values   #foo/bar value</li></ul><p>The following types aren't represented in the AST because the types
+described in EDN specs are isomorphic/bijective with Scala types :</p><ul><li>Long (64bits)       12345</li><li>Double (64 bits)    123.45</li><li>BigInt              12345M</li><li>BigDecimal          123.45N</li><li>String              &quot;foobar&quot;</li><li>Characters          \c \newline \return \space \tab \\ ̈ etc...</li><li>heterogenous list   (1 true &quot;toto&quot;)</li><li>heterogenous vector [1 true &quot;toto&quot;]</li><li>heterogenous set    #{1 true &quot;toto&quot;}</li><li>heterogenous map    {1 &quot;toto&quot;, 1.234 &quot;toto&quot;}</li></ul><p>For more info, go to the <a href="https://github.com/edn-format/edn" target="_blank">EDN format site</a>
+</p></div></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scaledn.EDNNil" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EDNNil"></a>
+      <a id="EDNNil:EDNNil"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="EDNNil$.html"><span class="name">EDNNil</span></a><span class="result"> extends <a href="EDNValue.html" class="extype" name="scaledn.EDNValue">EDNValue</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@EDNNil" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">The EDN Nil value that can represent anything null/nil/nothing you need</p>
+    </li><li name="scaledn.macros" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="macros"></a>
+      <a id="macros:macros"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="macros/package.html"><span class="name">macros</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@macros" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">EDN macro parsing EDN strings into Scala/Shapeless types at compile-time</p><div class="fullcomment"><div class="comment cmt"><p>EDN macro parsing EDN strings into Scala/Shapeless types at compile-time</p><pre><span class="kw">import</span> scaledn._
+<span class="kw">import</span> macros._
+
+<span class="kw">val</span> s = EDNs(<span class="lit">""</span><span class="lit">"(1 2 3) "</span>toto<span class="lit">" [true false] :foo/bar"</span><span class="lit">""</span>)</pre></div></div>
+    </li><li name="scaledn.parser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parser"></a>
+      <a id="parser:parser"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="parser/package.html"><span class="name">parser</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@parser" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      
+    </li><li name="scaledn.validate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="validate"></a>
+      <a id="validate:validate"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="validate/package.html"><span class="name">validate</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@validate" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Validation Rules to validate EDN types to Scala/Shapeless structures</p><div class="fullcomment"><div class="comment cmt"><p>Validation Rules to validate EDN types to Scala/Shapeless structures</p><p>As explained in common package doc, all primitive EDN types are isomorphic/bijective
+to Scala types so the validation is often a simple runtime cast except for
+heterogenous collection where using HList becomes really interesting.</p><p>Validation is also interesting for case classes.</p><p>It is based on generic [validation API](https://github.com/jto/validation) developed
+by Julien Tournay.</p><pre><span class="kw">import</span> scaledn._
+<span class="kw">import</span> parser._
+<span class="kw">import</span> validate._
+
+<span class="cmt">// basic types</span>
+parseEDN(<span class="lit">"\"foobar\""</span>).map(validate[<span class="std">String</span>]).success.value should be (
+  play.api.data.mapping.Success(<span class="lit">"foobar"</span>)
+)
+parseEDN(<span class="lit">"12345"</span>).map(validate[<span class="std">Long</span>]).success.value should be (
+  play.api.data.mapping.Success(<span class="num">12345</span>L)
+)
+parseEDN(<span class="lit">"12345.123"</span>).map(validate[<span class="std">Double</span>]).success.value should be (
+  play.api.data.mapping.Success(<span class="num">12345.123</span>)
+)
+
+<span class="cmt">// Scala collections</span>
+parseEDN(<span class="lit">""</span><span class="lit">"(1 2 3 4 5)"</span><span class="lit">""</span>).map(validate[<span class="std">List</span>[<span class="std">Long</span>]]).success.value should be (
+  play.api.data.mapping.Success(<span class="std">List</span>(<span class="num">1</span>L, <span class="num">2</span>L, <span class="num">3</span>L, <span class="num">4</span>L, <span class="num">5</span>L))
+)
+parseEDN(<span class="lit">""</span><span class="lit">"(1 2 3 "</span>toto<span class="lit">" 5)"</span><span class="lit">""</span>).map(validate[<span class="std">List</span>[<span class="std">Long</span>]]).success.value should be (
+  play.api.data.mapping.Failure(<span class="std">Seq</span>(Path \ <span class="num">3</span> -&gt; <span class="std">Seq</span>(ValidationError(<span class="lit">"error.number"</span>, <span class="lit">"Long"</span>))))
+)
+parseEDN(<span class="lit">""</span><span class="lit">"[1 2 3 4 5]"</span><span class="lit">""</span>).map(validate[Vector[<span class="std">Long</span>]]).success.value should be (
+  play.api.data.mapping.Success(Vector(<span class="num">1</span>L, <span class="num">2</span>L, <span class="num">3</span>L, <span class="num">4</span>L, <span class="num">5</span>L))
+)
+parseEDN(<span class="lit">""</span><span class="lit">"#{1 2 3 4 5}"</span><span class="lit">""</span>).map(validate[<span class="std">Set</span>[<span class="std">Long</span>]]).success.value should be (
+  play.api.data.mapping.Success(<span class="std">Set</span>(<span class="num">1</span>L, <span class="num">2</span>L, <span class="num">3</span>L, <span class="num">4</span>L, <span class="num">5</span>L))
+)
+parseEDN(<span class="lit">""</span><span class="lit">"{ 1 "</span>toto<span class="lit">" 2 "</span>tata<span class="lit">" 3 "</span>tutu<span class="lit">" }"</span><span class="lit">""</span>).map(validate[<span class="std">Map</span>[<span class="std">Long</span>, <span class="std">String</span>]]).success.value should be (
+  play.api.data.mapping.Success(<span class="std">Map</span>(
+    <span class="num">1</span>L -&gt; <span class="lit">"toto"</span>,
+    <span class="num">2</span>L -&gt; <span class="lit">"tata"</span>,
+    <span class="num">3</span>L -&gt; <span class="lit">"tutu"</span>
+  ))
+)
+
+<span class="cmt">// Shapeless heterogenous lists</span>
+parseEDN(<span class="lit">""</span><span class="lit">"(1 "</span>toto<span class="lit">" true nil)"</span><span class="lit">""</span>).map(
+  validate[<span class="std">Long</span> :: <span class="std">String</span> :: <span class="std">Boolean</span> :: EDNNil.<span class="kw">type</span> :: HNil]
+).success.value should be (
+  play.api.data.mapping.Success(<span class="num">1</span>L :: <span class="lit">"toto"</span> :: <span class="kw">true</span> :: EDNNil :: HNil)
+)
+
+<span class="cmt">// Path validation in a map only</span>
+parseEDN(<span class="lit">""</span><span class="lit">"{ "</span>toto<span class="lit">" 1, "</span>tata<span class="lit">" { "</span>foo<span class="lit">" 2.123, "</span>bar<span class="lit">" 3 }, "</span>tutu<span class="lit">" 3 }"</span><span class="lit">""</span>).map(
+  (Path \ <span class="lit">"tata"</span> \ <span class="lit">"foo"</span>).read[EDN, <span class="std">Double</span>].validate
+).success.value should be (
+  play.api.data.mapping.Success(<span class="num">2.123</span>)
+)
+
+<span class="cmt">// case class validation from heteregenous collections</span>
+parseEDN(<span class="lit">""</span><span class="lit">"("</span>toto<span class="lit">" 34 ("</span>chboing<span class="lit">" (75009)))"</span><span class="lit">""</span>).map(
+  validate[Person]
+).success.value should be (
+  play.api.data.mapping.Success(Person(<span class="lit">"toto"</span>, <span class="num">34</span>, Address(<span class="lit">"chboing"</span>, CP(<span class="num">75009</span>))))
+)
+
+<span class="cmt">// case class validation from heteregenous maps</span>
+parseEDN(<span class="lit">""</span><span class="lit">"{"</span>name<span class="lit">" "</span>toto<span class="lit">", "</span>age<span class="lit">" 34, "</span>addr<span class="lit">" {"</span>street<span class="lit">" "</span>chboing<span class="lit">", "</span>cp<span class="lit">" {"</span>cp<span class="lit">" 75009</span></pre><p>&quot;&quot;&quot;).map(
+  validate[Person]
+).success.value should be (
+  play.api.data.mapping.Success(Person(&quot;toto&quot;, 34, Address(&quot;chboing&quot;, CP(75009))))
+)</p><p>// tuple validation from heteregenous maps
+parseEDN(&quot;&quot;&quot;(&quot;toto&quot; 34 {&quot;street&quot; &quot;chboing&quot;, &quot;cp&quot; {&quot;cp&quot; 75009}})&quot;&quot;&quot;).map(
+  validate[Tuple3[String, Int, Address]]
+).success.value should be (
+  play.api.data.mapping.Success((&quot;toto&quot;, 34, Address(&quot;chboing&quot;, CP(75009))))
+)</p><p>}}}</p><p>parseEDN(&quot;&quot;&quot;{&quot;name&quot; &quot;toto&quot;, &quot;age&quot; 34, &quot;addr&quot; {&quot;street&quot; &quot;chboing&quot;, &quot;cp&quot; {&quot;cp&quot; 75009
+}}}
+  validate[Person]
+).success.value should be (
+  play.api.data.mapping.Success(Person(&quot;toto&quot;, 34, Address(&quot;chboing&quot;, CP(75009))))
+)</p><p>// tuple validation from heteregenous maps
+parseEDN(&quot;&quot;&quot;(&quot;toto&quot; 34 {&quot;street&quot; &quot;chboing&quot;, &quot;cp&quot; {&quot;cp&quot; 75009}})&quot;&quot;&quot;).map(
+  validate[Tuple3[String, Int, Address]]
+).success.value should be (
+  play.api.data.mapping.Success((&quot;toto&quot;, 34, Address(&quot;chboing&quot;, CP(75009))))
+)</p><p>}}}</p></div></div>
+    </li><li name="scaledn.write" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="write"></a>
+      <a id="write:write"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="write/package.html"><span class="name">write</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#scaledn.package@write" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Write Rules to serialize Scala/Shapeless structures to EDN formatted String</p><div class="fullcomment"><div class="comment cmt"><p>Write Rules to serialize Scala/Shapeless structures to EDN formatted String</p><pre><span class="kw">import</span> scaledn._
+<span class="kw">import</span> write._
+
+<span class="cmt">// All primitives types are managed</span>
+toEDNString(<span class="lit">"toto"</span>) should equal (<span class="lit">"\"toto\""</span>)
+toEDNString(<span class="num">123</span>) should equal (<span class="lit">"123"</span>)
+toEDNString(BigInt(<span class="lit">"123"</span>)) should equal (<span class="lit">"123M"</span>)
+toEDNString(<span class="num">123.456</span>) should equal (<span class="lit">"123.456"</span>)
+toEDNString(BigDecimal(<span class="lit">"123.456"</span>)) should equal (<span class="lit">"123.456N"</span>)
+toEDNString(<span class="lit">'\r'</span>) should equal (<span class="lit">""</span><span class="lit">"\return"</span><span class="lit">""</span>)
+toEDNString(<span class="lit">'ￌﾈ'</span>) should equal (<span class="lit">"\\u0308"</span>)
+
+<span class="cmt">// Scala collections too</span>
+toEDNString(<span class="std">List</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)) should equal (<span class="lit">""</span><span class="lit">"(1 2 3)"</span><span class="lit">""</span>)
+toEDNString(Vector(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)) should equal (<span class="lit">""</span><span class="lit">"[1 2 3]"</span><span class="lit">""</span>)
+toEDNString(<span class="std">Set</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)) should equal (<span class="lit">""</span><span class="lit">"#{1 2 3}"</span><span class="lit">""</span>)
+toEDNString(<span class="std">Map</span>(<span class="lit">"toto"</span> -&gt; <span class="num">1</span>, <span class="lit">"tata"</span> -&gt; <span class="num">2</span>, <span class="lit">"tutu"</span> -&gt; <span class="num">3</span>)) should equal (<span class="lit">""</span><span class="lit">"{"</span>toto<span class="lit">" 1,"</span>tata<span class="lit">" 2,"</span>tutu<span class="lit">" 3}"</span><span class="lit">""</span>)
+
+<span class="cmt">// Shapeless HList</span>
+toEDNString(<span class="num">1</span> :: <span class="kw">true</span> :: <span class="std">List</span>(<span class="num">1</span>L, <span class="num">2</span>L, <span class="num">3</span>L) :: HNil) should equal (<span class="lit">""</span><span class="lit">"(1 true (1 2 3))"</span><span class="lit">""</span>)
+
+<span class="cmt">// Tuples</span>
+toEDNString(
+  (<span class="num">23</span>, Vector(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>), <span class="lit">"toto"</span> :: <span class="num">2</span> :: <span class="kw">true</span> :: HNil, Person(<span class="lit">"toto"</span>, <span class="num">34</span>, Address(<span class="lit">"chboing"</span>, <span class="num">75009</span>)))
+) should equal (
+  <span class="lit">""</span><span class="lit">"(23 [1 2 3] ("</span>toto<span class="lit">" 2 true) {"</span>name<span class="lit">" "</span>toto<span class="lit">", "</span>age<span class="lit">" 34, "</span>addr<span class="lit">" {"</span>street<span class="lit">" "</span>chboing<span class="lit">", "</span>cp<span class="lit">" 75009}})"</span><span class="lit">""</span>
+)
+
+<span class="cmt">// Case classes (without)</span>
+<span class="kw">case</span> <span class="kw">class</span> Address(street: <span class="std">String</span>, cp: <span class="std">Int</span>)
+<span class="kw">case</span> <span class="kw">class</span> Person(name: <span class="std">String</span>, age: <span class="std">Int</span>, addr: Address)
+
+toEDNString(Person(<span class="lit">"toto"</span>, <span class="num">34</span>, Address(<span class="lit">"chboing"</span>, <span class="num">75009</span>))) should equal (
+  <span class="lit">""</span><span class="lit">"{"</span>name<span class="lit">" "</span>toto<span class="lit">", "</span>age<span class="lit">" 34, "</span>addr<span class="lit">" {"</span>street<span class="lit">" "</span>chboing<span class="lit">", "</span>cp<span class="lit">" 75009}}"</span><span class="lit">""</span>
+)</pre></div></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
