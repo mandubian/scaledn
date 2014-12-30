@@ -19,39 +19,45 @@
 /** AST root type
   * The types represented by the AST are:
   *
-  * - EDN Symbol          foo/bar
-  * - EDN Keyword         :foo/bar
-  * - EDN Nil             nil
-  * - EDN Tagged values   #foo/bar value
+  *   - EDN Symbol          foo/bar
+  *   - EDN Keyword         :foo/bar
+  *   - EDN Nil             nil
+  *   - EDN Tagged values   #foo/bar value
   *
   *
   * The following types aren't represented in the AST because the types 
   * described in EDN specs are isomorphic/bijective with Scala types :
   *
-  * - Long (64bits)       12345
-  * - Double (64 bits)    123.45
-  * - BigInt              12345M
-  * - BigDecimal          123.45N
-  * - String              "foobar"
-  * - Characters          \c \newline \return \space \tab \\ \u0308 etc...
-  * - heterogenous list   (1 true "toto")
-  * - heterogenous vector [1 true "toto"]
-  * - heterogenous set    #{1 true "toto"}
-  * - heterogenous map    {1 "toto", 1.234 "toto"}
+  *   - Long (64bits)       12345
+  *   - Double (64 bits)    123.45
+  *   - BigInt              12345M
+  *   - BigDecimal          123.45N
+  *   - String              "foobar"
+  *   - Characters          \c \newline \return \space \tab \\ \u0308 etc...
+  *   - heterogenous list   (1 true "toto")
+  *   - heterogenous vector [1 true "toto"]
+  *   - heterogenous set    #{1 true "toto"}
+  *   - heterogenous map    {1 "toto", 1.234 "toto"}
   *
-  * For more info, go to the [EDN format site](https://github.com/edn-format/edn)
+  * For more info, go to the [[https://github.com/edn-format/edn EDN format site]]
   */
 sealed trait EDNValue
 
 /** EDN Symbol representing an generic identifier with a name and potentially a namespace
-  * like: `foo.bar/toto`
+  * like:
+  * {{{
+  * foo.bar/toto
+  * }}}
   */
 case class  EDNSymbol(value: String, namespace: Option[String] = None) extends EDNValue {
   override def toString = value
 }
 
 /** EDN keyword representing a unique identifier with a name and potentially a namespace
-  * like: `:foo.bar/toto`
+  * like:
+  * {{{
+  * :foo.bar/toto`
+  * }}}
   */
 case class  EDNKeyword(value: EDNSymbol) extends EDNValue {
   override def toString = s":$value"
@@ -60,8 +66,8 @@ case class  EDNKeyword(value: EDNSymbol) extends EDNValue {
 /** EDN tagged values look like `#foo.bar/toto 123L` and correspond to the extension
   * mechanism provided by EDN. The tag implies a semantic that should be managed by
   * a handler. By default, EDN provides 2 default handlers:
-  * - `#inst "1985-04-12T23:20:50.52Z"` for RFC-3339 instants
-  * -  `#uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"` for UUID
+  *   - #inst "1985-04-12T23:20:50.52Z" for RFC-3339 instants
+  *   - #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6" for UUID
   */
 case class  EDNTagged[A](tag: EDNSymbol, value: A) extends EDNValue {
   override def toString = s"#$tag ${value.toString}"

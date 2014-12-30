@@ -194,7 +194,8 @@ trait SuperLowWrites extends play.api.data.mapping.DefaultWrites {
   ): Write[P, String] =
     Write{ p =>
       val t = gen.to(p)
-      (wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("{", ", ", "}")
+      //(wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("{", ", ", "}")
+      (wh.writes(labelled.field[witness.T](selector(t))) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("{", ", ", "}")
     }
 
   implicit def fieldTypeW[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) =

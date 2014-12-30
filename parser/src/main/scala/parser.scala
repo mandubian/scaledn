@@ -23,51 +23,51 @@ import org.joda.time.{DateTime, DateTimeZone}
 
 /** The parboiled2 EDN Parser
   * 
-  * ```scala
+  * {{{
   * val parser = EDNParser("""{1 "foo", "bar" 1.234M, :foo/bar [1,2,3]} #_foo/bar :bar/foo""")
   * parser.Root.run() match {
   *   case Success(t) => \/-(t)
   *   case Failure(f : org.parboiled2.ParseError) => -\/(parser.formatError(f))
   * }
-  * ```
+  * }}}
   * 
   * The parsed types are the following:
   *
-  * - Long (64bits)       12345
-  * - Double (64 bits)    123.45
-  * - BigInt              12345N
-  * - BigDecimal          123.45M
-  * - String              "foobar"
-  * - EDN Symbol          foo/bar
-  * - EDN Keyword         :foo/bar
-  * - EDN Nil             nil
-  * - heterogenous list   (1 true "toto")
-  * - heterogenous vector [1 true "toto"]
-  * - heterogenous set    #{1 true "toto"}
-  * - heterogenous map    {1 "toto", 1.234 "toto"}
+  *   - Long (64bits)       12345
+  *   - Double (64 bits)    123.45
+  *   - BigInt              12345N
+  *   - BigDecimal          123.45M
+  *   - String              "foobar"
+  *   - EDN Symbol          foo/bar
+  *   - EDN Keyword         :foo/bar
+  *   - EDN Nil             nil
+  *   - heterogenous list   (1 true "toto")
+  *   - heterogenous vector [1 true "toto"]
+  *   - heterogenous set    #{1 true "toto"}
+  *   - heterogenous map    {1 "toto", 1.234 "toto"}
   *
   * There are special syntaxes:
   *
-  * - comments are lines starting with `;`
-  * - values starting with `#_` are parsed but discarded
+  *   - comments are lines starting with `;`
+  *   - values starting with `#_` are parsed but discarded
   * 
   * EDN is an extensible format using tags starting with `#` such as:
   *
-  * ```
+  * {{{
   * #foo/bar value
-  * ```
+  * }}}
   * 
   * The parser can provide tag handlers that can be applied when a tag is parsed.
   * EDN specifies 2 tag handlers:
   * 
-  * - `#inst "1985-04-12T23:20:50.52Z"` for RFC-3339 instants
-  * -  `#uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"` for UUID
+  *   - #inst "1985-04-12T23:20:50.52Z" for RFC-3339 instants
+  *   - #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6" for UUID
   *
   *
   * The parser can also be extended with your own specific handlers:
   * 
   *
-  * ```scala
+  * {{{
   * val parser = new EDNParser("""#foo bar""") {
   *   // defines your own handler as a parboiled2 rule
   *   val fooTag = rule("foo" ~ WS ~ "bar" ~ push("toto"))
@@ -79,7 +79,7 @@ import org.joda.time.{DateTime, DateTimeZone}
   * parser.Root.run().success.value should be (
   *   Vector("toto")
   * )
-  * ```
+  * }}}
   *
   */
 object EDNParser {

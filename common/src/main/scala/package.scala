@@ -19,22 +19,22 @@
     * a very special EDN type whereas it is just an Any restricted
     * by the EDN specified parsing to those types:
     *
-    * - Long (64bits)       12345
-    * - Double (64 bits)    123.45
-    * - BigInt              12345M
-    * - BigDecimal          123.45N
-    * - String              "foobar"
-    * - Characters          \c \newline \return \space \tab \\ \u0308 etc...
-    * - EDN Symbol          foo/bar
-    * - EDN Keyword         :foo/bar
-    * - EDN Nil             nil
-    * - Tagged vaues        #foo/bar value
-    * - heterogenous list   (1 true "toto")
-    * - heterogenous vector [1 true "toto"]
-    * - heterogenous set    #{1 true "toto"}
-    * - heterogenous map    {1 "toto", 1.234 "toto"}
+    *   - Long (64bits)       12345
+    *   - Double (64 bits)    123.45
+    *   - BigInt              12345M
+    *   - BigDecimal          123.45N
+    *   - String              "foobar"
+    *   - Characters          \c \newline \return \space \tab \\ \u0308 etc...
+    *   - EDN Symbol          foo/bar
+    *   - EDN Keyword         :foo/bar
+    *   - EDN Nil             nil
+    *   - Tagged vaues        #foo/bar value
+    *   - heterogenous list   (1 true "toto")
+    *   - heterogenous vector [1 true "toto"]
+    *   - heterogenous set    #{1 true "toto"}
+    *   - heterogenous map    {1 "toto", 1.234 "toto"}
     *
-    * For more info, go to the [EDN format site](https://github.com/edn-format/edn)
+    * For more info, go to the [[https://github.com/edn-format/edn EDN format site]]
     */
   type EDN = Any
 

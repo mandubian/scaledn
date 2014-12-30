@@ -1,5 +1,7 @@
 import com.typesafe.sbt.SbtGit._
 
+import sbtunidoc.Plugin._
+
 name in ThisBuild := "scaledn"
 
 organization in ThisBuild := "com.mandubian"
@@ -27,7 +29,15 @@ fork in test := true
 
 //javaOptions in test += "-Xmx4G"
 
-lazy val root = (project in file(".")) settings (publish := { }) aggregate (common, parser, macros, validation)
+lazy val root = (project in file("."))
+  .settings  (publish := { })
+  .settings  (unidocSettings: _*)
+  .settings(site.settings ++ ghpages.settings: _*)
+  .settings(
+    site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "latest/api"),
+    git.remoteRepo := "git@github.com:mandubian/scaledn.git"
+  )
+  .aggregate (common, parser, macros, validation)
 
 lazy val common = project
   .settings(

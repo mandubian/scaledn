@@ -18,7 +18,7 @@ package scaledn
 /**
   * Write Rules to serialize Scala/Shapeless structures to EDN formatted String
   *
-  * ```scala
+  * {{{
   * import scaledn._
   * import write._
   * 
@@ -54,7 +54,7 @@ package scaledn
   * toEDNString(Person("toto", 34, Address("chboing", 75009))) should equal (
   *   """{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}}"""
   * )
-  * ```
+  * }}}
   */
 package object write extends Writes {
   import  play.api.data.mapping.WriteLike
@@ -74,7 +74,7 @@ package object write extends Writes {
   * It is based on generic [validation API](https://github.com/jto/validation) developed 
   * by Julien Tournay.
   *
-  * ```scala
+  * {{{
   * import scaledn._
   * import parser._
   * import validate._
@@ -146,7 +146,7 @@ package object write extends Writes {
   *   play.api.data.mapping.Success(("toto", 34, Address("chboing", CP(75009))))
   * )
   *
-  * ```
+  * }}}
   * 
   */
 package object validate extends Rules {
@@ -155,10 +155,10 @@ package object validate extends Rules {
   /**
     * Validate an EDN type to a Scala type
     *
-    * It is based on generic [validation API](https://github.com/jto/validation) developed 
+    * It is based on generic [[https://github.com/jto/validation Validation API]] developed 
     * by Julien Tournay.
     *
-    * ```scala
+    * {{{
     * import scaledn._
     * import validate._
     *
@@ -190,7 +190,7 @@ package object validate extends Rules {
     * ).success.value should be (
     *   play.api.data.mapping.Success(("toto", 34, Address("chboing", CP(75009))))
     * )
-    * ```
+    * }}}
     */
   def validate[T](edn: EDN)(implicit r: RuleLike[EDN, T]): Validation[EDN, T] = r.validate(edn)
 }
