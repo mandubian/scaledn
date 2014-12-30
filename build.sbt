@@ -32,8 +32,8 @@ fork in test := true
 lazy val root = (project in file("."))
   .settings  (publish := { })
   .settings  (unidocSettings: _*)
-  .settings(site.settings ++ ghpages.settings: _*)
-  .settings(
+  .settings  (site.settings ++ ghpages.settings: _*)
+  .settings  (
     site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "latest/api"),
     git.remoteRepo := "git@github.com:mandubian/scaledn.git"
   )

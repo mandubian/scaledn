@@ -11,7 +11,3 @@ addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.6.4")
 
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.3.1")
-
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "0.7.1")
-
-addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.5.2")
