@@ -9,3 +9,5 @@ resolvers ++= Seq(
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.6.4")
+
+addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.3.1")
