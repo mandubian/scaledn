@@ -139,7 +139,7 @@ trait LowWrites extends SuperLowWrites {
       wt: SeqWrite[HT, String]
     ): Write[H :: HT, String] =
     Write { case h :: t =>
-      (wh.writes(h) +: wt.writes(t)).mkString("(", " ", ")")
+      (wh.writes(h) +: wt.writes(t)).filterNot(_.isEmpty).mkString("(", " ", ")")
     }
 
   implicit def genWriteTuple[P, HL <: HList, HH , HT <: HList](
@@ -152,7 +152,7 @@ trait LowWrites extends SuperLowWrites {
   ): Write[P, String] =
     Write{ p =>
       val t = gen.to(p)
-      (wh.writes(t.head) +: wt.writes(t.tail)).mkString("[", " ", "]")
+      (wh.writes(t.head) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("[", " ", "]")
     }
 
   implicit def subGenWrite[H, HT <: HList, K, V](
@@ -163,6 +163,11 @@ trait LowWrites extends SuperLowWrites {
   ): SeqWrite[H :: HT, String] =
     SeqWrite{ case h :: t =>
       wh.writes(h.asInstanceOf[FieldType[K, V]]) +: wt.writes(t)
+    }
+
+  implicit def fieldTypeWO[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) =
+    Write[FieldType[K, Option[V]], String] { f =>
+      f map { v => "\"" + witness.value.name + "\"" + " " + wv.writes(v) } getOrElse ""
     }
 
 }
@@ -189,7 +194,7 @@ trait SuperLowWrites extends play.api.data.mapping.DefaultWrites {
   ): Write[P, String] =
     Write{ p =>
       val t = gen.to(p)
-      (wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).mkString("{", ", ", "}")
+      (wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("{", ", ", "}")
     }
 
   implicit def fieldTypeW[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) =

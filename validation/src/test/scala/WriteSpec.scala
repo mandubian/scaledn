@@ -28,8 +28,10 @@ import macros._
 
 class WriteSpec extends FlatSpec with Matchers with TryValues {
 
-  case class Address(street: String, cp: Int)
+  case class Address(street: String, cp: Option[Int])
   case class Person(name: String, age: Int, addr: Address)
+
+  case class Person2(name: String, age: Option[Int])
 
   "EDN Write" should "write basic types" in {
     toEDNString("toto") should equal ("\"toto\"")
@@ -70,13 +72,25 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
   it should "write case class & tuple" in {
     import shapeless.{::, HNil, HasProductGeneric, IsTuple}
 
-    toEDNString(Person("toto", 34, Address("chboing", 75009))) should equal (
+    toEDNString(Person("toto", 34, Address("chboing", Some(75009)))) should equal (
       """{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}}"""
     )
 
+    toEDNString(Person("toto", 34, Address("chboing", None))) should equal (
+      """{"name" "toto", "age" 34, "addr" {"street" "chboing"}}"""
+    )
+
     toEDNString((23, true)) should equal ("""[23 true]""")
-    toEDNString((23, Vector(1, 2, 3), "toto" :: 2 :: true :: HNil, Person("toto", 34, Address("chboing", 75009)))) should equal (
+    toEDNString((23, Vector(1, 2, 3), "toto" :: 2 :: true :: HNil, Person("toto", 34, Address("chboing", Some(75009))))) should equal (
       """[23 [1 2 3] ("toto" 2 true) {"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" 75009}}]"""
+    )
+
+    toEDNString(Person2("toto", Some(34))) should equal (
+      """{"name" "toto", "age" 34}"""
+    )
+
+    toEDNString(Person2("toto", None)) should equal (
+      """{"name" "toto"}"""
     )
   }
 
@@ -86,9 +100,10 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
       EDN(s"#myns/person {:name ${p.name}, :age ${p.age}, :addr {:street ${p.addr.street}, :cp ${p.addr.cp}} }")
     }
 
-    toEDNString(Person("toto", 34, Address("chboing", 75009))) should equal (
+    toEDNString(Person("toto", 34, Address("chboing", Some(75009)))) should equal (
       """#myns/person {:name "toto", :age 34, :addr {:street "chboing", :cp 75009}}"""
     )
 
   }
+
 }
