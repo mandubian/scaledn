@@ -34,6 +34,7 @@ lazy val root = (project in file("."))
   .settings  (unidocSettings: _*)
   .settings  (site.settings ++ ghpages.settings: _*)
   .settings  (
+    name := "scaledn",
     site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "latest/api"),
     git.remoteRepo := "git@github.com:mandubian/scaledn.git"
   )

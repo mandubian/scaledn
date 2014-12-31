@@ -59,7 +59,34 @@ package scaledn
 package object write extends Writes {
   import  play.api.data.mapping.WriteLike
 
-  def toEDNString[I](i: I)(implicit w: WriteLike[I, String]): String = w.writes(i) 
+  /**
+    * Serializes Scala/Shapeless structures to EDN formatted String
+    *
+    * {{{
+    * import scaledn._
+    * import write._
+    * 
+    * // All primitives types are managed
+    * toEDNString("toto") should equal ("\"toto\"")
+    * }}}
+    */
+  def toEDNString[I](i: I)(implicit w: WriteLike[I, String]): String = w.writes(i)
+
+  /**
+    * Serializes Scala/Shapeless structures to a EDN Tagged value
+    *
+    * {{{
+    * import scaledn._
+    * import write._
+    * 
+    * implicit val taggedAddr = Write{ addr: Address =>
+    *   EDN(s"#myns/addr {:street ${addr.street}, :cp ${addr.cp}}")
+    * }
+    * 
+    * tagged(Addr("Paris", CP(75009))) should equal (EDN("#myns/addr {:street "Paris", :cp 75009}"))
+    * }}}
+    */
+  def tagged[I, J](i: I)(implicit w: WriteLike[I, EDNTagged[J]]): EDNTagged[J] = w.writes(i)
 }
 
 /**

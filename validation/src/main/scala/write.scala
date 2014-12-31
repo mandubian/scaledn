@@ -68,6 +68,23 @@ trait Writes extends LowWrites {
       s"${wk.writes(k)} ${wv.writes(v)}" }.mkString("{", ", ", "}")
     }
 
+  val mapSWOpt = Write[Map[EDN, EDN], String]{ s => 
+    s.map{ case (k,v) =>
+      v match {
+        case o: Option[EDN] => o match {
+          case None    => ""
+          case Some(v) => s"${ednW.writes(k)} ${ednW.writes(v)}"
+        }
+        case v => s"${ednW.writes(k)} ${ednW.writes(v)}"
+      }
+    }.filterNot(_.isEmpty).mkString("{", ", ", "}")
+  }
+
+  def optW[A](implicit w: Write[A, String]) = Write[Option[A], String]{
+    case None    => ""
+    case Some(a) => w.writes(a)
+  }
+
   implicit def ednW: Write[EDN, String] = Write[EDN, String]{
     case s: String => stringW.writes(s)
     case b: Boolean => booleanW.writes(b)
@@ -87,7 +104,8 @@ trait Writes extends LowWrites {
     case s: Vector[EDN] => vectorSW(ednW).writes(s)
     case s: Set[EDN @unchecked] => setSW(ednW).writes(s)
     case s: Seq[EDN] => seqSW(ednW).writes(s)
-    case s: Map[EDN @ unchecked, EDN @ unchecked] => mapSW[EDN, EDN](ednW, ednW).writes(s)
+    case s: Map[EDN @ unchecked, EDN @ unchecked] => mapSWOpt.writes(s)
+    case s: Option[EDN] => optW[EDN].writes(s)
 
     case s => throw new RuntimeException(s"$s unsupported EDN type")
   }

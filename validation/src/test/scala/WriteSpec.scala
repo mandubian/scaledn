@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package scaledn.validation
+package scaledn
+package validate
 
 import org.scalatest._
 
@@ -104,6 +105,27 @@ class WriteSpec extends FlatSpec with Matchers with TryValues {
       """#myns/person {:name "toto", :age 34, :addr {:street "chboing", :cp 75009}}"""
     )
 
+    toEDNString(Person("toto", 34, Address("chboing", None))) should equal (
+      """#myns/person {:name "toto", :age 34, :addr {:street "chboing"}}"""
+    )
   }
 
+  it should "write tagged classes embedded" in {
+
+    implicit val taggedAddr = Write{ addr: Address =>
+      EDN(s"#myns/addr {:street ${addr.street}, :cp ${addr.cp}}")
+    }
+
+    implicit val taggedPerson = Write{ p: Person =>
+      EDN(s"#myns/person {:name ${p.name}, :age ${p.age}, :addr ${tagged(p.addr)} }")
+    }
+
+    toEDNString(Person("toto", 34, Address("chboing", Some(75009)))) should equal (
+      """#myns/person {:name "toto", :age 34, :addr #myns/addr {:street "chboing", :cp 75009}}"""
+    )
+
+    toEDNString(Person("toto", 34, Address("chboing", None))) should equal (
+      """#myns/person {:name "toto", :age 34, :addr #myns/addr {:street "chboing"}}"""
+    )
+  }
 }
