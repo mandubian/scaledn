@@ -708,6 +708,23 @@ toEDNString(Person(<span class="lit">"toto"</span>, <span class="num">34</span>,
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Writes.html" class="extype" name="scaledn.write.Writes">Writes</a></dd></dl></div>
+    </li><li name="scaledn.write.Writes#mapSWOpt" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mapSWOpt:play.api.data.mapping.Write[Map[scaledn.EDN,scaledn.EDN],String]"></a>
+      <a id="mapSWOpt:Write[Map[EDN,EDN],String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapSWOpt</span><span class="result">: <span class="extype" name="play.api.data.mapping.Write">Write</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>, <a href="../package.html#EDN=Any" class="extmbr" name="scaledn.EDN">EDN</a>], <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.write.package@mapSWOpt:play.api.data.mapping.Write[Map[scaledn.EDN,scaledn.EDN],String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Writes.html" class="extype" name="scaledn.write.Writes">Writes</a></dd></dl></div>
     </li><li name="scaledn.write.Writes#nilW" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="nilW:play.api.data.mapping.Write[scaledn.EDNNil.type,String]"></a>
       <a id="nilW:Write[EDNNil.type,String]"></a>
@@ -721,6 +738,23 @@ toEDNString(Person(<span class="lit">"toto"</span>, <span class="num">34</span>,
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#scaledn.write.package@nilW:play.api.data.mapping.Write[scaledn.EDNNil.type,String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Writes.html" class="extype" name="scaledn.write.Writes">Writes</a></dd></dl></div>
+    </li><li name="scaledn.write.Writes#optW" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="optW[A](implicitw:play.api.data.mapping.Write[A,String]):play.api.data.mapping.Write[Option[A],String]"></a>
+      <a id="optW[A](Write[A,String]):Write[Option[A],String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optW</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="w">w: <span class="extype" name="play.api.data.mapping.Write">Write</span>[<span class="extype" name="scaledn.write.Writes.optW.A">A</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="play.api.data.mapping.Write">Write</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scaledn.write.Writes.optW.A">A</span>], <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.write.package@optW[A](implicitw:play.api.data.mapping.Write[A,String]):play.api.data.mapping.Write[Option[A],String]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" />
       </a>
     </span>
@@ -929,6 +963,30 @@ toEDNString(Person(<span class="lit">"toto"</span>, <span class="num">34</span>,
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Writes.html" class="extype" name="scaledn.write.Writes">Writes</a></dd></dl></div>
+    </li><li name="scaledn.write#tagged" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tagged[I,J](i:I)(implicitw:play.api.data.mapping.WriteLike[I,scaledn.EDNTagged[J]]):scaledn.EDNTagged[J]"></a>
+      <a id="tagged[I,J](I)(WriteLike[I,EDNTagged[J]]):EDNTagged[J]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tagged</span><span class="tparams">[<span name="I">I</span>, <span name="J">J</span>]</span><span class="params">(<span name="i">i: <span class="extype" name="scaledn.write.tagged.I">I</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="w">w: <span class="extype" name="play.api.data.mapping.WriteLike">WriteLike</span>[<span class="extype" name="scaledn.write.tagged.I">I</span>, <a href="../EDNTagged.html" class="extype" name="scaledn.EDNTagged">EDNTagged</a>[<span class="extype" name="scaledn.write.tagged.J">J</span>]]</span>)</span><span class="result">: <a href="../EDNTagged.html" class="extype" name="scaledn.EDNTagged">EDNTagged</a>[<span class="extype" name="scaledn.write.tagged.J">J</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#scaledn.write.package@tagged[I,J](i:I)(implicitw:play.api.data.mapping.WriteLike[I,scaledn.EDNTagged[J]]):scaledn.EDNTagged[J]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Serializes Scala/Shapeless structures to a EDN Tagged value</p><div class="fullcomment"><div class="comment cmt"><p>Serializes Scala/Shapeless structures to a EDN Tagged value</p><pre><span class="kw">import</span> scaledn._
+<span class="kw">import</span> write._
+
+<span class="kw">implicit</span> <span class="kw">val</span> taggedAddr = Write{ addr: Address <span class="kw">=&gt;</span>
+  EDN(s<span class="lit">"#myns/addr {:street ${addr.street}, :cp ${addr.cp}}"</span>)
+}
+
+tagged(Addr(<span class="lit">"Paris"</span>, CP(<span class="num">75009</span>))) should equal (EDN(<span class="lit">"#myns/addr {:street "</span>Paris<span class="lit">", :cp 75009}"</span>))</pre></div></div>
     </li><li name="scaledn.write.Writes#taggedW" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="taggedW[A](implicitw:play.api.data.mapping.Write[A,String]):play.api.data.mapping.Write[scaledn.EDNTagged[A],String]"></a>
       <a id="taggedW[A](Write[A,String]):Write[EDNTagged[A],String]"></a>
@@ -946,7 +1004,7 @@ toEDNString(Person(<span class="lit">"toto"</span>, <span class="num">34</span>,
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Writes.html" class="extype" name="scaledn.write.Writes">Writes</a></dd></dl></div>
-    </li><li name="scaledn.write#toEDNString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="scaledn.write#toEDNString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toEDNString[I](i:I)(implicitw:play.api.data.mapping.WriteLike[I,String]):String"></a>
       <a id="toEDNString[I](I)(WriteLike[I,String]):String"></a>
       <h4 class="signature">
@@ -962,7 +1020,11 @@ toEDNString(Person(<span class="lit">"toto"</span>, <span class="num">34</span>,
         <img src="../../lib/permalink.png" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Serializes Scala/Shapeless structures to EDN formatted String</p><div class="fullcomment"><div class="comment cmt"><p>Serializes Scala/Shapeless structures to EDN formatted String</p><pre><span class="kw">import</span> scaledn._
+<span class="kw">import</span> write._
+
+<span class="cmt">// All primitives types are managed</span>
+toEDNString(<span class="lit">"toto"</span>) should equal (<span class="lit">"\"toto\""</span>)</pre></div></div>
     </li><li name="scaledn.write.Writes#vectorSW" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="vectorSW[A](implicitw:play.api.data.mapping.Write[A,String]):play.api.data.mapping.Write[Vector[A],String]"></a>
       <a id="vectorSW[A](Write[A,String]):Write[Vector[A],String]"></a>
