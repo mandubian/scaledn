@@ -44,7 +44,7 @@ sbt.version=0.13.7
 ```scala
 resolvers += bintray.Opts.resolver.mavenRepo("mandubian")
 
-scalednVersion := "1.0.0-f77f98cc305ce8a304d8941f800505c6b3d41d74"
+scalednVersion := "1.0.0-603d10d0e58c3cbc75d7c0321d7401e888e2fb78"
 
 libraryDependencies ++= Seq(
   // only need scaledn parser?
