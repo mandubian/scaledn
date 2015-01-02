@@ -60,6 +60,19 @@ lazy val parser = project
   .settings(bintraySettings:_*)
   .dependsOn (common)
 
+lazy val `stream-parser` = project
+  .settings(
+    name := "scaledn-stream-parser",
+    libraryDependencies ++= Seq(
+      "com.codecommit"   %% "sparse"       % "master-e638c2445adf03bc4b8148b0415d647087646b41",
+      "joda-time"        %  "joda-time"    % "2.6",
+      "org.joda"         %  "joda-convert" % "1.2"
+    ),
+    publishMavenStyle := true
+  )
+  .settings(bintraySettings:_*)
+  .dependsOn (common)
+
 lazy val validation = project
   .settings(
     name := "scaledn-validation",
