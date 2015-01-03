@@ -33,10 +33,11 @@ import Parser._
 package object parser {
 
   def parseEDN(in: Process[Task, Char]): Process[Task, EDN] = 
-      in.pipe(tokenize(EDNToken.Rules))
+      in.pipe(tokenize(EDNToken.Rules, 2))
         .stripW
         .pipe(parse(SParser.root))
         .stripW
+
   /**
    * Somewhat-inefficiently (but usefully!) tokenizes an input stream of characers into
    * a stream of tokens given a set of regular expressions and mapping functions.  Note
@@ -46,6 +47,7 @@ package object parser {
    */
   def tokenize[T](
     rules: Map[Regex, PartialFunction[List[String], T]],
+    maxMatchDepth: Int = 1,
     whitespace: Option[Regex] = Some("""\s+""".r)
   ): Process1[Char, Char \/ T] = {
     import Process._
@@ -59,23 +61,27 @@ package object parser {
 
     def attempt(buffer: CharSequence, requireIncomplete: Boolean): Option[T] = {
       println(s"buffer:$buffer")
-      def matchBoth(pattern: Regex, pf: PartialFunction[List[String], T]): Boolean = {
-        pattern findPrefixMatchOf buffer filter {
-          !requireIncomplete || _.matched.length < buffer.length
-        } map { t =>
-          val v = t.subgroups
-          println("SUB:"+v)
-          v
-        } collect pf isDefined
+
+      // glory to ugly mutable code ;)
+      var opt: Option[T] = None
+      val it = rules.iterator
+
+      while(it.hasNext && opt.isEmpty) {
+        val (pattern, pf) = it.next
+        pattern
+          .findPrefixMatchOf(buffer)
+          .filter(!requireIncomplete || _.matched.length < buffer.length)
+          .foreach { m =>
+            val subs = m.subgroups
+            println(s"subs:$subs")
+            if(pf isDefinedAt subs) opt = Some(pf(subs))
+          }
       }
 
-      rules collectFirst {
-        case (pattern, pf) if matchBoth(pattern, pf) =>
-          pattern findPrefixMatchOf buffer map { _.subgroups } collect pf get      // I hate how we have to split this...
-      }
+      opt
     }
 
-    /*
+    /**
      * Buffer up characters until we get a prefix match PLUS one character that doesn't match (this
      * is to defeat early-completion of greedy matchers).  Once we get a prefix match that satisfies
      * a rule in the map, emit the resulting token and flush the buffer.  Any characters that aren't
@@ -86,7 +92,7 @@ package object parser {
      * prefix.  Better yet, we should just knuckle-down and write a DFA compiler.  Would be a lot
      * simpler.
      */
-    def inner(buffer: Vector[Char]): Process1[Char, Char \/ T] = {
+    def inner(buffer: Vector[Char], depth: Int): Process1[Char, Char \/ T] = {
       receive1Or[Char, Char \/ T](
         attempt(iseqAsCharSeq(buffer), false)
           .map { \/-(_) }
@@ -98,18 +104,27 @@ package object parser {
 
         val wsMatch = whitespace flatMap { _ findPrefixOf csBuffer }
 
-        // if we matched prefix whitespace, move on with a clean buffer
-        wsMatch map { prefix =>
-          inner(buffer2 drop prefix.length)
-        } getOrElse {
-          attempt(csBuffer, true)
-            .map { \/-(_) }
-            .map { t => emit(t) ++ inner(Vector(c)) }
-            .getOrElse (inner(buffer2))
+        wsMatch match {
+          case Some(prefix) => 
+            // if we matched prefix whitespace, move on with a clean buffer
+            inner(buffer2 drop prefix.length, depth)
+
+          case None =>
+            attempt(csBuffer, true) map (\/-(_)) match {
+              case Some(t) => 
+                // it matched but maybe it will match on next one too
+                // if (depth > 0), try on next input
+                if(depth > 0) inner(buffer2, depth - 1)
+                // if (depth == 0), accept this match & reset buffer
+                else emit(t) ++ inner(Vector(c), maxMatchDepth) 
+              case None    => 
+                inner(buffer2, depth)
+            }
         }
       }
     }
 
-    inner(Vector.empty)
+    inner(Vector.empty, maxMatchDepth)
+
   }
 }

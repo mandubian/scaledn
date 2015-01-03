@@ -65,7 +65,7 @@ object EDNToken {
 
   val Rules: Map[Regex, PartialFunction[List[String], EDNToken]] = Map(
     stringLiteral       -> { case body :: _   => EDNStr(canonicalizeStr(body)) },
-    naturalNumber       -> { case body :: Nil => EDNLong(body.toLong) },
+    naturalNumber       -> { case body :: _   => EDNLong(body.toLong) },
     floatingPointNumber -> { case body :: _   => EDNDouble(body.toDouble) },
     exponential         -> { case body :: _   => EDNExp(body) }
     // """\{""".r  -> { case Nil => LBrace },
@@ -101,11 +101,18 @@ object SParser {
   import EDNToken._
 
   lazy val root: Parser[EDNToken, EDN] = (
-    strValue
+      strValue
+    | longValue
+    | doubleValue
   )
 
   lazy val strValue: Parser[EDNToken, EDN] =
     pattern { case EDNStr(body) => body }
 
+  lazy val longValue: Parser[EDNToken, EDN] =
+    pattern { case EDNLong(body) => body }
+
+  lazy val doubleValue: Parser[EDNToken, EDN] =
+    pattern { case EDNDouble(body) => body }
 }
 

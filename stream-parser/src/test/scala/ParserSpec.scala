@@ -39,12 +39,14 @@ class StreamParserSpec extends FlatSpec with Matchers with TryValues {
   }
 
   it should "lex a double" in {
-    val output = Process("-123.345e-4": _*).toSource pipe tokenize(EDNToken.Rules) stripW
+    val output = Process("-123.345e-4": _*).toSource pipe tokenize(EDNToken.Rules, 2) stripW
 
-    output.runLog.run should equal (Seq(EDNDouble(-123.345), EDNExp("e-4")))
+    output.runLog.run should equal (Seq(EDNDouble(-123.345e-4)))
   }
 
   "EDN parsing" should "parse the fundamental values" in {
     parseEDN(Process("\"toto\"": _*).toSource).runLog.run should equal (Seq("toto"))
+    parseEDN(Process("123": _*).toSource).runLog.run should equal (Seq(123L))
+    parseEDN(Process("-123.345e-4": _*).toSource).runLog.run should equal (Seq(-123.345e-4))
   }
 }
