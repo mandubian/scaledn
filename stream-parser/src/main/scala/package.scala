@@ -46,22 +46,13 @@ package object parser {
    * this function.  MUCH better ways.
    */
   def tokenize[T](
-    rules: Map[Regex, PartialFunction[List[String], T]],
+    rules: Seq[(Regex, PartialFunction[List[String], T])],
     maxMatchDepth: Int = 1,
     whitespace: Option[Regex] = Some("""\s+""".r)
   ): Process1[Char, Char \/ T] = {
     import Process._
 
-    def iseqAsCharSeq(seq: IndexedSeq[Char]): CharSequence = new CharSequence {
-      def charAt(i: Int) = seq(i)
-      def length = seq.length
-      def subSequence(start: Int, end: Int) = iseqAsCharSeq(seq.slice(start, end))
-      override def toString = seq.mkString
-    }
-
     def attempt(buffer: CharSequence, requireIncomplete: Boolean): Option[T] = {
-      println(s"buffer:$buffer")
-
       // glory to ugly mutable code ;)
       var opt: Option[T] = None
       val it = rules.iterator
@@ -73,7 +64,7 @@ package object parser {
           .filter(!requireIncomplete || _.matched.length < buffer.length)
           .foreach { m =>
             val subs = m.subgroups
-            println(s"subs:$subs")
+            println(s"found subs:$subs")
             if(pf isDefinedAt subs) opt = Some(pf(subs))
           }
       }
@@ -93,6 +84,7 @@ package object parser {
      * simpler.
      */
     def inner(buffer: Vector[Char], depth: Int): Process1[Char, Char \/ T] = {
+      println(s"inner buffer:$buffer depth:$depth")
       receive1Or[Char, Char \/ T](
         attempt(iseqAsCharSeq(buffer), false)
           .map { \/-(_) }
@@ -117,7 +109,8 @@ package object parser {
                 if(depth > 0) inner(buffer2, depth - 1)
                 // if (depth == 0), accept this match & reset buffer
                 else emit(t) ++ inner(Vector(c), maxMatchDepth) 
-              case None    => 
+              case None    =>
+                println("No match")
                 inner(buffer2, depth)
             }
         }
@@ -127,4 +120,81 @@ package object parser {
     inner(Vector.empty, maxMatchDepth)
 
   }
+
+  def iseqAsCharSeq(seq: IndexedSeq[Char]): CharSequence = new CharSequence {
+    def charAt(i: Int) = seq(i)
+    def length = seq.length
+    def subSequence(start: Int, end: Int) = iseqAsCharSeq(seq.slice(start, end))
+    override def toString = seq.mkString
+  }
+
+  /**
+   * Somewhat-inefficiently (but usefully!) tokenizes an input stream of characers into
+   * a stream of tokens given a set of regular expressions and mapping functions.  Note
+   * that the resulting process will have memory usage which is linearly proportional to
+   * the longest *invalid* substring, so…be careful.  There are better ways to implement
+   * this function.  MUCH better ways.
+   */
+  def tokenize1[T](
+    pattern: Regex,
+    tokenizer: PartialFunction[List[String], T],
+    startBuffer: Vector[Char] = Vector.empty,
+    maxMatchDepth: Int = 1,
+    whitespace: Option[Regex] = Some("""\s+""".r)
+  ): Process1[Char, Char \/ T] = {
+    import Process._
+
+    def attempt(buffer: CharSequence, requireIncomplete: Boolean): Option[T] = {
+      // glory to ugly mutable code ;)
+      pattern
+        .findPrefixMatchOf(buffer)
+        .filter(!requireIncomplete || _.matched.length < buffer.length)
+        .map { m =>
+          val subs = m.subgroups
+          println(s"found subs:$subs")
+          subs
+        }
+        .collect(tokenizer)
+
+    }
+
+    def inner(buffer: Vector[Char], depth: Int): Process1[Char, Char \/ T] = {
+      println(s"inner buffer:$buffer depth:$depth")
+      receive1Or[Char, Char \/ T](
+        attempt(iseqAsCharSeq(buffer), false)
+          .map { \/-(_) }
+          .map (emit)
+          .getOrElse (emitAll(buffer map { -\/(_) }))
+      ){ c =>
+        val buffer2 = buffer :+ c
+        val csBuffer = iseqAsCharSeq(buffer2)
+
+        val wsMatch = whitespace flatMap { _ findPrefixOf csBuffer }
+
+        wsMatch match {
+          case Some(prefix) => 
+            // if we matched prefix whitespace, move on with a clean buffer
+            inner(buffer2 drop prefix.length, depth)
+
+          case None =>
+            attempt(csBuffer, true) map (\/-(_)) match {
+              case Some(t) => 
+                // it matched but maybe it will match on next one too
+                // if (depth > 0), try on next input
+                if(depth > 0) inner(buffer2, depth - 1)
+                // if (depth == 0), accept this match & reset buffer
+                else emit(t) ++ inner(Vector(c), maxMatchDepth) 
+              case None    =>
+                println("No match")
+                inner(buffer2, depth)
+            }
+        }
+      }
+    }
+
+    inner(startBuffer, maxMatchDepth)
+
+  }
+
+
 }

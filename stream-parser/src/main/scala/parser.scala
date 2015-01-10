@@ -45,29 +45,37 @@ object EDNToken {
 
   case object Comma extends EDNToken     // ,
 
-  final case class EDNStr(str: String)      extends EDNToken        // "foo"
-  final case class EDNLong(value: Long)     extends EDNToken        // 3
-  final case class EDNDouble(value: Double) extends EDNToken    // 3.14
-  final case class EDNExp(value: String)    extends EDNToken    // 3.14
+  final case class EDNStr(str: String)        extends EDNToken    // "foo"
+  final case class EDNLong(value: Long)       extends EDNToken    // 3
+  final case class EDNNatural(value: BigInt)  extends EDNToken    // 3872348739479847397397392739479377
+  final case class EDNDouble(value: Double)   extends EDNToken    // 3.14
+  final case class EDNReal(value: BigDecimal) extends EDNToken    // 1.12356346238763876283746837246238
 
   case object True  extends EDNToken    // true
   case object False extends EDNToken   // false
 
   val stringLiteral = ("\""+"""(([^"\p{Cntrl}\\]|\\[\\'"bfnrt]|\\u[a-fA-F0-9]{4})*)"""+"\"").r
 
-  val floatingPointNumber = """(-?(\d+(\.\d*)?|\d*\.\d+)([eE][+-]?\d+)?)""".r
-
-  val decimalNumber = """(\d+(\.\d*)?|\d*\.\d+)""".r
-
-  val naturalNumber = """(\d+)""".r
+  val floatingPointNumber = """((-?(\d+(\.\d*)?|\d*\.\d+)([eE][+-]?\d+)?))(N?)""".r
 
   val exponential = """([eE][+-]?\d+)""".r
 
-  val Rules: Map[Regex, PartialFunction[List[String], EDNToken]] = Map(
-    stringLiteral       -> { case body :: _   => EDNStr(canonicalizeStr(body)) },
-    naturalNumber       -> { case body :: _   => EDNLong(body.toLong) },
-    floatingPointNumber -> { case body :: _   => EDNDouble(body.toDouble) },
-    exponential         -> { case body :: _   => EDNExp(body) }
+  val naturalNumber = """(-?\d+)(M?)""".r
+
+  val Rules: Seq[(Regex, PartialFunction[List[String], EDNToken])] = Seq(
+    stringLiteral       ->  { case body :: _  =>  EDNStr(canonicalizeStr(body)) },
+
+    naturalNumber       ->  { case body :: t  =>  t.last match {
+                                                    case "M" => EDNNatural(BigInt(body))
+                                                    case _   => EDNLong(body.toLong) }},
+
+    floatingPointNumber ->  { case body :: t  =>  t.last match {
+                                                    case "N" => EDNReal(BigDecimal(body))
+                                                    case _   => EDNDouble(body.toDouble) }},
+
+    "true".r            ->  { case Nil        =>  True  },
+    "false".r           ->  { case Nil        =>  False }
+
     // """\{""".r  -> { case Nil => LBrace },
     // """\}""".r  -> { case Nil => RBrace },
 
@@ -77,8 +85,6 @@ object EDNToken {
     // """,""".r   -> { case Nil => Comma },
 
 
-    // "true".r    -> { case Nil => True },
-    // "false".r   -> { case Nil => False }
   )
 
   private def canonicalizeStr(body: String): String = {
@@ -94,6 +100,65 @@ object EDNToken {
   implicit val eq: Equal[EDNToken] = Equal.equalA[EDNToken]
   implicit val show: Show[EDNToken] = Show.showA[EDNToken]
 
+  def tokenizeOptim(
+    maxMatchDepth: Int = 1,
+    whitespace: Option[Regex] = Some("""\s+""".r)
+  ): Process1[Char, Char \/ EDNToken] = {
+    import Process._
+
+    def attempt(buffer: CharSequence, requireIncomplete: Boolean): Option[EDNToken] = {
+      // glory to ugly mutable code ;)
+      var opt: Option[EDNToken] = None
+      val it = Rules.iterator
+
+      while(it.hasNext && opt.isEmpty) {
+        val (pattern, pf) = it.next
+        pattern
+          .findPrefixMatchOf(buffer)
+          .filter(!requireIncomplete || _.matched.length < buffer.length)
+          .foreach { m =>
+            val subs = m.subgroups
+            println(s"found subs:$subs")
+            if(pf isDefinedAt subs) opt = Some(pf(subs))
+          }
+      }
+
+      opt
+    }
+
+    def inner(buffer: Vector[Char], depth: Int): Process1[Char, Char \/ EDNToken] = {
+      println(s"inner buffer:$buffer depth:$depth")
+      receive1Or[Char, Char \/ EDNToken](
+        attempt(iseqAsCharSeq(buffer), false)
+          .map { \/-(_) }
+          .map (emit)
+          .getOrElse (emitAll(buffer map { -\/(_) }))
+      ){ c =>
+        
+        c match {
+          case '"'  =>  tokenize1(
+                          stringLiteral,
+                          { case body :: _  =>  EDNStr(canonicalizeStr(body)) },
+                          Vector('"')
+                        )
+          // case '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '-' | '+' => Double | Long
+          // case ':'  => Keyword
+          // case '('  => List
+          // case '{'  => Map
+          // case '['  => Vector
+          // case '#'  => Set | Tagged
+          // case 't'  => True | Symbol
+          // case 'f'  => False | Symbol
+          // case 'n'  => Nil | Symbol
+          // case '\\' => Char
+          // case _    => Symbol
+        }
+      }
+    }
+
+    inner(Vector.empty, maxMatchDepth)
+
+  }
 }
 
 
@@ -114,5 +179,6 @@ object SParser {
 
   lazy val doubleValue: Parser[EDNToken, EDN] =
     pattern { case EDNDouble(body) => body }
+
 }
 

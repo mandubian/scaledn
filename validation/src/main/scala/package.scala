@@ -70,7 +70,7 @@ package object write extends Writes {
     * toEDNString("toto") should equal ("\"toto\"")
     * }}}
     */
-  def toEDNString[I](i: I)(implicit w: WriteLike[I, String]): String = w.writes(i)
+  def toEDNString[I, O](i: I)(implicit s: Strategy.Aux[I, O], w: WriteLike[O, String]): String = w.writes(s(i))
 
   /**
     * Serializes Scala/Shapeless structures to a EDN Tagged value
