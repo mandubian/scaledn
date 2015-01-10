@@ -17,31 +17,15 @@ package scaledn
 package write
 
 import  play.api.data.mapping._
-import shapeless.DepFn1
 
 import scaledn._
+
 
 object Writes extends Writes
 
 trait Writes extends LowWrites {
 
   import play.api.libs.functional.Monoid
-
-  trait Strategy[A] extends DepFn1[A]
-
-  object Strategy {
-    type Aux[A, O] = Strategy[A]{ type Out = O }
-  }
-
-  implicit def productStrategy[P, HL <: HList](
-    cc: HasProductGeneric[P],
-    not: P <:!< EDNValue,
-    gen: LabelledGeneric.Aux[P, HL]
-  ): Strategy.Aux[P, EDNTagged[HL]] = new Strategy[P] {
-    type Out = EDNTagged[HL]
-
-    def apply(p: P) = EDNTagged()
-  }
 
   implicit def jsonMonoid = new Monoid[EDNMap] {
     def append(a1: EDNMap, a2: EDNMap) = a1 ++ a2
@@ -214,12 +198,6 @@ trait SuperLowWrites extends play.api.data.mapping.DefaultWrites {
   import shapeless.ops.record.Selector
   import record._
 
-  implicit def isoStrategy[I] = new Strategy[I] {
-    type Out = I
-
-    def apply(i: I) = i
-  }
-  
   implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
     implicit
       cc: HasProductGeneric[P],
