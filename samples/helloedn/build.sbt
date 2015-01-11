@@ -2,11 +2,13 @@ name := "helloedn"
 
 resolvers += bintray.Opts.resolver.mavenRepo("mandubian")
 
+val scalednVersion = "1.0.0-e8180d08620a607ec47613f8c2585f7784e86625"
+
 libraryDependencies ++= Seq(
   // only need scaledn parser?
-    "com.mandubian" %% "scaledn-parser"     % "1.0.0-f77f98cc305ce8a304d8941f800505c6b3d41d74"
+    "com.mandubian" %% "scaledn-parser"     % scalednVersion
   // only need scaledn validation/serialization?
-  , "com.mandubian" %% "scaledn-validation" % "1.0.0-f77f98cc305ce8a304d8941f800505c6b3d41d74"
+  , "com.mandubian" %% "scaledn-validation" % scalednVersion
   // only need scaledn macros?
-  , "com.mandubian" %% "scaledn-macros"     % "1.0.0-f77f98cc305ce8a304d8941f800505c6b3d41d74"
+  , "com.mandubian" %% "scaledn-macros"     % scalednVersion
 )

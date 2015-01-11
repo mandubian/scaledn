@@ -44,7 +44,7 @@ sbt.version=0.13.7
 ```scala
 resolvers += bintray.Opts.resolver.mavenRepo("mandubian")
 
-scalednVersion := "1.0.0-f77f98cc305ce8a304d8941f800505c6b3d41d74"
+val scalednVersion = "1.0.0-e8180d08620a607ec47613f8c2585f7784e86625"
 
 libraryDependencies ++= Seq(
   // only need scaledn parser?
@@ -414,7 +414,7 @@ When writing REST or external API, the received data can never be trusted before
 // parse the received string input
 parseEDN("""{ 1 "toto" 2 "tata" 3 "tutu" }""")
 // then validate it to a Scala type
-  .map(validate[Map[Long, String]])
+  .map(validateEDN[Map[Long, String]])
   .success.value should be (
     play.api.data.mapping.Success(Map(
       1L -> "toto",
@@ -430,7 +430,7 @@ The validation API is the following:
 import scaledn._
 import validate._
 
-def validate[T](edn: EDN)(implicit r: RuleLike[EDN, T]): Validation[EDN, T] = r.validate(edn)
+def validateEDN[T](edn: EDN)(implicit r: RuleLike[EDN, T]): Validation[EDN, T] = r.validate(edn)
 ```
 
 Scaledn validation is based on [Generic Validation API](https://github.com/jto/validation) developed by my [MFGLabs](http://www.mfglabs.com)'s colleague & friend [Julien Tournay](https://github.com/jto). This API was developed for Play Framework & Typesafe last year to generalize Json validation API to all data formats. But it will never be integrated in Play as Typesafe considers it to be too pure Scala & pure FP-oriented. Yet, we use this API in production at [MFGLabs](http://www.mfglabs.com) and maintain/extend it ourselves.
@@ -455,27 +455,27 @@ case class Person(name: String, age: Int, addr: Address)
 
 // HLISTS
 parseEDN("""(1 "toto" true nil)""").map(
-  validate[Long :: String :: Boolean :: EDNNil.type :: HNil]
+  validateEDN[Long :: String :: Boolean :: EDNNil.type :: HNil]
 ).success.value should be (
   Success(1L :: "toto" :: true :: EDNNil :: HNil)
 )
 
 // TUPLES
 parseEDN("""("toto" 34 {"street" "chboing", "cp" {"cp" 75009}})""").map(
-  validate[Tuple3[String, Int, Address]]
+  validateEDN[Tuple3[String, Int, Address]]
 ).success.value should be (
   Success(("toto", 34, Address("chboing", CP(75009))))
 )
 
 // CASECLASSES
 parseEDN("""("toto" 34 ("chboing" (75009)))""").map(
-  validate[Person]
+  validateEDN[Person]
 ).success.value should be (
   Success(Person("toto", 34, Address("chboing", CP(75009))))
 )
 
 parseEDN("""{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" {"cp" 75009}}}""").map(
-  validate[Person]
+  validateEDN[Person]
 ).success.value should be (
   Success(Person("toto", 34, Address("chboing", CP(75009))))
 )

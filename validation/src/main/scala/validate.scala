@@ -246,11 +246,11 @@ trait Rules extends ValidationUtils with ShapelessRules {
 
 
 trait ShapelessRules extends ValidationUtils with LowerRules {
-  import shapeless.{HList, ::, HNil, Unpack2, Witness, LabelledGeneric, Generic}
+  import shapeless.{HList, ::, HNil, Unpack2, Witness, LabelledGeneric, Generic, IsTuple}
   import shapeless.labelled.FieldType
   import shapeless.ops.hlist.IsHCons
 
-  import shapelessext._
+  // import shapelessext._
 
 
   def ap2[HH, HT <: HList](head: VA[HH], tail: VA[HT])(implicit applicative: Applicative[VA]): VA[HH::HT] =
@@ -315,35 +315,6 @@ trait ShapelessRules extends ValidationUtils with LowerRules {
   }}
   
 
-  /** TRICKKKKKKK
-    * scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
-    */
-  implicit def caseClassR[P, HL <: HList, HH, HT <: HList, K, V, VS <: HList, VH, VT <: HList](
-    implicit 
-      cc: IsCaseClass[P],
-      genFields: LabelledGeneric.Aux[P, HL],
-      c1: IsHCons.Aux[HL, HH, HT],      
-      un1: Unpack2[HH, FieldType, K, V],
-      hhr: Rule[EDN, FieldType[K, V]],
-      htr: SubRule[EDN, HT],
-      genValues: Generic.Aux[P, VS],
-      c2: IsHCons.Aux[VS, VH, VT],      
-      vhr: Rule[EDN, VH],
-      vtr: SubRule2[EDN, VT]
-  ): Rule[EDN, P] = Rule[EDN, P]{ edn => edn match {
-    case head :: tail =>
-      ap2(vhr.validate(head), vtr.validate(tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
-    case l: List[EDN] if !l.isEmpty =>
-      ap2(vhr.validate(l.head), vtr.validate(l.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
-    case v: Vector[EDN] if !v.isEmpty =>
-      ap2(vhr.validate(v.head), vtr.validate(v.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
-    case m: Map[EDN @unchecked, EDN @unchecked] if !m.isEmpty =>
-      ap2(hhr.validate(m), htr.validate(m)).map{ l => genFields.from(l.asInstanceOf[HL]) }
-    case a =>
-      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "CaseClass Rule (only supports non empty HList, List, Vector & Map)"))))
-  }}
-  
-
   implicit def fieldTypeR[K <: Symbol, V](
     implicit witness: Witness.Aux[K], wv: RuleLike[EDN, V]
   ): Rule[EDN, FieldType[K, V]] = {
@@ -386,11 +357,40 @@ trait ShapelessRules extends ValidationUtils with LowerRules {
 
 
 trait LowerRules extends play.api.data.mapping.DefaultRules[EDN] {
-  import shapeless.{HList, ::, HNil, Unpack2, Witness, LabelledGeneric, Generic}
+  import shapeless.{HList, ::, HNil, Unpack2, Witness, LabelledGeneric, Generic, HasProductGeneric, <:!<}
   import shapeless.labelled.FieldType
   import shapeless.ops.hlist.IsHCons
 
 
+  /** TRICKKKKKKK
+    * scalac fails is if looking for recursive Rule[EDN, VT] so the trick is to go to SubRule
+    */
+  implicit def caseClassR[P, HL <: HList, HH, HT <: HList, K, V, VS <: HList, VH, VT <: HList](
+    implicit 
+      cc: HasProductGeneric[P],
+      not: P <:!< EDNValue,
+      genFields: LabelledGeneric.Aux[P, HL],
+      c1: IsHCons.Aux[HL, HH, HT],      
+      un1: Unpack2[HH, FieldType, K, V],
+      hhr: Rule[EDN, FieldType[K, V]],
+      htr: SubRule[EDN, HT],
+      genValues: Generic.Aux[P, VS],
+      c2: IsHCons.Aux[VS, VH, VT],      
+      vhr: Rule[EDN, VH],
+      vtr: SubRule2[EDN, VT]
+  ): Rule[EDN, P] = Rule[EDN, P]{ edn => edn match {
+    case head :: tail =>
+      ap2(vhr.validate(head), vtr.validate(tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case l: List[EDN] if !l.isEmpty =>
+      ap2(vhr.validate(l.head), vtr.validate(l.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case v: Vector[EDN] if !v.isEmpty =>
+      ap2(vhr.validate(v.head), vtr.validate(v.tail)).map{ l => genValues.from(l.asInstanceOf[VS]) }
+    case m: Map[EDN @unchecked, EDN @unchecked] if !m.isEmpty =>
+      ap2(hhr.validate(m), htr.validate(m)).map{ l => genFields.from(l.asInstanceOf[HL]) }
+    case a =>
+      Failure(Seq(play.api.data.mapping.Path -> Seq(ValidationError("error.invalid", "CaseClass Rule (only supports non empty HList, List, Vector & Map)"))))
+  }}
+  
   implicit val hnilSR2: SubRule2[EDN, HNil] = SubRule2.fromMapping[EDN, HNil] {
     case l: List[EDN] if l.isEmpty => Success(HNil)
     case s: Set[EDN @ unchecked] if s.isEmpty => Success(HNil)

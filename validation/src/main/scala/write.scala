@@ -68,6 +68,23 @@ trait Writes extends LowWrites {
       s"${wk.writes(k)} ${wv.writes(v)}" }.mkString("{", ", ", "}")
     }
 
+  val mapSWOpt = Write[Map[EDN, EDN], String]{ s => 
+    s.map{ case (k,v) =>
+      v match {
+        case o: Option[EDN] => o match {
+          case None    => ""
+          case Some(v) => s"${ednW.writes(k)} ${ednW.writes(v)}"
+        }
+        case v => s"${ednW.writes(k)} ${ednW.writes(v)}"
+      }
+    }.filterNot(_.isEmpty).mkString("{", ", ", "}")
+  }
+
+  def optW[A](implicit w: Write[A, String]) = Write[Option[A], String]{
+    case None    => ""
+    case Some(a) => w.writes(a)
+  }
+
   implicit def ednW: Write[EDN, String] = Write[EDN, String]{
     case s: String => stringW.writes(s)
     case b: Boolean => booleanW.writes(b)
@@ -87,7 +104,8 @@ trait Writes extends LowWrites {
     case s: Vector[EDN] => vectorSW(ednW).writes(s)
     case s: Set[EDN @unchecked] => setSW(ednW).writes(s)
     case s: Seq[EDN] => seqSW(ednW).writes(s)
-    case s: Map[EDN @ unchecked, EDN @ unchecked] => mapSW[EDN, EDN](ednW, ednW).writes(s)
+    case s: Map[EDN @ unchecked, EDN @ unchecked] => mapSWOpt.writes(s)
+    case s: Option[EDN] => optW[EDN].writes(s)
 
     case s => throw new RuntimeException(s"$s unsupported EDN type")
   }
@@ -137,7 +155,7 @@ trait LowWrites extends SuperLowWrites {
       wt: SeqWrite[HT, String]
     ): Write[H :: HT, String] =
     Write { case h :: t =>
-      (wh.writes(h) +: wt.writes(t)).mkString("(", " ", ")")
+      (wh.writes(h) +: wt.writes(t)).filterNot(_.isEmpty).mkString("(", " ", ")")
     }
 
   implicit def genWriteTuple[P, HL <: HList, HH , HT <: HList](
@@ -150,24 +168,7 @@ trait LowWrites extends SuperLowWrites {
   ): Write[P, String] =
     Write{ p =>
       val t = gen.to(p)
-      (wh.writes(t.head) +: wt.writes(t.tail)).mkString("[", " ", "]")
-    }
-
-  implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
-    implicit
-      cc: IsCaseClass[P],
-      not: P <:!< EDNValue,
-      gen: LabelledGeneric.Aux[P, HL],
-      c: IsHCons.Aux[HL, F, HT],
-      un: Unpack2[F, FieldType, K, V],
-      wh: Write[FieldType[K, V], String],
-      wt: SeqWrite[HT, String],
-      witness: Witness.Aux[K],
-      selector : Selector.Aux[HL, K, V]
-  ): Write[P, String] =
-    Write{ p =>
-      val t = gen.to(p)
-      (wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).mkString("{", ", ", "}")
+      (wh.writes(t.head) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("[", " ", "]")
     }
 
   implicit def subGenWrite[H, HT <: HList, K, V](
@@ -180,6 +181,11 @@ trait LowWrites extends SuperLowWrites {
       wh.writes(h.asInstanceOf[FieldType[K, V]]) +: wt.writes(t)
     }
 
+  implicit def fieldTypeWO[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) =
+    Write[FieldType[K, Option[V]], String] { f =>
+      f map { v => "\"" + witness.value.name + "\"" + " " + wv.writes(v) } getOrElse ""
+    }
+
 }
 
 trait SuperLowWrites extends play.api.data.mapping.DefaultWrites {
@@ -190,6 +196,23 @@ trait SuperLowWrites extends play.api.data.mapping.DefaultWrites {
   import shapeless.ops.record.Selector
   import record._
 
+  implicit def genWriteCaseClass[P, K, V, F, HL <: HList, HT <: HList](
+    implicit
+      cc: HasProductGeneric[P],
+      not: P <:!< EDNValue,
+      gen: LabelledGeneric.Aux[P, HL],
+      c: IsHCons.Aux[HL, F, HT],
+      un: Unpack2[F, FieldType, K, V],
+      wh: Write[FieldType[K, V], String],
+      wt: SeqWrite[HT, String],
+      witness: Witness.Aux[K],
+      selector : Selector.Aux[HL, K, V]
+  ): Write[P, String] =
+    Write{ p =>
+      val t = gen.to(p)
+      //(wh.writes(t.fieldAt(witness)(selector)) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("{", ", ", "}")
+      (wh.writes(labelled.field[witness.T](selector(t))) +: wt.writes(t.tail)).filterNot(_.isEmpty).mkString("{", ", ", "}")
+    }
 
   implicit def fieldTypeW[K <: Symbol, V](implicit witness: Witness.Aux[K], wv: Write[V, String]) =
     Write[FieldType[K, V], String] { f =>

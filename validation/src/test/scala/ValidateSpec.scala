@@ -35,7 +35,7 @@ class ValidateSpec extends FlatSpec with Matchers with TryValues {
   case class Person(name: String, age: Int, addr: Address)
 
   "EDN Validation" should "validate String" in {
-    parseEDN("\"foobar\"").map(validate[String]).success.value should be (
+    parseEDN("\"foobar\"").map(validateEDN[String]).success.value should be (
       play.api.data.mapping.Success("foobar")
     )
 
@@ -49,65 +49,65 @@ class ValidateSpec extends FlatSpec with Matchers with TryValues {
   }
 
   it should "validate Long" in {
-    parseEDN("12345").map(validate[Long]).success.value should be (
+    parseEDN("12345").map(validateEDN[Long]).success.value should be (
       play.api.data.mapping.Success(12345L)
     )
   }
 
   it should "validate Double" in {
-    parseEDN("12345.123").map(validate[Double]).success.value should be (
+    parseEDN("12345.123").map(validateEDN[Double]).success.value should be (
       play.api.data.mapping.Success(12345.123)
     )
   }
 
   it should "validate Symbol" in {
-    parseEDN("foo.foo2/bar").map(validate[EDNSymbol]).success.value should be (
+    parseEDN("foo.foo2/bar").map(validateEDN[EDNSymbol]).success.value should be (
       play.api.data.mapping.Success(EDNSymbol("foo.foo2" / "bar"))
     )
   }
 
   it should "validate Keyword" in {
-    parseEDN(":foo.foo2/bar").map(validate[EDNKeyword]).success.value should be (
+    parseEDN(":foo.foo2/bar").map(validateEDN[EDNKeyword]).success.value should be (
       play.api.data.mapping.Success(EDNKeyword("foo.foo2" / "bar"))
     )
   }
 
   it should "validate List[Long]" in {
-    parseEDN("""(1 2 3 4 5)""").map(validate[List[Long]]).success.value should be (
+    parseEDN("""(1 2 3 4 5)""").map(validateEDN[List[Long]]).success.value should be (
       play.api.data.mapping.Success(List(1L, 2L, 3L, 4L, 5L))
     )
 
-    parseEDN("""(1 2 3 "toto" 5)""").map(validate[List[Long]]).success.value should be (
+    parseEDN("""(1 2 3 "toto" 5)""").map(validateEDN[List[Long]]).success.value should be (
       play.api.data.mapping.Failure(Seq(Path \ 3 -> Seq(ValidationError("error.number", "Long"))))
     )
   }
 
   it should "validate Seq[Long]" in {
-    parseEDN("""(1 2 3 4 5)""").map(validate[Seq[Long]]).success.value should be (
+    parseEDN("""(1 2 3 4 5)""").map(validateEDN[Seq[Long]]).success.value should be (
       play.api.data.mapping.Success(List(1L, 2L, 3L, 4L, 5L))
     )
   }
 
   it should "validate Vector[Long]" in {
-    parseEDN("""[1 2 3 4 5]""").map(validate[Vector[Long]]).success.value should be (
+    parseEDN("""[1 2 3 4 5]""").map(validateEDN[Vector[Long]]).success.value should be (
       play.api.data.mapping.Success(Vector(1L, 2L, 3L, 4L, 5L))
     )
-    parseEDN("""[1 2 3 "toto" 5]""").map(validate[Vector[Long]]).success.value should be (
+    parseEDN("""[1 2 3 "toto" 5]""").map(validateEDN[Vector[Long]]).success.value should be (
       play.api.data.mapping.Failure(Seq(Path \ 3 -> Seq(ValidationError("error.number", "Long"))))
     )
   }
 
   it should "validate Set[Long]" in {
-    parseEDN("""#{1 2 3 4 5}""").map(validate[Set[Long]]).success.value should be (
+    parseEDN("""#{1 2 3 4 5}""").map(validateEDN[Set[Long]]).success.value should be (
       play.api.data.mapping.Success(Set(1L, 2L, 3L, 4L, 5L))
     )
-    parseEDN("""#{1 2 3 "toto" 5}""").map(validate[Set[Long]]).success.value should be (
+    parseEDN("""#{1 2 3 "toto" 5}""").map(validateEDN[Set[Long]]).success.value should be (
       play.api.data.mapping.Failure(Seq(Path \ "toto" -> Seq(ValidationError("error.number", "Long"))))
     )
   }
 
   it should "validate Map[String, Long]" in {
-    parseEDN("""{ "toto" 1 "tata" 2 "tutu" 3 }""").map(validate[Map[String, Long]]).success.value should be (
+    parseEDN("""{ "toto" 1 "tata" 2 "tutu" 3 }""").map(validateEDN[Map[String, Long]]).success.value should be (
       play.api.data.mapping.Success(Map(
         "toto" -> 1L,
         "tata" -> 2L,
@@ -117,7 +117,7 @@ class ValidateSpec extends FlatSpec with Matchers with TryValues {
   }
 
   it should "validate Map[Long, String]" in {
-    parseEDN("""{ 1 "toto" 2 "tata" 3 "tutu" }""").map(validate[Map[Long, String]]).success.value should be (
+    parseEDN("""{ 1 "toto" 2 "tata" 3 "tutu" }""").map(validateEDN[Map[Long, String]]).success.value should be (
       play.api.data.mapping.Success(Map(
         1L -> "toto",
         2L -> "tata",
@@ -147,34 +147,35 @@ class ValidateSpec extends FlatSpec with Matchers with TryValues {
     import scaledn.EDNNil
 
     parseEDN("""(1 "toto" true nil)""").map(
-      validate[Long :: String :: Boolean :: EDNNil.type :: HNil]
+      validateEDN[Long :: String :: Boolean :: EDNNil.type :: HNil]
     ).success.value should be (
       play.api.data.mapping.Success(1L :: "toto" :: true :: EDNNil :: HNil)
     )
 
     parseEDN("""[1 "toto" true nil]""").map(
-      validate[Long :: String :: Boolean :: EDNNil.type :: HNil]
+      validateEDN[Long :: String :: Boolean :: EDNNil.type :: HNil]
     ).success.value should be (
       play.api.data.mapping.Success(1L :: "toto" :: true :: EDNNil :: HNil)
     )
   }
 
   it should "validate case class / tuples" in {
+    import shapeless.HasProductGeneric
 
     parseEDN("""("toto" 34 ("chboing" (75009)))""").map(
-      validate[Person]
+      validateEDN[Person]
     ).success.value should be (
       play.api.data.mapping.Success(Person("toto", 34, Address("chboing", CP(75009))))
     )
 
     parseEDN("""{"name" "toto", "age" 34, "addr" {"street" "chboing", "cp" {"cp" 75009}}}""").map(
-      validate[Person]
+      validateEDN[Person]
     ).success.value should be (
       play.api.data.mapping.Success(Person("toto", 34, Address("chboing", CP(75009))))
     )
 
     parseEDN("""("toto" 34 {"street" "chboing", "cp" {"cp" 75009}})""").map(
-      validate[Tuple3[String, Int, Address]]
+      validateEDN[Tuple3[String, Int, Address]]
     ).success.value should be (
       play.api.data.mapping.Success(("toto", 34, Address("chboing", CP(75009))))
     )

@@ -22,14 +22,14 @@ package object parser {
 
   /** parses a string input to EDN but keep only first element
     *
-    * ```scala
+    * {{{
     * import scaledn.parser._
     *
     * parseEDN("""(1, "foo", :foo/bar)""") match {
     *   case Success(t) => \/-(t)
     *   case Failure(f : org.parboiled2.ParseError) => -\/(parser.formatError(f))
     * }
-    * ```
+    * }}}
     *
     * @param in the string input
     * @return a single EDN or the parsing error
@@ -38,18 +38,17 @@ package object parser {
 
   /** parses a string input to EDN and keep all elements
     *
-    * ```scala
+    * {{{
     * import scaledn.parser._
     *
     * parseEDNs("""(1, "foo", :foo/bar) [1 2 3]""") match {
     *   case Success(t) => \/-(t)
     *   case Failure(f : org.parboiled2.ParseError) => -\/(parser.formatError(f))
-    * ```
+    * }}}
     *
-    * [[org.parboiled2.ParserInput]] provides implicit conversions from [[java.lang.String]] or
-    * [[java.lang.Array[Byte]]]
-    * 
-    * https://github.com/sirthias/parboiled2/blob/master/parboiled-core/src/main/scala/org/parboiled2/ParserInput.scala
+    * [[https://github.com/sirthias/parboiled2/blob/master/parboiled-core/src/main/scala/org/parboiled2/ParserInput.scala org.parboiled2.ParserInput]] provides implicit conversions from [[java.lang.String]] or
+    * [[http://docs.oracle.com/javase/6/docs/api/java/lang/String.html java.lang.Array[Byte]]]
+    *
     * @param in the string input
     * @return a Seq[EDN] or the parsing error
     */

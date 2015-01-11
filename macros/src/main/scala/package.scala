@@ -18,11 +18,11 @@ package scaledn
 
 /** EDN macro parsing EDN strings into Scala/Shapeless types at compile-time
   *
-  * ```scala
+  * {{{
   * import scaledn._
   * import macros._
   * 
   * val s = EDNs("""(1 2 3) "toto" [true false] :foo/bar""")
-  * ```
+  * }}}
   */
 package object macros extends EDNMacros

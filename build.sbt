@@ -1,5 +1,7 @@
 import com.typesafe.sbt.SbtGit._
 
+import sbtunidoc.Plugin._
+
 name in ThisBuild := "scaledn"
 
 organization in ThisBuild := "com.mandubian"
@@ -27,7 +29,16 @@ fork in test := true
 
 //javaOptions in test += "-Xmx4G"
 
-lazy val root = (project in file(".")) settings (publish := { }) aggregate (common, parser, macros, validation)
+lazy val root = (project in file("."))
+  .settings  (publish := { })
+  .settings  (unidocSettings: _*)
+  .settings  (site.settings ++ ghpages.settings: _*)
+  .settings  (
+    name := "scaledn",
+    site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "latest/api"),
+    git.remoteRepo := "git@github.com:mandubian/scaledn.git"
+  )
+  .aggregate (common, parser, macros, validation)
 
 lazy val common = project
   .settings(
@@ -43,6 +54,19 @@ lazy val parser = project
       "org.parboiled"   %% "parboiled"        % "2.0.1",
       "joda-time"        % "joda-time"        % "2.6",
       "org.joda"         % "joda-convert"     % "1.2"
+    ),
+    publishMavenStyle := true
+  )
+  .settings(bintraySettings:_*)
+  .dependsOn (common)
+
+lazy val `stream-parser` = project
+  .settings(
+    name := "scaledn-stream-parser",
+    libraryDependencies ++= Seq(
+      "com.codecommit"   %% "sparse"       % "master-e638c2445adf03bc4b8148b0415d647087646b41",
+      "joda-time"        %  "joda-time"    % "2.6",
+      "org.joda"         %  "joda-convert" % "1.2"
     ),
     publishMavenStyle := true
   )

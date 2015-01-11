@@ -27,38 +27,38 @@ import shapeless.{HList, HNil}
 trait EDNMacros {
 
   /**
-    * Macro parsing **Single** EDN value mapping collections to scala collection
+    * Macro parsing '''Single''' EDN value mapping collections to scala collection
     *
     * So, heterogenous collection will use `Any`
     *
-    * ```scala
+    * {{{
     * // the type is just for info as it is inferred by scalac macro
     * val list: List[Long] = EDN("""(1 2 3)""")
     * list should equal (List(1L, 2L, 3L))
     *
     * val map = EDN("""{ 1 "toto", 2 "tata", 3 "tutu" }""")
     * map should equal (Map(1L -> "toto", 2L -> "tata", 3L -> "tutu"))
-    * ```
+    * }}}
     *
     * You can also use String interpolation mixed with this macro
-    * ```scala
+    * {{{
     * // the types are just for info as it is inferred by scalac macro
     * val l = 123L
     * val s = List("foo", "bar")
 * 
-    * val r: Long = EDN(s"$l")
+    * val r: Long = EDN(s"$$l")
 * 
-    * val r1: Seq[Any] = EDN(s"($l $s)")
-    * ```
+    * val r1: Seq[Any] = EDN(s"($$l $$s)")
+    * }}}
     */
   def EDN(edn: String): Any = macro MacroImpl.ednImpl
 
   /**
-    * Macro parsing **Multiple** EDN value mapping collections to scala collection
+    * Macro parsing '''Multiple''' EDN value mapping collections to scala collection
     *
     * So, heterogenous collection will use `Any`
     *
-    * ```scala
+    * {{{
     * // the types are just for info as it is inferred by scalac macro
     * val s: Seq[Any] = EDNs("""(1 2 3) "toto" [true false] :foo/bar""")
     * s should equal (Seq(
@@ -67,7 +67,7 @@ trait EDNMacros {
     *   Vector(true, false),
     *   EDNKeyword(EDNSymbol("foo/bar", Some("foo")))
     * ))
-    * ```
+    * }}}
     *
     * You can also use String interpolation mixed with this macro
     *
@@ -75,12 +75,12 @@ trait EDNMacros {
   def EDNs(edn: String): Any = macro MacroImpl.ednsImpl
 
   /**
-    * Macro parsing **Single** EDN Value mapping collections to heterogenous shapeless HList
+    * Macro parsing '''Single''' EDN Value mapping collections to heterogenous shapeless HList
     *
     * The conversion of collections to HList is applied at first level only
     * To recursively convert to HList, use recursive macros
     *
-    * ```scala
+    * {{{
     * // the types are just for info as it is inferred by scalac macro
     * val s: Long :: String :: Boolean :: HNil = EDNH("""(1 "toto" true)""")
     * s should equal (1L :: "toto" :: true :: HNil)
@@ -92,37 +92,37 @@ trait EDNMacros {
     *   "foo" ->> List(1L, 2L, 3L) ::
     *   HNil
     * )
-    * ```
+    * }}}
     *
     * You can also use String interpolation mixed with this macro
-    * ```scala
+    * {{{
     * // the types are just for info as it is inferred by scalac macro
     * val l = 123L
     * val s = List("foo", "bar")
     *
-    * val r2: Long :: List[String] :: HNil = EDNH(s"($l $s)")
-    * ```
+    * val r2: Long :: List[String] :: HNil = EDNH(s"($$l $$s)")
+    * }}}
     */
   def EDNH(edn: String): Any = macro MacroImpl.ednhImpl
 
   /**
-    * Macro parsing **Multiple** EDN Value mapping collections to heterogenous shapeless HList
+    * Macro parsing '''Multiple''' EDN Value mapping collections to heterogenous shapeless HList
     *
     * The conversion of collections to HList is applied at first level only
     * To recursively convert to HList, use recursive macros
     *
-    * ```scala
+    * {{{
     * // the type is just for info as it is inferred by scalac macro
     * val s: List[Long] :: String :: Vector[Boolean] :: EDNKeyword.
-    *
+    * }}}
     */
   def EDNHs(edn: String): Any = macro MacroImpl.ednhsImpl
 
   /**
-    * Macro parsing **Single** EDN Value mapping **recursively** collections
+    * Macro parsing '''Single''' EDN Value mapping '''recursively''' collections
     * to heterogenous shapeless HList
     *
-    * ```scala
+    * {{{
     * // the type is just for info as it is inferred by scalac macro
     * val s: List[Long] :: String :: Vector[Boolean] :: EDNKeyword :: HNil = EDNHs("""(1 2 3) "toto" [true false] :foo/bar""")
     * s should equal (
@@ -132,7 +132,7 @@ trait EDNMacros {
     *   EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) ::
     *   HNil
     * )
-    * ```
+    * }}}
     *
     * You can also use String interpolation mixed with this macro.
     *
@@ -140,10 +140,10 @@ trait EDNMacros {
   def EDNHR(edn: String): Any = macro MacroImpl.ednhrImpl
 
   /**
-    * Macro parsing **Multiple** EDN Value mapping **recursively** collections
+    * Macro parsing '''Multiple''' EDN Value mapping '''recursively''' collections
     * to heterogenous shapeless HList
     *
-    * ```scala
+    * {{{
     * // the type is just for info as it is inferred by scalac macro
     * val s2 = EDNHRs("""(1 2 3) "toto" [true false] :foo/bar""")
     * s2 should equal (
@@ -153,7 +153,7 @@ trait EDNMacros {
     *   EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) ::
     *   HNil
     * )
-    * ```
+    * }}}
     *
     * You can also use String interpolation mixed with this macro.
     *
