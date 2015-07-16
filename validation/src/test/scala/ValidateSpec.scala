@@ -62,13 +62,13 @@ class ValidateSpec extends FlatSpec with Matchers with TryValues {
 
   it should "validate Symbol" in {
     parseEDN("foo.foo2/bar").map(validateEDN[EDNSymbol]).success.value should be (
-      play.api.data.mapping.Success(EDNSymbol("foo.foo2/bar", Some("foo.foo2")))
+      play.api.data.mapping.Success(EDNSymbol("foo.foo2" / "bar"))
     )
   }
 
   it should "validate Keyword" in {
     parseEDN(":foo.foo2/bar").map(validateEDN[EDNKeyword]).success.value should be (
-      play.api.data.mapping.Success(EDNKeyword(EDNSymbol("foo.foo2/bar", Some("foo.foo2"))))
+      play.api.data.mapping.Success(EDNKeyword("foo.foo2" / "bar"))
     )
   }
 

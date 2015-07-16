@@ -204,36 +204,36 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   /**
     * KEYWORD
     */
-  def Keyword = rule( ':' ~ !CharPredicate(":/") ~ Symbol ~> (EDNKeyword(_)) )
+  def Keyword = rule( ':' ~ !CharPredicate(":/") ~ clearSB() ~ NamedRule ~> (EDNKeyword(_)) )
 
   /**
     * SYMBOL
     */
-  def Symbol = rule ( 
-    !CharPredicate(":#;") ~
-    clearSB() ~
-    optional(SymbolNameSpace ~ push(sb.toString)) ~ clearSB() ~
-    SymbolString ~ push(sb.toString) ~> { (ns, value) =>
-      EDNSymbol(ns.map(_+"/").getOrElse("") + value, ns)
-    }
+  def Symbol = rule( 
+    !CharPredicate(":#;") ~ clearSB() ~ NamedRule ~> (EDNSymbol(_))
   )
 
-  def SymbolNameSpace = rule(SymbolString ~ "/")
-  def SymbolString = rule(
-      SymbolSpecial
-    | SymFirstChars ~ appendSB() ~ zeroOrMore(SymChars ~ appendSB())
+  def NamedRule = rule(
+    optional(NamedNameSpace ~ push(sb.toString)) ~ clearSB() ~
+    NamedString ~ push(sb.toString) ~> { (ns, value) => Named(value, ns.map(NS(_)).getOrElse(NoNS)) }
   )
-  def SymbolSpecial = rule(
-    SymbolSpecialStart ~ zeroOrMore(SymChars ~ appendSB())
+
+  def NamedNameSpace = rule(NamedString ~ "/")
+  def NamedString = rule(
+      NamedSpecial
+    | NamedFirstChars ~ appendSB() ~ zeroOrMore(NamedChars ~ appendSB())
   )
-  def SymbolSpecialStart = rule(
-    capture(SymSpecialFirstChars ~ !Digit) ~> ((s:String) => appendSB(s)) 
+  def NamedSpecial = rule(
+    NamedSpecialStart ~ zeroOrMore(NamedChars ~ appendSB())
   )
-  def SymFirstChars = rule(Alpha | SymNonAlphaChars)
-  def SymChars = rule(AlphaNum | SymNonAlphaChars | SymSpecialFirstChars)
+  def NamedSpecialStart = rule(
+    capture(NamedSpecialFirstChars ~ !Digit) ~> ((s:String) => appendSB(s)) 
+  )
+  def NamedFirstChars = rule(Alpha | NamedNonAlphaChars)
+  def NamedChars = rule(AlphaNum | NamedNonAlphaChars | NamedSpecialFirstChars)
   // non alpha chars without +-.
-  val SymNonAlphaChars = CharPredicate("*!_?$%&=<>:#")
-  val SymSpecialFirstChars = CharPredicate("+-.")
+  val NamedNonAlphaChars = CharPredicate("*!_?$%&=<>:#")
+  val NamedSpecialFirstChars = CharPredicate("+-.")
 
   def Unicode = rule ( 'u' ~ capture(HexDigit ~ HexDigit ~ HexDigit ~ HexDigit) ~>
     (java.lang.Integer.parseInt(_, 16))
@@ -253,7 +253,7 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
   def defaultTags = rule(uuid | instant)
 
   // This rule can consume any tag even if there is no handler for it
-  def unknownTags = rule(Symbol ~ WS ~ Elem ~> ( EDNTagged(_, _) ))
+  def unknownTags = rule(NamedRule ~ WS ~ Elem ~> ( EDNTagged(_, _) ))
 
   def uuid = rule("uuid" ~ WS ~ String ~> (java.util.UUID.fromString(_)))
   def instant = rule("inst" ~ WS ~ String ~> (new DateTime(_, DateTimeZone.UTC)))

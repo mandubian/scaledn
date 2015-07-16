@@ -59,26 +59,26 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
 
   it should "parse Symbol" in {
     EDNParser("""toto""").Symbol.run().success.value should be (EDNSymbol("toto"))
-    EDNParser("""foo/bar""").Symbol.run().success.value should be (EDNSymbol("foo/bar", Some("foo")))
+    EDNParser("""foo/bar""").Symbol.run().success.value should be (EDNSymbol("foo" / "bar"))
     EDNParser("""1foo""").Symbol.run() should be ('failure)
     EDNParser("""-1foo""").Symbol.run() should be ('failure)
     EDNParser("""+1foo""").Symbol.run() should be ('failure)
     EDNParser(""".1foo""").Symbol.run() should be ('failure)
     EDNParser("""foo&>-<.bar:#$%""").Symbol.run().success.value should be (EDNSymbol("foo&>-<.bar:#$%"))
-    EDNParser("""foo&><bar$%/xyz""").Symbol.run().success.value should be (EDNSymbol("foo&><bar$%/xyz", Some("foo&><bar$%")))
-    EDNParser("""xyz/foo&><bar$%""").Symbol.run().success.value should be (EDNSymbol("xyz/foo&><bar$%", Some("xyz")))
+    EDNParser("""foo&><bar$%/xyz""").Symbol.run().success.value should be (EDNSymbol("foo&><bar$%" / "xyz"))
+    EDNParser("""xyz/foo&><bar$%""").Symbol.run().success.value should be (EDNSymbol("xyz" / "foo&><bar$%"))
     EDNParser("""::""").Symbol.run() should be ('failure)
     EDNParser("""::foo""").Symbol.run() should be ('failure)
     EDNParser(""":/""").Symbol.run() should be ('failure)
-    EDNParser("""foo/bar""").Symbol.run().success.value should be (EDNSymbol("foo/bar", Some("foo")))
-    EDNParser("""foo/bar """).Symbol.run().success.value should be (EDNSymbol("foo/bar", Some("foo")))
+    EDNParser("""foo/bar""").Symbol.run().success.value should be (EDNSymbol("foo" / "bar"))
+    EDNParser("""foo/bar """).Symbol.run().success.value should be (EDNSymbol("foo" / "bar"))
   }
 
   it should "parse Keyword" in {
-    EDNParser(""":foo""").Keyword.run().success.value should be (EDNKeyword(EDNSymbol("foo")))
+    EDNParser(""":foo""").Keyword.run().success.value should be (EDNKeyword("foo"))
     EDNParser("""foo""").Keyword.run() should be ('failure)
-    EDNParser(""":foo/bar""").Keyword.run().success.value should be (EDNKeyword(EDNSymbol("foo/bar", Some("foo"))))
-    EDNParser(""":foo/bar """).Keyword.run().success.value should be (EDNKeyword(EDNSymbol("foo/bar", Some("foo"))))
+    EDNParser(""":foo/bar""").Keyword.run().success.value should be (EDNKeyword("foo" / "bar"))
+    EDNParser(""":foo/bar """).Keyword.run().success.value should be (EDNKeyword("foo" / "bar"))
   }
 
   it should "parse Long" in {
@@ -105,21 +105,21 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
   }
 
   it should "parse List" in {
-    EDNParser("""(1, "foo", :foo/bar)""").List.run().success.value should be (List(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
-    EDNParser("""(1 "foo" :foo/bar)""").List.run().success.value should be (List(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
-    EDNParser("""(1 "foo,bar" :foo/bar)""").List.run().success.value should be (List(1L, "foo,bar", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
+    EDNParser("""(1, "foo", :foo/bar)""").List.run().success.value should be (List(1L, "foo", EDNKeyword("foo" / "bar")))
+    EDNParser("""(1 "foo" :foo/bar)""").List.run().success.value should be (List(1L, "foo", EDNKeyword("foo" / "bar")))
+    EDNParser("""(1 "foo,bar" :foo/bar)""").List.run().success.value should be (List(1L, "foo,bar", EDNKeyword("foo" / "bar")))
   }
 
   it should "parse Vector" in {
-    EDNParser("""[1, "foo", :foo/bar]""").Vector.run().success.value should be (Vector(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
-    EDNParser("""[1 "foo" :foo/bar]""").Vector.run().success.value should be (Vector(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
+    EDNParser("""[1, "foo", :foo/bar]""").Vector.run().success.value should be (Vector(1L, "foo", EDNKeyword("foo" / "bar")))
+    EDNParser("""[1 "foo" :foo/bar]""").Vector.run().success.value should be (Vector(1L, "foo", EDNKeyword("foo" / "bar")))
 
-    EDNParser("""[db.part/db]""").Vector.run().success.value should be (Vector(EDNSymbol("db.part/db", Some("db.part"))))
+    EDNParser("""[db.part/db]""").Vector.run().success.value should be (Vector(EDNSymbol("db.part" / "db")))
   }
 
   it should "parse Set" in {
-    EDNParser("""#{1, "foo", :foo/bar}""").Set.run().success.value should be (Set(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
-    EDNParser("""#{1 "foo" :foo/bar}""").Set.run().success.value should be (Set(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
+    EDNParser("""#{1, "foo", :foo/bar}""").Set.run().success.value should be (Set(1L, "foo", EDNKeyword("foo" / "bar")))
+    EDNParser("""#{1 "foo" :foo/bar}""").Set.run().success.value should be (Set(1L, "foo", EDNKeyword("foo" / "bar")))
     EDNParser("""#{1 1 "foo" :foo/bar}""").Set.run() should be ('failure)
   }
 
@@ -128,7 +128,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
       Map(
         1L -> "foo",
         "bar" -> BigDecimal("1.234"),
-        EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
+        EDNKeyword("foo" / "bar") -> Vector(1, 2, 3)
       )
     )
 
@@ -136,7 +136,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
       Map(
         1L -> "foo",
         "bar" -> BigDecimal("1.234"),
-        EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
+        EDNKeyword("foo" / "bar") -> Vector(1, 2, 3)
       )
     )
   }
@@ -151,13 +151,13 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     )
 
     EDNParser("#custom :blabla/bar").Tagged.run().success.value should be (
-      EDNTagged(EDNSymbol("custom"), EDNKeyword(EDNSymbol("blabla/bar", Some("blabla"))))
+      EDNTagged("custom", EDNKeyword("blabla" / "bar"))
     )
   }
 
   it should "parse Multiple tags" in {
      EDNParser("#custom0 #custom1 1").Tagged.run().success.value should be (
-      EDNTagged(EDNSymbol("custom0"), EDNTagged(EDNSymbol("custom1"), 1L))
+      EDNTagged("custom0", EDNTagged("custom1", 1L))
     )
   }
 
@@ -192,7 +192,7 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
         Map(
           1L -> "foo",
           "bar" -> BigDecimal("1.234"),
-          EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
+          EDNKeyword("foo" / "bar") -> Vector(1, 2, 3)
         )
       )
     )
@@ -206,10 +206,10 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
         Map(
           1L -> "foo",
           "bar" -> BigDecimal("1.234"),
-          EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
+          EDNKeyword("foo" / "bar") -> Vector(1, 2, 3)
         ),
 
-        EDNKeyword(EDNSymbol("bar/foo", Some("bar")))
+        EDNKeyword("bar" / "foo")
       )
     )
   }
@@ -220,10 +220,10 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
         Map(
           1L -> "foo",
           "bar" -> BigDecimal("1.234"),
-          EDNKeyword(EDNSymbol("foo/bar", Some("foo"))) -> Vector(1, 2, 3)
+          EDNKeyword("foo" / "bar") -> Vector(1, 2, 3)
         ),
 
-        EDNKeyword(EDNSymbol("bar/foo", Some("bar")))
+        EDNKeyword("bar" / "foo")
       )
     )
 

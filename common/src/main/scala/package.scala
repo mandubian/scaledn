@@ -41,4 +41,12 @@
   /** Another alias to be used with Path writes (is it useful?)
     */
   type EDNMap = Map[String, EDN]
+
+  implicit def toNamed1(s: String): Named = Named(s)
+  implicit def toNamed2(s: Symbol): Named = Named(s)
+
+  implicit class WithNS(val ns: String) extends AnyVal {
+    def /(s: String) = Named(s, NS(ns))
+  }
+
 }

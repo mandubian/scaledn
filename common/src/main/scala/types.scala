@@ -43,14 +43,36 @@
   */
 sealed trait EDNValue
 
+sealed trait Namespace
+case object NoNS extends Namespace
+case class NS(ns: String) extends Namespace
+
+case class Named(name: String, namespace: Namespace = NoNS) {
+  override def toString = namespace match {
+    case NoNS => name
+    case NS(ns) => s"$ns/$name"
+  }
+}
+
+object Named {
+  def parseNs(s: String) = s.split("/") match {
+    case Array(v) => Named(v)
+    case Array(ns, v) => Named(v, NS(ns))
+    case Array("", v) => Named(v)
+    case _ => throw new RuntimeException("Bad Named format (ns/)name")
+  }
+
+  def apply(s: Symbol) = new Named(s.name)
+}
+
 /** EDN Symbol representing an generic identifier with a name and potentially a namespace
   * like:
   * {{{
   * foo.bar/toto
   * }}}
   */
-case class  EDNSymbol(value: String, namespace: Option[String] = None) extends EDNValue {
-  override def toString = value
+case class EDNSymbol(named: Named) extends EDNValue {
+  override def toString = s"$named"
 }
 
 /** EDN keyword representing a unique identifier with a name and potentially a namespace
@@ -59,8 +81,8 @@ case class  EDNSymbol(value: String, namespace: Option[String] = None) extends E
   * :foo.bar/toto`
   * }}}
   */
-case class  EDNKeyword(value: EDNSymbol) extends EDNValue {
-  override def toString = s":$value"
+case class EDNKeyword(named: Named) extends EDNValue {
+  override def toString = s":$named"
 }
 
 /** EDN tagged values look like `#foo.bar/toto 123L` and correspond to the extension
@@ -69,8 +91,8 @@ case class  EDNKeyword(value: EDNSymbol) extends EDNValue {
   *   - #inst "1985-04-12T23:20:50.52Z" for RFC-3339 instants
   *   - #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6" for UUID
   */
-case class  EDNTagged[A](tag: EDNSymbol, value: A) extends EDNValue {
-  override def toString = s"#$tag ${value.toString}"
+case class EDNTagged[A](tag: Named, value: A) extends EDNValue {
+  override def toString = s"#${tag} ${value.toString}"
 }
 
 /** The EDN Nil value that can represent anything null/nil/nothing you need */
