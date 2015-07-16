@@ -159,6 +159,7 @@ trait EDNMacros {
     *
     */
   def EDNHRs(edn: String): Any = macro MacroImpl.ednhrsImpl
+
 }
 
 object MacroImpl {
