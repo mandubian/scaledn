@@ -110,6 +110,19 @@ class ParserSpec extends FlatSpec with Matchers with TryValues {
     EDNParser("""(1 "foo,bar" :foo/bar)""").List.run().success.value should be (List(1L, "foo,bar", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
   }
 
+
+  it should "parse simple symbol" in {
+    EDNParser("""/""").SimpleSymbol.run().success.value should be (EDNSymbol("/"))
+    EDNParser("""+""").SimpleSymbol.run().success.value should be (EDNSymbol("+"))
+    EDNParser(""">""").SimpleSymbol.run().success.value should be (EDNSymbol(">"))
+  }
+
+  it should "parse simple symbol list" in {
+    EDNParser("""(/ 1 2)""").List.run().success.value should be (List(EDNSymbol("/"), 1L, 2L))
+    EDNParser("""(+ 1 2)""").List.run().success.value should be (List(EDNSymbol("+"), 1L, 2L))
+  }
+
+
   it should "parse Vector" in {
     EDNParser("""[1, "foo", :foo/bar]""").Vector.run().success.value should be (Vector(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))
     EDNParser("""[1 "foo" :foo/bar]""").Vector.run().success.value should be (Vector(1L, "foo", EDNKeyword(EDNSymbol("foo/bar", Some("foo")))))

@@ -8,7 +8,7 @@ organization in ThisBuild := "com.mandubian"
 
 scalaVersion in ThisBuild := "2.11.4"
 
-version in ThisBuild := "1.0.0-SNAPSHOT"
+version in ThisBuild := "1.0.1"
 
 libraryDependencies in ThisBuild ++= Seq(
   "org.scalatest"   %% "scalatest"        % "2.2.1"             % "test"
@@ -79,12 +79,12 @@ lazy val validation = project
     libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
     libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-compiler" % _),
     libraryDependencies ++= Seq(
-      "io.github.jto" %% "validation-core" % "1.0-1c770f4" excludeAll (
+      "io.github.jto" %% "validation-core" % "1.1" excludeAll (
         ExclusionRule(organization = "com.typesafe.play")
       ),
       "com.typesafe.play" %% "play-functional" % "2.3.7",
       "com.typesafe.play" %% "play-json" % "2.3.7",
-      "com.chuusai"       %% "shapeless" % "2.1.0-SNAPSHOT" changing()
+      "com.chuusai"       %% "shapeless" % "2.2.1" changing()
     ),
     publishMavenStyle := true
   )

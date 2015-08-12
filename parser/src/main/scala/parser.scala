@@ -102,7 +102,7 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
     SkipWS ~ run (
       (cursorChar: @switch) match {
         case '"'  => String
-        case '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '-' | '+' => Double | Long
+        case '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '-' | '+' => Double | Long | SimpleSymbol
         case ':'  => Keyword
         case '('  => List
         case '{'  => Map
@@ -112,7 +112,7 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
         case 'f'  => False | Symbol
         case 'n'  => Nil | Symbol
         case '\\' => Char
-        case _    => Symbol
+        case _    => Symbol | SimpleSymbol
       }
     ) ~ SkipWS
   )
@@ -216,6 +216,10 @@ class EDNParser(val input: ParserInput) extends Parser with StringBuilding {
     SymbolString ~ push(sb.toString) ~> { (ns, value) =>
       EDNSymbol(ns.map(_+"/").getOrElse("") + value, ns)
     }
+  )
+
+  def SimpleSymbol = rule (
+    capture(CharPredicate("*+!-_?$%&=<>/")) ~> (EDNSymbol(_))
   )
 
   def SymbolNameSpace = rule(SymbolString ~ "/")
